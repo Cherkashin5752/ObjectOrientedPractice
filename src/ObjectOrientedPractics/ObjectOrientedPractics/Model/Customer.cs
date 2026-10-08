@@ -81,24 +81,11 @@ namespace ObjectOrientedPractics.Model
             Address = "Default";
         }
 
-        /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="Customer">
-        /// </summary>
-        /// <param name="fullname">Полное имя покупателя</param>
-        /// <param name="address">Адрес покупателя</param>
-<<<<<<< Updated upstream
-        public Customer(string fullname, Address address)
-        {
-            this.ID = _idCounter++;
-            this.Fullname = fullname;
-            this.Address = new Address(address);
-=======
         public Customer(string fullname, string address)
         {
             ID = _idCounter++;
             Fullname = fullname;
             Address = address;
->>>>>>> Stashed changes
         }
     }
 }
