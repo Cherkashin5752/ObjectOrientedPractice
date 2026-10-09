@@ -109,8 +109,8 @@ namespace ObjectOrientedPractics.Model
         public Item()
         {
             ID = _idCounter++;
-            Name = "Default name";
-            Info = "Default description";
+            Name = "Default";
+            Info = "Default";
             Cost = 0;
             Category = ProductCategory.Default;
         }

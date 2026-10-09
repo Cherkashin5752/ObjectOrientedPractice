@@ -213,13 +213,11 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         private void RefreshItemsListBox()
         {
-            ItemsListBox.DataSource = null;
             ItemsListBox.DataSource = _items;
-            ItemsListBox.DisplayMember = "Name";
         }
 
         /// <summary>
-        /// Сериализует список товаров
+        /// Сериализует список товаров 
         /// </summary>
         public void SerializeItems()
         {

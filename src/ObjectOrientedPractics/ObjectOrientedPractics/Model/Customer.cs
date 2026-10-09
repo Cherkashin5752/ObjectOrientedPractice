@@ -79,7 +79,7 @@ namespace ObjectOrientedPractics.Model
         public Customer()
         {
             ID = _idCounter++;
-            Fullname = "Default fullname";
+            Fullname = "Default";
             Address = new Address();
         }
 
