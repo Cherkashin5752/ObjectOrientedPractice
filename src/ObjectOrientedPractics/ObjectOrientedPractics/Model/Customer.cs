@@ -34,6 +34,11 @@ namespace ObjectOrientedPractics.Model
         private Address _address;
 
         /// <summary>
+        /// Корзина покупателя
+        /// </summary>
+        private Cart _cart;
+
+        /// <summary>
         /// Возвращает Id товара
         /// </summary>
         public int ID { get { return _id; } init { _id = value; } }
@@ -72,15 +77,11 @@ namespace ObjectOrientedPractics.Model
             }
         }
 
-
-        /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="Customer">
-        /// </summary>
         public Customer()
         {
             ID = _idCounter++;
-            Fullname = "Default";
-            Address = new Address();
+            Fullname = "Default fullname";
+            Address = "Default";
         }
 
         /// <summary>
@@ -92,7 +93,7 @@ namespace ObjectOrientedPractics.Model
         {
             ID = _idCounter++;
             Fullname = fullname;
-            Address = new Address(address);
+            Address = address;
         }
     }
 }
