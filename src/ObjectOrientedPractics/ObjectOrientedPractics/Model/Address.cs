@@ -141,26 +141,6 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Конструктор с параметрами. Инициализирует новый экзепляр класса <see cref="Address">
-        /// </summary>
-        /// <param name="index">Индекс покупателя</param>
-        /// <param name="country">Страна/регион покупателя</param>
-        /// <param name="city">Город покупателя</param>
-        /// <param name="street">Улица покупателя</param>
-        /// <param name="building">Номер дома покупателя</param>
-        /// <param name="apartment">Номер квартиры/помещения покупателя</param>
-        public Address(int index, string country, string city,
-            string street, string building, string apartment)
-        {
-            Index = index;
-            Country = country;
-            City = city;
-            Street = street;
-            Building = building;
-            Apartment = apartment;
-        }
-
-        /// <summary>
         /// Конструктор копирования. Инициализирует новый экземпляр класса <see cref="Address">
         /// </summary>
         /// <param name="address"></param>
