@@ -46,7 +46,7 @@
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(683, 544);
+            tabControl1.Size = new Size(763, 532);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -55,7 +55,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(675, 516);
+            tabPage1.Size = new Size(755, 504);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "tabPage1";
             tabPage1.UseVisualStyleBackColor = true;
@@ -65,7 +65,7 @@
             itemsTab1.Dock = DockStyle.Fill;
             itemsTab1.Location = new Point(3, 3);
             itemsTab1.Name = "itemsTab1";
-            itemsTab1.Size = new Size(669, 510);
+            itemsTab1.Size = new Size(749, 498);
             itemsTab1.TabIndex = 0;
             // 
             // tabPage2
@@ -74,7 +74,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(675, 516);
+            tabPage2.Size = new Size(755, 504);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
             tabPage2.UseVisualStyleBackColor = true;
@@ -84,17 +84,18 @@
             customersTab1.Dock = DockStyle.Fill;
             customersTab1.Location = new Point(3, 3);
             customersTab1.Name = "customersTab1";
-            customersTab1.Size = new Size(669, 510);
+            customersTab1.Size = new Size(749, 498);
             customersTab1.TabIndex = 0;
             // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(683, 544);
+            ClientSize = new Size(763, 532);
             Controls.Add(tabControl1);
+            MinimumSize = new Size(779, 515);
             Name = "Main";
-            Text = "Form1";
+            Text = "Object Oriented Practice";
             FormClosing += Main_FormClosing;
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);

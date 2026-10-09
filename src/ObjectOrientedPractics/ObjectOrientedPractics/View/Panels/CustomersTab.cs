@@ -124,16 +124,11 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         /// <param name="sender">Источник события.</param>
         /// <param name="e">Пргументы события.</param>
-        private void AddressTextBox_TextChanged(object sender, EventArgs e)
+        private void addressControl1_OnAddressChanged(object sender, EventArgs e)
         {
             if (CustomersListBox.SelectedIndex != -1)
             {
-                try
-                {
-                    _customers[CustomersListBox.SelectedIndex].Address = AddressTextBox.Text;
-                    AddressTextBox.BackColor = Color.White;
-                }
-                catch { AddressTextBox.BackColor = Color.LightPink; }
+                _customers[CustomersListBox.SelectedIndex].Address = addressControl1.CurrentAddress;
             }
         }
 
@@ -149,7 +144,7 @@ namespace ObjectOrientedPractics.View.Panels
             {
                 IDTextBox.Text = ((Customer)CustomersListBox.SelectedItem).ID.ToString();
                 FullnameTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Fullname;
-                AddressTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Address;
+                addressControl1.CurrentAddress = ((Customer)CustomersListBox.SelectedItem).Address;
             }
             else
             {
@@ -164,7 +159,7 @@ namespace ObjectOrientedPractics.View.Panels
         {
             IDTextBox.Text = "";
             FullnameTextBox.Text = "";
-            AddressTextBox.Text = "";
+            addressControl1.CurrentAddress = null;
         }
 
         /// <summary>

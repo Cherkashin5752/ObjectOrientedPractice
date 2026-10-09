@@ -22,7 +22,7 @@ namespace ObjectOrientedPractics.View.Control
         /// Возвращает и задаёт значение текуще-выбранного покупателя
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public Model.Address CurrentAddress
+        public Address CurrentAddress
         {
             get
             {

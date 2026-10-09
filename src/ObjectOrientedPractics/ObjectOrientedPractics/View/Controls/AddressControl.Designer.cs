@@ -63,31 +63,35 @@
             // 
             // CountryTextBox
             // 
+            CountryTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             CountryTextBox.Location = new Point(72, 56);
             CountryTextBox.Name = "CountryTextBox";
-            CountryTextBox.Size = new Size(164, 23);
+            CountryTextBox.Size = new Size(197, 23);
             CountryTextBox.TabIndex = 2;
             CountryTextBox.TextChanged += CountryTextBox_TextChanged;
             // 
             // StreetTextBox
             // 
+            StreetTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             StreetTextBox.Location = new Point(72, 85);
             StreetTextBox.Name = "StreetTextBox";
-            StreetTextBox.Size = new Size(381, 23);
+            StreetTextBox.Size = new Size(414, 23);
             StreetTextBox.TabIndex = 3;
             StreetTextBox.TextChanged += StreetTextBox_TextChanged;
             // 
             // BuildingTextBox
             // 
+            BuildingTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             BuildingTextBox.Location = new Point(72, 114);
             BuildingTextBox.Name = "BuildingTextBox";
-            BuildingTextBox.Size = new Size(100, 23);
+            BuildingTextBox.Size = new Size(114, 23);
             BuildingTextBox.TabIndex = 4;
             BuildingTextBox.TextChanged += BuildingTextBox_TextChanged;
             // 
             // CityTextBox
             // 
-            CityTextBox.Location = new Point(293, 56);
+            CityTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            CityTextBox.Location = new Point(326, 56);
             CityTextBox.Name = "CityTextBox";
             CityTextBox.Size = new Size(160, 23);
             CityTextBox.TabIndex = 5;
@@ -95,7 +99,8 @@
             // 
             // ApartmentTextBox
             // 
-            ApartmentTextBox.Location = new Point(263, 114);
+            ApartmentTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            ApartmentTextBox.Location = new Point(279, 114);
             ApartmentTextBox.Name = "ApartmentTextBox";
             ApartmentTextBox.Size = new Size(100, 23);
             ApartmentTextBox.TabIndex = 6;
@@ -139,8 +144,9 @@
             // 
             // CityLabel
             // 
+            CityLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             CityLabel.AutoSize = true;
-            CityLabel.Location = new Point(256, 59);
+            CityLabel.Location = new Point(289, 59);
             CityLabel.Name = "CityLabel";
             CityLabel.Size = new Size(31, 15);
             CityLabel.TabIndex = 11;
@@ -148,8 +154,9 @@
             // 
             // ApartmentLabel
             // 
+            ApartmentLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ApartmentLabel.AutoSize = true;
-            ApartmentLabel.Location = new Point(190, 117);
+            ApartmentLabel.Location = new Point(206, 117);
             ApartmentLabel.Name = "ApartmentLabel";
             ApartmentLabel.Size = new Size(67, 15);
             ApartmentLabel.TabIndex = 12;
@@ -173,7 +180,7 @@
             Controls.Add(PostIndexTextBox);
             Controls.Add(DeliveryAddressLabel);
             Name = "AddressControl";
-            Size = new Size(456, 145);
+            Size = new Size(489, 145);
             ResumeLayout(false);
             PerformLayout();
         }
