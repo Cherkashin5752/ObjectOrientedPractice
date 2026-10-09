@@ -1,4 +1,5 @@
 ﻿using ObjectOrientedPractics.Service;
+using ObjectOrientedPractics.View.Panels;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -27,6 +28,11 @@ namespace ObjectOrientedPractics.Model
         /// Адрес покупателя
         /// </summary>
         private string _address;
+
+        /// <summary>
+        /// Корзина покупателя
+        /// </summary>
+        private Cart _cart;
 
         /// <summary>
         /// Возвращает Id товара
@@ -74,18 +80,37 @@ namespace ObjectOrientedPractics.Model
             }
         }
 
+        /// <summary>
+        /// Возвращает и задаёт корзину покупателя
+        /// </summary>
+        public Cart Cart
+        {
+            get { return _cart; }
+            set { _cart = value; }
+        }
+        
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Customer">
+        /// </summary>
         public Customer()
         {
             ID = _idCounter++;
             Fullname = "Default fullname";
             Address = "Default";
+            Cart = new Cart();
         }
 
+        /// <summary>
+        /// Инициализирует новый экземаляр класса <see cref="Customer">
+        /// </summary>
+        /// <param name="fullname">Имя покупателя</param>
+        /// <param name="address">Адрес покупателя</param>
         public Customer(string fullname, string address)
         {
             ID = _idCounter++;
             Fullname = fullname;
             Address = address;
+            Cart = new Cart();
         }
     }
 }
