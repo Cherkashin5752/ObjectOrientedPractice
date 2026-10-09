@@ -4,6 +4,9 @@ using System.Text;
 
 namespace ObjectOrientedPractics.Model.Enums
 {
+    /// <summary>
+    /// Перечисление категорий товаров
+    /// </summary>
     public enum ProductCategory
     {
         Default,

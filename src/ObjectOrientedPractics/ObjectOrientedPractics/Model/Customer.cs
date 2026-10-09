@@ -1,6 +1,8 @@
-﻿using ObjectOrientedPractics.Service;
+﻿using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Service;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net;
 using System.Text;
 
@@ -74,6 +76,10 @@ namespace ObjectOrientedPractics.Model
             }
         }
 
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Customer">
+        /// </summary>
         public Customer()
         {
             ID = _idCounter++;
@@ -81,6 +87,11 @@ namespace ObjectOrientedPractics.Model
             Address = "Default";
         }
 
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Customer">
+        /// </summary>
+        /// <param name="fullname">Имя покупателя</param>
+        /// <param name="address">Адрес покупателя</param>
         public Customer(string fullname, string address)
         {
             ID = _idCounter++;

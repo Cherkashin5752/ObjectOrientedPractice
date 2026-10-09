@@ -121,6 +121,7 @@ namespace ObjectOrientedPractics.Model
         /// <param name="name">Название товара</param>
         /// <param name="info">Информация о товаре</param>
         /// <param name="cost">Стоимость товара</param>
+        /// <param name="category">Категория товара</param>
         public Item(string name, string info, double cost, ProductCategory category)
         {
             ID = _idCounter++;

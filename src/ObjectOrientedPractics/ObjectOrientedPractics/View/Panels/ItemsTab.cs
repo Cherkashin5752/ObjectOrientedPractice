@@ -1,4 +1,5 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
 using ObjectOrientedPractics.Service;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace ObjectOrientedPractics.View.Panels
 
             ItemsListBox.DataSource = _items;
             ItemsListBox.DisplayMember = "Name";
+
+            CategoryComboBox.DataSource = Enum.GetValues<ProductCategory>();
 
             try
             {
@@ -110,6 +113,16 @@ namespace ObjectOrientedPractics.View.Panels
             }
         }
 
+        private void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selectedIndex = ItemsListBox.SelectedIndex;
+
+            if (selectedIndex != -1)
+            {
+                _items[selectedIndex].Category = (ProductCategory)CategoryComboBox.SelectedItem;
+            }
+        }
+
         private void ItemsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ItemsListBox.SelectedIndex != -1)
@@ -118,6 +131,7 @@ namespace ObjectOrientedPractics.View.Panels
                 NameTextBox.Text = ((Model.Item)ItemsListBox.SelectedItem).Name;
                 DescriptionTextBox.Text = ((Model.Item)ItemsListBox.SelectedItem).Info;
                 CostTextBox.Text = ((Model.Item)ItemsListBox.SelectedItem).Cost.ToString();
+                CategoryComboBox.SelectedItem = ((Item)ItemsListBox.SelectedItem).Category;
             }
             else
             {
@@ -134,6 +148,7 @@ namespace ObjectOrientedPractics.View.Panels
             CostTextBox.Text = "";
             NameTextBox.Text = "";
             DescriptionTextBox.Text = "";
+            CategoryComboBox.SelectedIndex = -1;
         }
 
         /// <summary>
