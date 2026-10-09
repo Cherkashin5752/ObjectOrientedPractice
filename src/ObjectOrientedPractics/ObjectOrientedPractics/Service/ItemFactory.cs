@@ -8,7 +8,7 @@ using ObjectOrientedPractics.Model;
 
 namespace ObjectOrientedPractics.Service
 {
-    internal class ItemFactory
+    static internal class ItemFactory
     {
         static private int maxItemsCount;
 

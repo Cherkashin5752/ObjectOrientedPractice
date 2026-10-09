@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace ObjectOrientedPractics.Service
 {
-    internal class ProjectSerializer
+    static internal class ProjectSerializer
     {
         /// <summary>
         /// Выполняет десериализацию списка товаров из файла формат JSON.

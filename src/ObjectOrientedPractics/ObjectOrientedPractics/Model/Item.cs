@@ -1,4 +1,5 @@
-﻿using ObjectOrientedPractics.Service;
+﻿using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +12,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Хранит Id, именование, информацию и стоимость товара
     /// </summary>
-    public class Item
+    internal class Item
     {
         /// <summary>
         /// Счётчик для генерации уникальных Id
@@ -100,15 +101,18 @@ namespace ObjectOrientedPractics.Model
             }
         }
 
+        public ProductCategory Category { get; set; }
+
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Item"> с дефолтными значениям
         /// </summary>
         public Item()
         {
-            this.ID = _idCounter++;
-            this.Name = "Default name";
-            this.Info = "Default description";
-            this.Cost = 0;
+            ID = _idCounter++;
+            Name = "Default name";
+            Info = "Default description";
+            Cost = 0;
+            Category = ProductCategory.Default;
         }
 
         /// <summary>
@@ -117,12 +121,13 @@ namespace ObjectOrientedPractics.Model
         /// <param name="name">Название товара</param>
         /// <param name="info">Информация о товаре</param>
         /// <param name="cost">Стоимость товара</param>
-        public Item(string name, string info, double cost)
+        public Item(string name, string info, double cost, ProductCategory category)
         {
-            this.ID = _idCounter++;
-            this.Name = name;
-            this.Info = info;
-            this.Cost = cost;
+            ID = _idCounter++;
+            Name = name;
+            Info = info;
+            Cost = cost;
+            Category = category;
         }
     }
 }

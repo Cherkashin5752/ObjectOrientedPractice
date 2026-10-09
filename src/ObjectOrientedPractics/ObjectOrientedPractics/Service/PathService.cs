@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ObjectOrientedPractics.Service
 {
-    internal class PathService
+    static internal class PathService
     {
         static public string GetProjectRootDir()
         {
