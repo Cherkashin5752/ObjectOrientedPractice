@@ -11,6 +11,9 @@ using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.View.Panels
 {
+    /// <summary>
+    /// Пользовательский элемент, который осуществляет логику работы с товарами
+    /// </summary>
     public partial class ItemsTab : UserControl
     {
         /// <summary>
@@ -18,6 +21,10 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         private BindingList<Item> _items = new();
 
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="ItemsTab"/>.
+        /// Загружает сохранённые товары из файла JSON и настраивает фабрику генерации товаров.
+        /// </summary>
         public ItemsTab()
         {
             InitializeComponent();
@@ -43,18 +50,33 @@ namespace ObjectOrientedPractics.View.Panels
             catch { }
         }
 
+        /// <summary>
+        /// Обработчик события нажатия на кнопку добавления товара по умолчанию.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void AddDefaultButton_Click(object sender, EventArgs e)
         {
             Item newItem = new Item();
             _items.Add(newItem);
         }
 
+        /// <summary>
+        /// Оработчик события нажатия на кнопку добавления случайного товара.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void AddRandomButton_Click(object sender, EventArgs e)
         {
             Model.Item newItem = ItemFactory.GenerateItem();
             _items.Add(newItem);
         }
 
+        /// <summary>
+        /// Обработчик события нажатия на кнопку удаления выбранного товара.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void RemoveButton_Click(object sender, EventArgs e)
         {
             if (ItemsListBox.SelectedIndex != -1)
@@ -69,6 +91,12 @@ namespace ObjectOrientedPractics.View.Panels
             }
         }
 
+        /// <summary>
+        /// Обработчик события изменения стоимости в поле товара.
+        /// Валидирует поле и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void CostTextBox_TextChanged(object sender, EventArgs e)
         {
             if (ItemsListBox.SelectedIndex != -1)
@@ -82,6 +110,12 @@ namespace ObjectOrientedPractics.View.Panels
             }
         }
 
+        /// <summary>
+        /// Обработчик события изменения текста в поле названия товара.
+        /// Валидирует ввод и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void NameTextBox_TextChanged(object sender, EventArgs e)
         {
             if (ItemsListBox.SelectedIndex != -1)
@@ -95,11 +129,23 @@ namespace ObjectOrientedPractics.View.Panels
             }
         }
 
+        /// <summary>
+        /// Обработчик события потери фокуса поля названия товара.
+        /// Обновляет отображаемое название товара в <see cref="ItemsListBox"/>
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void NameTextBox_Leave(object sender, EventArgs e)
         {
             RefreshItemsListBox();
         }
 
+        /// <summary>
+        /// Обработчик события изменения текста в поле описания товара.
+        /// Валидирует ввод и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void DescriptionTextBox_TextChanged(object sender, EventArgs e)
         {
             if (ItemsListBox.SelectedIndex != -1)
@@ -113,6 +159,11 @@ namespace ObjectOrientedPractics.View.Panels
             }
         }
 
+        /// <summary>
+        /// Обработчик события изменения выбранного элемента в выпадающем списке категории товара.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             int selectedIndex = ItemsListBox.SelectedIndex;
@@ -123,6 +174,12 @@ namespace ObjectOrientedPractics.View.Panels
             }
         }
 
+        /// <summary>
+        /// Обработчик события изменения выбраного элемента в списке товаров.
+        /// Заполняет текстовые поля информацией о выбранном товаре.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void ItemsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ItemsListBox.SelectedIndex != -1)
@@ -161,6 +218,9 @@ namespace ObjectOrientedPractics.View.Panels
             ItemsListBox.DisplayMember = "Name";
         }
 
+        /// <summary>
+        /// Сериализует список товаров
+        /// </summary>
         public void SerializeItems()
         {
             ProjectSerializer.SerializeJsonItemsFile(_items, "\\Saved Data\\Item Objects.json");

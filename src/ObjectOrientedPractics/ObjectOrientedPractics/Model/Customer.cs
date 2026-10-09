@@ -8,6 +8,9 @@ using System.Text;
 
 namespace ObjectOrientedPractics.Model
 {
+    /// <summary>
+    /// Хранит ID, полное имя и адрес покупателя
+    /// </summary>
     internal class Customer
     {
         /// <summary>

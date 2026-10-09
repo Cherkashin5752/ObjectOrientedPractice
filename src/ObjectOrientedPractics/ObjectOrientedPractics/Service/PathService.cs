@@ -9,7 +9,7 @@ namespace ObjectOrientedPractics.Service
     {
         static public string GetProjectRootDir()
         {
-            string tempPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string tempPath = Assembly.GetExecutingAssembly().Location;
 
             string path = "";
 

@@ -24,10 +24,10 @@ namespace ObjectOrientedPractics.Service
         static private List<string> _addresses = new List<string>();
 
         /// <summary>
-        /// Генерирует экземпляр класса <see cref="Model.Customer"/> со случайным именем и адресом из загруженных данных.
+        /// Генерирует экземпляр класса <see cref="Customer"/> со случайным именем и адресом из загруженных данных.
         /// </summary>
-        /// <returns>Возвращает новый экземпляр класса <see cref="Model.Customer"/>.</returns>
-        static public Model.Customer GenerateCustomer()
+        /// <returns>Возвращает новый экземпляр класса <see cref="Customer"/>.</returns>
+        static public Customer GenerateCustomer()
         {
             Random random = new Random();
 
