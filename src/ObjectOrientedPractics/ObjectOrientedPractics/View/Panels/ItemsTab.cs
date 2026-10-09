@@ -22,6 +22,23 @@ namespace ObjectOrientedPractics.View.Panels
         private BindingList<Item> _items = new();
 
         /// <summary>
+        /// Возвращает и задаёт список товаров
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        internal BindingList<Item> Items
+        {
+            get
+            {
+                return _items;
+            }
+            set
+            {
+                _items = value;
+                RefreshItemsListBox();
+            }
+        }
+
+        /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="ItemsTab"/>.
         /// Загружает сохранённые товары из файла JSON и настраивает фабрику генерации товаров.
         /// </summary>
@@ -42,7 +59,7 @@ namespace ObjectOrientedPractics.View.Panels
 
                 if (tempItems != null)
                 {
-                    _items = tempItems;
+                    Items = tempItems;
                 }
 
                 RefreshItemsListBox();
@@ -58,7 +75,7 @@ namespace ObjectOrientedPractics.View.Panels
         private void AddDefaultButton_Click(object sender, EventArgs e)
         {
             Item newItem = new Item();
-            _items.Add(newItem);
+            Items.Add(newItem);
         }
 
         /// <summary>
@@ -68,8 +85,8 @@ namespace ObjectOrientedPractics.View.Panels
         /// <param name="e">Аргумент события.</param>
         private void AddRandomButton_Click(object sender, EventArgs e)
         {
-            Model.Item newItem = ItemFactory.GenerateItem();
-            _items.Add(newItem);
+            Item newItem = ItemFactory.GenerateItem();
+            Items.Add(newItem);
         }
 
         /// <summary>
@@ -83,7 +100,7 @@ namespace ObjectOrientedPractics.View.Panels
             {
                 int selectedIndex = ItemsListBox.SelectedIndex;
 
-                _items.RemoveAt(selectedIndex);
+                Items.RemoveAt(selectedIndex);
 
                 ItemsListBox.SelectedIndex = -1;
 
@@ -103,7 +120,7 @@ namespace ObjectOrientedPractics.View.Panels
             {
                 try
                 {
-                    _items[ItemsListBox.SelectedIndex].Cost = double.Parse(CostTextBox.Text);
+                    Items[ItemsListBox.SelectedIndex].Cost = double.Parse(CostTextBox.Text);
                     CostTextBox.BackColor = Color.White;
                 }
                 catch { CostTextBox.BackColor = Color.LightPink; }
@@ -122,7 +139,7 @@ namespace ObjectOrientedPractics.View.Panels
             {
                 try
                 {
-                    _items[ItemsListBox.SelectedIndex].Name = NameTextBox.Text;
+                    Items[ItemsListBox.SelectedIndex].Name = NameTextBox.Text;
                     NameTextBox.BackColor = Color.White;
                 }
                 catch { NameTextBox.BackColor = Color.LightPink; }
@@ -152,7 +169,7 @@ namespace ObjectOrientedPractics.View.Panels
             {
                 try
                 {
-                    _items[ItemsListBox.SelectedIndex].Info = DescriptionTextBox.Text;
+                    Items[ItemsListBox.SelectedIndex].Info = DescriptionTextBox.Text;
                     DescriptionTextBox.BackColor = Color.White;
                 }
                 catch { DescriptionTextBox.BackColor = Color.LightPink; }
@@ -170,7 +187,7 @@ namespace ObjectOrientedPractics.View.Panels
 
             if (selectedIndex != -1)
             {
-                _items[selectedIndex].Category = (ProductCategory)CategoryComboBox.SelectedItem;
+                Items[selectedIndex].Category = (ProductCategory)CategoryComboBox.SelectedItem;
             }
         }
 
@@ -184,10 +201,10 @@ namespace ObjectOrientedPractics.View.Panels
         {
             if (ItemsListBox.SelectedIndex != -1)
             {
-                IDTextBox.Text = ((Model.Item)ItemsListBox.SelectedItem).ID.ToString();
-                NameTextBox.Text = ((Model.Item)ItemsListBox.SelectedItem).Name;
-                DescriptionTextBox.Text = ((Model.Item)ItemsListBox.SelectedItem).Info;
-                CostTextBox.Text = ((Model.Item)ItemsListBox.SelectedItem).Cost.ToString();
+                IDTextBox.Text = ((Item)ItemsListBox.SelectedItem).ID.ToString();
+                NameTextBox.Text = ((Item)ItemsListBox.SelectedItem).Name;
+                DescriptionTextBox.Text = ((Item)ItemsListBox.SelectedItem).Info;
+                CostTextBox.Text = ((Item)ItemsListBox.SelectedItem).Cost.ToString();
                 CategoryComboBox.SelectedItem = ((Item)ItemsListBox.SelectedItem).Category;
             }
             else
@@ -213,7 +230,7 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         private void RefreshItemsListBox()
         {
-            ItemsListBox.DataSource = _items;
+            ItemsListBox.DataSource = Items;
         }
 
         /// <summary>
@@ -221,7 +238,7 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         public void SerializeItems()
         {
-            ProjectSerializer.SerializeJsonItemsFile(_items, "\\Saved Data\\Item Objects.json");
+            ProjectSerializer.SerializeJsonItemsFile(Items, "\\Saved Data\\Item Objects.json");
         }
     }
 }

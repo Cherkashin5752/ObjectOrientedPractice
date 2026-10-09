@@ -60,5 +60,31 @@ namespace ObjectOrientedPractics.Service
 
             File.WriteAllText(PathService.GetProjectRootDir() + path, jsonCustomers);
         }
+
+        /// <summary>
+        /// Выполняет десериализацию списка товаров из файла формат JSON.
+        /// </summary>
+        /// <param name="path">Путь к файлу, содержащему данные о списке товаров.</param>
+        /// <returns>Список товаров в виде <see cref="Store"/></returns>
+        static public Store DeserializeJsonStoreFile(string path)
+        {
+            string storeJsonText = File.ReadAllText(PathService.GetProjectRootDir() + path);
+
+            Store store = JsonConvert.DeserializeObject<Store>(storeJsonText);
+
+            return store;
+        }
+
+        /// <summary>
+        /// Сериализует список товаров в формат JSON и сохраняет его в указанный файл.
+        /// </summary>
+        /// <param name="Store">Список товаров <see cref="Store"/> для сохранения.</param>
+        /// <param name="path">Путь к файлу, в который будут записаны данные.</param>
+        static public void SerializeJsonStoreFile(Store store, string path)
+        {
+            string jsonStore = JsonConvert.SerializeObject(store);
+
+            File.WriteAllText(PathService.GetProjectRootDir() + path, jsonStore);
+        }
     }
 }

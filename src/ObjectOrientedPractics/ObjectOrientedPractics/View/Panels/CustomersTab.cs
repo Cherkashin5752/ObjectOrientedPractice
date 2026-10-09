@@ -21,6 +21,24 @@ namespace ObjectOrientedPractics.View.Panels
         private BindingList<Customer> _customers = new();
 
         /// <summary>
+        /// Возвращает и задаёт список покупателей
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        internal BindingList<Customer> Customers
+        {
+            get
+            {
+                return _customers;
+            }
+            set
+            {
+                _customers = value;
+                RefreshCustomersListBox();
+            }
+        }
+
+
+        /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="CustomersTab"/>.
         /// Загружает сохранённых покупателей из файла JSON и настраивает фабрику генерации покупателей.
         /// </summary>
