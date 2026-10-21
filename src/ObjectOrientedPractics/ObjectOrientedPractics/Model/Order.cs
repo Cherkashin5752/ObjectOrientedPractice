@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ObjectOrientedPractics.Model.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -86,6 +87,24 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
+        /// Возвращает и задаёт статус заказа
+        /// </summary>
+        public OrderStatus Status { get; set; }
+
+        /// <summary>
+        /// Инициализирует экземпляр класса <see cref="Order">
+        /// </summary>
+        public Order()
+        {
+            Id = _idCounter++;
+            CreateTime = DateTime.Now;
+            Address = new Address();
+            Items = new();
+            Amount = 0.0;
+            Status = OrderStatus.New;
+        }
+
+        /// <summary>
         /// Инициализирует экземпляр класса <see cref="Order">
         /// </summary>
         /// <param name="customer">Покупатель, оформляющий заказ</param>
@@ -93,9 +112,10 @@ namespace ObjectOrientedPractics.Model
         {
             Id = _idCounter++;
             CreateTime = DateTime.Now;
-            Address = customer.Address;
-            Items = customer.Cart.Items;
+            Address = new Address(customer.Address);
+            Items = new BindingList<Item>(customer.Cart.Items);
             Amount = customer.Cart.Amount;
+            Status = OrderStatus.New;
         }
     }
 }

@@ -9,19 +9,34 @@ using ObjectOrientedPractics.Model.Enums;
 
 namespace ObjectOrientedPractics.Service
 {
+    /// <summary>
+    /// Сервисный класс для создания товаров со случайными состояниями
+    /// </summary>
     static internal class ItemFactory
     {
+        /// <summary>
+        /// Количество товаров, лежащее в прочтённых файлах
+        /// </summary>
         static private int maxItemsCount;
-
+        
+        /// <summary>
+        /// Список наименований товаров, прочтённых из файла
+        /// </summary>
         static private List<string> _names = new List<string>();
 
+        /// <summary>
+        /// Список описаний для товаров, прочтённых из файла
+        /// </summary>
         static private List<string> _info = new List<string>();
 
+        static private Random _random = new Random();
+        /// <summary>
+        /// Генерирует и возвращает товар со случайным состоянием
+        /// </summary>
+        /// <returns></returns>
         static public Item GenerateItem()
         {
-            Random random = new Random();
-
-            int randomItem = random.Next(maxItemsCount);
+            int randomItem = _random.Next(maxItemsCount);
 
             string newName, newInfo;
 
@@ -43,34 +58,33 @@ namespace ObjectOrientedPractics.Service
                 newInfo = "Default";
             }
 
-            int newCost = random.Next(100_000);
+            int newCost = _random.Next(100_000);
 
-            ProductCategory newCategory = (ProductCategory)random.Next(Enum.GetNames<ProductCategory>().Length);
+            ProductCategory newCategory = (ProductCategory)_random.Next(Enum.GetNames<ProductCategory>().Length);
 
             Item newItem = new Item(newName, newInfo, newCost, newCategory);
 
             return newItem;
         }
 
+        /// <summary>
+        /// Настраивает класс ItemsFactory, считывает файлы с заранее записанными данными
+        /// </summary>
         static public void SetUpItemFactory()
         {
-            StreamReader reader = new StreamReader(PathService.GetProjectRootDir() + "\\Preload Data\\Items Names.json");
+            string reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Items Names.json");
 
             if (reader != null)
             {
-                _names = JsonConvert.DeserializeObject<List<string>>(reader.ReadToEnd());
+                _names = JsonConvert.DeserializeObject<List<string>>(reader);
             }
 
-            reader.Close();
-
-            reader = new StreamReader(PathService.GetProjectRootDir() + "\\Preload Data\\Items Info.json");
+            reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Items Info.json");
 
             if (reader != null)
             {
-                _info = JsonConvert.DeserializeObject<List<string>>(reader.ReadToEnd());
+                _info = JsonConvert.DeserializeObject<List<string>>(reader);
             }
-
-            reader.Close();
 
             if (_names != null && _info != null)
             {

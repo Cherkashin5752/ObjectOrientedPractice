@@ -160,7 +160,7 @@ namespace ObjectOrientedPractics.View.Panels
         {
             if (CustomersListBox.SelectedIndex != -1)
             {
-                IDTextBox.Text = ((Customer)CustomersListBox.SelectedItem).ID.ToString();
+                IDTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Id.ToString();
                 FullnameTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Fullname;
                 addressControl1.CurrentAddress = ((Customer)CustomersListBox.SelectedItem).Address;
             }

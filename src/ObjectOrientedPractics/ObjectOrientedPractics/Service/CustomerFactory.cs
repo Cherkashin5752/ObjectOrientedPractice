@@ -23,15 +23,15 @@ namespace ObjectOrientedPractics.Service
         /// </summary>
         static private List<Address> _addresses = new List<Address>();
 
+        static private Random _random = new Random();
+
         /// <summary>
         /// Генерирует экземпляр класса <see cref="Customer"/> со случайным именем и адресом из загруженных данных.
         /// </summary>
         /// <returns>Возвращает новый экземпляр класса <see cref="Customer"/>.</returns>
         static public Customer GenerateCustomer()
         {
-            Random random = new Random();
-
-            int randomCustomer = random.Next(0, maxCustomersCount);
+            int randomCustomer = _random.Next(0, maxCustomersCount);
 
             string newFullname;
             Address newAddress;
@@ -65,23 +65,19 @@ namespace ObjectOrientedPractics.Service
         /// </summary>
         static public void SetUpCustomerFactory()
         {
-            StreamReader reader = new StreamReader(PathService.GetProjectRootDir() + "\\Preload Data\\Customers Fullnames.json");
+            string reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Customers Fullnames.json");
 
             if (reader != null)
             {
-                _fullnames = JsonConvert.DeserializeObject<List<string>>(reader.ReadToEnd());
+                _fullnames = JsonConvert.DeserializeObject<List<string>>(reader);
             }
 
-            reader.Close();
-
-            reader = new StreamReader(PathService.GetProjectRootDir() + "\\Preload Data\\Customers Addresses.json");
+            reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Customers Addresses.json");
 
             if (reader != null)
             {
-                _addresses = JsonConvert.DeserializeObject<List<Address>>(reader.ReadToEnd());
+                _addresses = JsonConvert.DeserializeObject<List<Address>>(reader);
             }
-
-            reader.Close();
 
             if (_fullnames != null && _addresses != null)
             {

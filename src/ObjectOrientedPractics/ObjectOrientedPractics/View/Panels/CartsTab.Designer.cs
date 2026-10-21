@@ -38,7 +38,7 @@
             AmountLabel = new Label();
             CartAmountLabel = new Label();
             ClearCartButton = new Button();
-            RemoveItemButotn = new Button();
+            RemoveItemButton = new Button();
             CreateOrderButton = new Button();
             SuspendLayout();
             // 
@@ -66,7 +66,7 @@
             AddToCartButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             AddToCartButton.Location = new Point(6, 452);
             AddToCartButton.Name = "AddToCartButton";
-            AddToCartButton.Size = new Size(75, 46);
+            AddToCartButton.Size = new Size(83, 46);
             AddToCartButton.TabIndex = 2;
             AddToCartButton.Text = "Add to Cart";
             AddToCartButton.UseVisualStyleBackColor = true;
@@ -135,39 +135,41 @@
             // ClearCartButton
             // 
             ClearCartButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            ClearCartButton.Location = new Point(575, 308);
+            ClearCartButton.Location = new Point(567, 308);
             ClearCartButton.Name = "ClearCartButton";
-            ClearCartButton.Size = new Size(75, 46);
+            ClearCartButton.Size = new Size(83, 46);
             ClearCartButton.TabIndex = 9;
             ClearCartButton.Text = "Clear Cart";
             ClearCartButton.UseVisualStyleBackColor = true;
+            ClearCartButton.Click += ClearCartButton_Click;
             // 
-            // RemoveItemButotn
+            // RemoveItemButton
             // 
-            RemoveItemButotn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            RemoveItemButotn.Location = new Point(494, 308);
-            RemoveItemButotn.Name = "RemoveItemButotn";
-            RemoveItemButotn.Size = new Size(75, 46);
-            RemoveItemButotn.TabIndex = 10;
-            RemoveItemButotn.Text = "Remove item";
-            RemoveItemButotn.UseVisualStyleBackColor = true;
-            RemoveItemButotn.Click += RemoveItemButotn_Click;
+            RemoveItemButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            RemoveItemButton.Location = new Point(478, 308);
+            RemoveItemButton.Name = "RemoveItemButton";
+            RemoveItemButton.Size = new Size(83, 46);
+            RemoveItemButton.TabIndex = 10;
+            RemoveItemButton.Text = "Remove item";
+            RemoveItemButton.UseVisualStyleBackColor = true;
+            RemoveItemButton.Click += RemoveItemButton_Click;
             // 
             // CreateOrderButton
             // 
             CreateOrderButton.Location = new Point(263, 308);
             CreateOrderButton.Name = "CreateOrderButton";
-            CreateOrderButton.Size = new Size(75, 46);
+            CreateOrderButton.Size = new Size(83, 46);
             CreateOrderButton.TabIndex = 11;
             CreateOrderButton.Text = "Create Order";
             CreateOrderButton.UseVisualStyleBackColor = true;
+            CreateOrderButton.Click += CreateOrderButton_Click;
             // 
             // CartsTab
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(CreateOrderButton);
-            Controls.Add(RemoveItemButotn);
+            Controls.Add(RemoveItemButton);
             Controls.Add(ClearCartButton);
             Controls.Add(CartAmountLabel);
             Controls.Add(AmountLabel);
@@ -196,7 +198,7 @@
         private Label AmountLabel;
         private Label CartAmountLabel;
         private Button ClearCartButton;
-        private Button RemoveItemButotn;
+        private Button RemoveItemButton;
         private Button CreateOrderButton;
     }
 }

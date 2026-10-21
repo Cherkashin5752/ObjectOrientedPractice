@@ -4,7 +4,10 @@ using System.Text;
 
 namespace ObjectOrientedPractics.Model.Enums
 {
-    enum OrderStatus
+    /// <summary>
+    /// Перечисление статуса заказа
+    /// </summary>
+    public enum OrderStatus
     {
         New,
         Processing,
