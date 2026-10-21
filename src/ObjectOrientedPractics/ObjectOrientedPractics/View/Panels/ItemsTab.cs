@@ -46,7 +46,7 @@ namespace ObjectOrientedPractics.View.Panels
         {
             InitializeComponent();
 
-            ItemsListBox.DataSource = Enum.GetNames<ProductCategory>();
+            ItemsListBox.DataSource = Items;
             ItemsListBox.DisplayMember = "Name";
 
             CategoryComboBox.DataSource = Enum.GetValues<ProductCategory>();
