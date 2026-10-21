@@ -21,21 +21,22 @@ namespace ObjectOrientedPractics.Service
         /// <summary>
         /// Список адрессов покупателей, загруженных из файла.
         /// </summary>
-        static private List<string> _addresses = new List<string>();
+        static private List<Address> _addresses = new List<Address>();
 
         /// <summary>
-        /// Генерирует экземпляр класса <see cref="Model.Customer"/> со случайным именем и адресом из загруженных данных.
+        /// Генерирует экземпляр класса <see cref="Customer"/> со случайным именем и адресом из загруженных данных.
         /// </summary>
-        /// <returns>Возвращает новый экземпляр класса <see cref="Model.Customer"/>.</returns>
-        static public Model.Customer GenerateCustomer()
+        /// <returns>Возвращает новый экземпляр класса <see cref="Customer"/>.</returns>
+        static public Customer GenerateCustomer()
         {
             Random random = new Random();
 
             int randomCustomer = random.Next(0, maxCustomersCount);
 
-            string newFullname, newAddress;
+            string newFullname;
+            Address newAddress;
 
-            if (_fullnames.Count != 0)
+            if (_fullnames != null)
             {
                 newFullname = _fullnames[randomCustomer];
             }
@@ -44,13 +45,13 @@ namespace ObjectOrientedPractics.Service
                 newFullname = "Default";
             }
 
-            if (_addresses.Count != 0)
+            if (_addresses != null)
             {
                 newAddress = _addresses[randomCustomer];
             }
             else
             {
-                newAddress = "Default";
+                newAddress = new Address();
             }
 
             Customer newCustomer = new Customer(newFullname, newAddress);
@@ -77,7 +78,7 @@ namespace ObjectOrientedPractics.Service
 
             if (reader != null)
             {
-                _addresses = JsonConvert.DeserializeObject<List<string>>(reader.ReadToEnd());
+                _addresses = JsonConvert.DeserializeObject<List<Address>>(reader.ReadToEnd());
             }
 
             reader.Close();

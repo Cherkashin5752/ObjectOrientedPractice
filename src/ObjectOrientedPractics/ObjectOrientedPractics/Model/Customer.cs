@@ -1,11 +1,16 @@
-﻿using ObjectOrientedPractics.Service;
+﻿using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Service;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net;
 using System.Text;
 
 namespace ObjectOrientedPractics.Model
 {
+    /// <summary>
+    /// Хранит ID, полное имя и адрес покупателя
+    /// </summary>
     internal class Customer
     {
         /// <summary>
@@ -26,7 +31,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Адрес покупателя
         /// </summary>
-        private string _address;
+        private Address _address;
 
         /// <summary>
         /// Возвращает Id товара
@@ -55,7 +60,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Возвращает и задаёт адрес покупателя
         /// </summary>
-        public string Address
+        public Address Address
         {
             get
             {
@@ -63,29 +68,30 @@ namespace ObjectOrientedPractics.Model
             }
             set
             {
-                if (ValueValidator.AssertStringOnLength(value, 500, "Address"))
-                {
-                    _address = value;
-                }
-                else
-                {
-                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
-                }
+                _address = value;
             }
         }
 
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Customer">
+        /// </summary>
         public Customer()
         {
             ID = _idCounter++;
             Fullname = "Default fullname";
-            Address = "Default";
+            Address = new Address();
         }
 
-        public Customer(string fullname, string address)
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Customer">
+        /// </summary>
+        /// <param name="fullname">Имя покупателя</param>
+        /// <param name="address">Адрес покупателя</param>
+        public Customer(string fullname, Address address)
         {
             ID = _idCounter++;
             Fullname = fullname;
-            Address = address;
+            Address = new Address(address);
         }
     }
 }

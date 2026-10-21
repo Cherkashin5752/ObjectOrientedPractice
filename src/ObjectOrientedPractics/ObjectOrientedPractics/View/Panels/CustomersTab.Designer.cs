@@ -34,10 +34,9 @@
             AddDefaultButton = new Button();
             CustomersListBox = new ListBox();
             SelectedCustomerGroupBox = new GroupBox();
-            AddressLabel = new Label();
+            addressControl1 = new ObjectOrientedPractics.View.Control.AddressControl();
             FullNameLabel = new Label();
             IDLabel = new Label();
-            AddressTextBox = new TextBox();
             FullnameTextBox = new TextBox();
             IDTextBox = new TextBox();
             Panel1 = new Panel();
@@ -105,27 +104,26 @@
             // SelectedCustomerGroupBox
             // 
             SelectedCustomerGroupBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            SelectedCustomerGroupBox.Controls.Add(AddressLabel);
+            SelectedCustomerGroupBox.Controls.Add(addressControl1);
             SelectedCustomerGroupBox.Controls.Add(FullNameLabel);
             SelectedCustomerGroupBox.Controls.Add(IDLabel);
-            SelectedCustomerGroupBox.Controls.Add(AddressTextBox);
             SelectedCustomerGroupBox.Controls.Add(FullnameTextBox);
             SelectedCustomerGroupBox.Controls.Add(IDTextBox);
             SelectedCustomerGroupBox.Location = new Point(260, 3);
             SelectedCustomerGroupBox.Name = "SelectedCustomerGroupBox";
-            SelectedCustomerGroupBox.Size = new Size(403, 193);
+            SelectedCustomerGroupBox.Size = new Size(403, 236);
             SelectedCustomerGroupBox.TabIndex = 1;
             SelectedCustomerGroupBox.TabStop = false;
-            SelectedCustomerGroupBox.Text = "groupBox2";
+            SelectedCustomerGroupBox.Text = "Selected Customer";
             // 
-            // AddressLabel
+            // addressControl1
             // 
-            AddressLabel.AutoSize = true;
-            AddressLabel.Location = new Point(6, 90);
-            AddressLabel.Name = "AddressLabel";
-            AddressLabel.Size = new Size(52, 15);
-            AddressLabel.TabIndex = 5;
-            AddressLabel.Text = "Address:";
+            addressControl1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            addressControl1.Location = new Point(6, 87);
+            addressControl1.Name = "addressControl1";
+            addressControl1.Size = new Size(391, 145);
+            addressControl1.TabIndex = 5;
+            addressControl1.AddressChanged += addressControl1_OnAddressChanged;
             // 
             // FullNameLabel
             // 
@@ -144,16 +142,6 @@
             IDLabel.Size = new Size(21, 15);
             IDLabel.TabIndex = 3;
             IDLabel.Text = "ID:";
-            // 
-            // AddressTextBox
-            // 
-            AddressTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            AddressTextBox.Location = new Point(76, 87);
-            AddressTextBox.Multiline = true;
-            AddressTextBox.Name = "AddressTextBox";
-            AddressTextBox.Size = new Size(321, 100);
-            AddressTextBox.TabIndex = 2;
-            AddressTextBox.TextChanged += AddressTextBox_TextChanged;
             // 
             // FullnameTextBox
             // 
@@ -176,9 +164,9 @@
             // Panel1
             // 
             Panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            Panel1.Location = new Point(260, 202);
+            Panel1.Location = new Point(260, 245);
             Panel1.Name = "Panel1";
-            Panel1.Size = new Size(403, 299);
+            Panel1.Size = new Size(403, 256);
             Panel1.TabIndex = 2;
             // 
             // CustomersTab
@@ -206,10 +194,9 @@
         private Button AddDefaultButton;
         private TextBox IDTextBox;
         private Panel Panel1;
-        private Label AddressLabel;
         private Label FullNameLabel;
         private Label IDLabel;
-        private TextBox AddressTextBox;
         private TextBox FullnameTextBox;
+        private Control.AddressControl addressControl1;
     }
 }

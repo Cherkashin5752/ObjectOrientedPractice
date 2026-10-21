@@ -5,10 +5,11 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
 
 namespace ObjectOrientedPractics.Service
 {
-    internal class ItemFactory
+    static internal class ItemFactory
     {
         static private int maxItemsCount;
 
@@ -44,7 +45,9 @@ namespace ObjectOrientedPractics.Service
 
             int newCost = random.Next(100_000);
 
-            Item newItem = new Item(newName, newInfo, newCost);
+            ProductCategory newCategory = (ProductCategory)random.Next(Enum.GetNames<ProductCategory>().Length);
+
+            Item newItem = new Item(newName, newInfo, newCost, newCategory);
 
             return newItem;
         }
