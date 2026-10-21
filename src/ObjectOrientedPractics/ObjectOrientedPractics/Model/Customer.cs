@@ -12,7 +12,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Хранит ID, полное имя и адрес покупателя
     /// </summary>
-    internal class Customer
+    public class Customer
     {
         /// <summary>
         /// Счётчик для генерации уникальных Id
@@ -73,14 +73,14 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         public Address Address
         {
-            get
-            {
-                return _address;
-            }
-            set
-            {
-                _address = value;
-            }
+            get { return _address; }
+            set { _address = value; }
+        }
+
+        public Cart Cart
+        {
+            get { return _cart; }
+            set { _cart = value; }
         }
 
         /// <summary>
@@ -91,6 +91,7 @@ namespace ObjectOrientedPractics.Model
             ID = _idCounter++;
             Fullname = "Default fullname";
             Address = new Address();
+            Cart = new Cart();
         }
 
         /// <summary>
@@ -103,6 +104,7 @@ namespace ObjectOrientedPractics.Model
             ID = _idCounter++;
             Fullname = fullname;
             Address = new Address(address);
+            Cart = new Cart();
         }
     }
 }

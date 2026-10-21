@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ItemsListBox = new ListBox();
+            ItemsCartsListBox = new ListBox();
             ItemsLabel = new Label();
             AddToCartButton = new Button();
             CustomerLabel = new Label();
@@ -42,14 +42,14 @@
             CreateOrderButton = new Button();
             SuspendLayout();
             // 
-            // ItemsListBox
+            // ItemsCartsListBox
             // 
-            ItemsListBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            ItemsListBox.FormattingEnabled = true;
-            ItemsListBox.Location = new Point(6, 22);
-            ItemsListBox.Name = "ItemsListBox";
-            ItemsListBox.Size = new Size(237, 424);
-            ItemsListBox.TabIndex = 0;
+            ItemsCartsListBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            ItemsCartsListBox.FormattingEnabled = true;
+            ItemsCartsListBox.Location = new Point(6, 22);
+            ItemsCartsListBox.Name = "ItemsCartsListBox";
+            ItemsCartsListBox.Size = new Size(237, 424);
+            ItemsCartsListBox.TabIndex = 0;
             // 
             // ItemsLabel
             // 
@@ -89,6 +89,7 @@
             CustomerComboBox.Name = "CustomerComboBox";
             CustomerComboBox.Size = new Size(319, 23);
             CustomerComboBox.TabIndex = 4;
+            CustomerComboBox.SelectedIndexChanged += CustomerComboBox_SelectedIndexChanged;
             // 
             // CartContentListBox
             // 
@@ -174,7 +175,7 @@
             Controls.Add(CustomerLabel);
             Controls.Add(AddToCartButton);
             Controls.Add(ItemsLabel);
-            Controls.Add(ItemsListBox);
+            Controls.Add(ItemsCartsListBox);
             Name = "CartsTab";
             Size = new Size(666, 510);
             ResumeLayout(false);
@@ -183,7 +184,7 @@
 
         #endregion
 
-        private ListBox ItemsListBox;
+        private ListBox ItemsCartsListBox;
         private Label ItemsLabel;
         private Button AddToCartButton;
         private Label CustomerLabel;

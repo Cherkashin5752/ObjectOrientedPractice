@@ -28,7 +28,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Адрес заказа
         /// </summary>
-        private string _address;
+        private Address _address;
         
         /// <summary>
         /// Список товаров в заказе
@@ -61,7 +61,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Возвращает и задаёт адрес заказа
         /// </summary>
-        public string Address
+        public Address Address
         {
             get { return _address; }
             init {_address = value; }

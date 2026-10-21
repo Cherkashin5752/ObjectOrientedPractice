@@ -13,7 +13,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Список товаров в корщине
         /// </summary>
-        private BindingList<Item> _items;
+        private BindingList<Item> _items = new();
 
         /// <summary>
         /// Возвращает и задаёт список товаров в корщине
