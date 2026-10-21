@@ -1,4 +1,5 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
 using ObjectOrientedPractics.Service;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,9 @@ using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.View.Panels
 {
+    /// <summary>
+    /// Пользовательский элемент, который осуществляет логику работы с товарами
+    /// </summary>
     public partial class ItemsTab : UserControl
     {
         /// <summary>
@@ -17,12 +21,35 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         private BindingList<Item> _items = new();
 
+        /// <summary>
+        /// Возвращает и задаёт список товаров
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        internal BindingList<Item> Items
+        {
+            get
+            {
+                return _items;
+            }
+            set
+            {
+                _items = value;
+                RefreshItemsListBox();
+            }
+        }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="ItemsTab"/>.
+        /// Загружает сохранённые товары из файла JSON и настраивает фабрику генерации товаров.
+        /// </summary>
         public ItemsTab()
         {
             InitializeComponent();
 
-            ItemsListBox.DataSource = _items;
+            ItemsListBox.DataSource = Items;
             ItemsListBox.DisplayMember = "Name";
+
+            CategoryComboBox.DataSource = Enum.GetValues<ProductCategory>();
 
             try
             {
@@ -32,7 +59,7 @@ namespace ObjectOrientedPractics.View.Panels
 
                 if (tempItems != null)
                 {
-                    _items = tempItems;
+                    Items = tempItems;
                 }
 
                 RefreshItemsListBox();
@@ -40,25 +67,40 @@ namespace ObjectOrientedPractics.View.Panels
             catch { }
         }
 
+        /// <summary>
+        /// Обработчик события нажатия на кнопку добавления товара по умолчанию.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void AddDefaultButton_Click(object sender, EventArgs e)
         {
             Item newItem = new Item();
-            _items.Add(newItem);
+            Items.Add(newItem);
         }
 
+        /// <summary>
+        /// Оработчик события нажатия на кнопку добавления случайного товара.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void AddRandomButton_Click(object sender, EventArgs e)
         {
-            Model.Item newItem = ItemFactory.GenerateItem();
-            _items.Add(newItem);
+            Item newItem = ItemFactory.GenerateItem();
+            Items.Add(newItem);
         }
 
+        /// <summary>
+        /// Обработчик события нажатия на кнопку удаления выбранного товара.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void RemoveButton_Click(object sender, EventArgs e)
         {
             if (ItemsListBox.SelectedIndex != -1)
             {
                 int selectedIndex = ItemsListBox.SelectedIndex;
 
-                _items.RemoveAt(selectedIndex);
+                Items.RemoveAt(selectedIndex);
 
                 ItemsListBox.SelectedIndex = -1;
 
@@ -66,58 +108,104 @@ namespace ObjectOrientedPractics.View.Panels
             }
         }
 
+        /// <summary>
+        /// Обработчик события изменения стоимости в поле товара.
+        /// Валидирует поле и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void CostTextBox_TextChanged(object sender, EventArgs e)
         {
             if (ItemsListBox.SelectedIndex != -1)
             {
                 try
                 {
-                    _items[ItemsListBox.SelectedIndex].Cost = double.Parse(CostTextBox.Text);
+                    Items[ItemsListBox.SelectedIndex].Cost = double.Parse(CostTextBox.Text);
                     CostTextBox.BackColor = Color.White;
                 }
                 catch { CostTextBox.BackColor = Color.LightPink; }
             }
         }
 
+        /// <summary>
+        /// Обработчик события изменения текста в поле названия товара.
+        /// Валидирует ввод и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void NameTextBox_TextChanged(object sender, EventArgs e)
         {
             if (ItemsListBox.SelectedIndex != -1)
             {
                 try
                 {
-                    _items[ItemsListBox.SelectedIndex].Name = NameTextBox.Text;
+                    Items[ItemsListBox.SelectedIndex].Name = NameTextBox.Text;
                     NameTextBox.BackColor = Color.White;
                 }
                 catch { NameTextBox.BackColor = Color.LightPink; }
             }
         }
 
+        /// <summary>
+        /// Обработчик события потери фокуса поля названия товара.
+        /// Обновляет отображаемое название товара в <see cref="ItemsListBox"/>
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void NameTextBox_Leave(object sender, EventArgs e)
         {
             RefreshItemsListBox();
         }
 
+        /// <summary>
+        /// Обработчик события изменения текста в поле описания товара.
+        /// Валидирует ввод и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void DescriptionTextBox_TextChanged(object sender, EventArgs e)
         {
             if (ItemsListBox.SelectedIndex != -1)
             {
                 try
                 {
-                    _items[ItemsListBox.SelectedIndex].Info = DescriptionTextBox.Text;
+                    Items[ItemsListBox.SelectedIndex].Info = DescriptionTextBox.Text;
                     DescriptionTextBox.BackColor = Color.White;
                 }
                 catch { DescriptionTextBox.BackColor = Color.LightPink; }
             }
         }
 
+        /// <summary>
+        /// Обработчик события изменения выбранного элемента в выпадающем списке категории товара.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
+        private void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selectedIndex = ItemsListBox.SelectedIndex;
+
+            if (selectedIndex != -1)
+            {
+                Items[selectedIndex].Category = (ProductCategory)CategoryComboBox.SelectedItem;
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события изменения выбраного элемента в списке товаров.
+        /// Заполняет текстовые поля информацией о выбранном товаре.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void ItemsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ItemsListBox.SelectedIndex != -1)
             {
-                IDTextBox.Text = ((Model.Item)ItemsListBox.SelectedItem).ID.ToString();
-                NameTextBox.Text = ((Model.Item)ItemsListBox.SelectedItem).Name;
-                DescriptionTextBox.Text = ((Model.Item)ItemsListBox.SelectedItem).Info;
-                CostTextBox.Text = ((Model.Item)ItemsListBox.SelectedItem).Cost.ToString();
+                IDTextBox.Text = ((Item)ItemsListBox.SelectedItem).ID.ToString();
+                NameTextBox.Text = ((Item)ItemsListBox.SelectedItem).Name;
+                DescriptionTextBox.Text = ((Item)ItemsListBox.SelectedItem).Info;
+                CostTextBox.Text = ((Item)ItemsListBox.SelectedItem).Cost.ToString();
+                CategoryComboBox.SelectedItem = ((Item)ItemsListBox.SelectedItem).Category;
             }
             else
             {
@@ -134,6 +222,7 @@ namespace ObjectOrientedPractics.View.Panels
             CostTextBox.Text = "";
             NameTextBox.Text = "";
             DescriptionTextBox.Text = "";
+            CategoryComboBox.SelectedIndex = -1;
         }
 
         /// <summary>
@@ -142,13 +231,16 @@ namespace ObjectOrientedPractics.View.Panels
         private void RefreshItemsListBox()
         {
             ItemsListBox.DataSource = null;
-            ItemsListBox.DataSource = _items;
+            ItemsListBox.DataSource = Items;
             ItemsListBox.DisplayMember = "Name";
         }
 
+        /// <summary>
+        /// Сериализует список товаров 
+        /// </summary>
         public void SerializeItems()
         {
-            ProjectSerializer.SerializeJsonItemsFile(_items, "\\Saved Data\\Item Objects.json");
+            ProjectSerializer.SerializeJsonItemsFile(Items, "\\Saved Data\\Item Objects.json");
         }
     }
 }

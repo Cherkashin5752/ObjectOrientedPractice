@@ -5,11 +5,11 @@ using System.Text;
 
 namespace ObjectOrientedPractics.Service
 {
-    internal class PathService
+    static internal class PathService
     {
         static public string GetProjectRootDir()
         {
-            string tempPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string tempPath = Assembly.GetExecutingAssembly().Location;
 
             string path = "";
 

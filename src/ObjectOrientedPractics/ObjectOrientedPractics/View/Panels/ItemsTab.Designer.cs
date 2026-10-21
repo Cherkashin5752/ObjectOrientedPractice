@@ -34,6 +34,8 @@
             AddDefaultButton = new Button();
             ItemsListBox = new ListBox();
             SelectedItemGroupBox = new GroupBox();
+            CategoryLabel = new Label();
+            CategoryComboBox = new ComboBox();
             DescriptionLabel = new Label();
             NameLabel = new Label();
             label2 = new Label();
@@ -106,6 +108,8 @@
             // SelectedItemGroupBox
             // 
             SelectedItemGroupBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            SelectedItemGroupBox.Controls.Add(CategoryLabel);
+            SelectedItemGroupBox.Controls.Add(CategoryComboBox);
             SelectedItemGroupBox.Controls.Add(DescriptionLabel);
             SelectedItemGroupBox.Controls.Add(NameLabel);
             SelectedItemGroupBox.Controls.Add(label2);
@@ -121,11 +125,29 @@
             SelectedItemGroupBox.TabStop = false;
             SelectedItemGroupBox.Text = "Selected Item";
             // 
+            // CategoryLabel
+            // 
+            CategoryLabel.AutoSize = true;
+            CategoryLabel.Location = new Point(6, 90);
+            CategoryLabel.Name = "CategoryLabel";
+            CategoryLabel.Size = new Size(58, 15);
+            CategoryLabel.TabIndex = 9;
+            CategoryLabel.Text = "Category:";
+            // 
+            // CategoryComboBox
+            // 
+            CategoryComboBox.FormattingEnabled = true;
+            CategoryComboBox.Location = new Point(76, 87);
+            CategoryComboBox.Name = "CategoryComboBox";
+            CategoryComboBox.Size = new Size(126, 23);
+            CategoryComboBox.TabIndex = 8;
+            CategoryComboBox.SelectedIndexChanged += CategoryComboBox_SelectedIndexChanged;
+            // 
             // DescriptionLabel
             // 
             DescriptionLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             DescriptionLabel.AutoSize = true;
-            DescriptionLabel.Location = new Point(6, 255);
+            DescriptionLabel.Location = new Point(6, 265);
             DescriptionLabel.Name = "DescriptionLabel";
             DescriptionLabel.Size = new Size(70, 15);
             DescriptionLabel.TabIndex = 7;
@@ -135,7 +157,7 @@
             // 
             NameLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             NameLabel.AutoSize = true;
-            NameLabel.Location = new Point(6, 114);
+            NameLabel.Location = new Point(6, 124);
             NameLabel.Name = "NameLabel";
             NameLabel.Size = new Size(42, 15);
             NameLabel.TabIndex = 6;
@@ -162,7 +184,7 @@
             // DescriptionTextBox
             // 
             DescriptionTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            DescriptionTextBox.Location = new Point(6, 273);
+            DescriptionTextBox.Location = new Point(6, 283);
             DescriptionTextBox.Multiline = true;
             DescriptionTextBox.Name = "DescriptionTextBox";
             DescriptionTextBox.Size = new Size(391, 146);
@@ -172,7 +194,7 @@
             // NameTextBox
             // 
             NameTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            NameTextBox.Location = new Point(6, 132);
+            NameTextBox.Location = new Point(6, 142);
             NameTextBox.Multiline = true;
             NameTextBox.Name = "NameTextBox";
             NameTextBox.Size = new Size(391, 100);
@@ -226,5 +248,7 @@
         private TextBox NameTextBox;
         private TextBox CostTextBox;
         private TextBox IDTextBox;
+        private Label CategoryLabel;
+        private ComboBox CategoryComboBox;
     }
 }

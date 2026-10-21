@@ -10,6 +10,9 @@ using ObjectOrientedPractics.Service;
 
 namespace ObjectOrientedPractics.View.Panels
 {
+    /// <summary>
+    /// Пользовательский элемент, который осуществляет логику работы с покупателями
+    /// </summary>
     public partial class CustomersTab : UserControl
     {
         /// <summary>
@@ -17,6 +20,28 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         private BindingList<Customer> _customers = new();
 
+        /// <summary>
+        /// Возвращает и задаёт список покупателей
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        internal BindingList<Customer> Customers
+        {
+            get
+            {
+                return _customers;
+            }
+            set
+            {
+                _customers = value;
+                RefreshCustomersListBox();
+            }
+        }
+
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="CustomersTab"/>.
+        /// Загружает сохранённых покупателей из файла JSON и настраивает фабрику генерации покупателей.
+        /// </summary>
         public CustomersTab()
         {
             InitializeComponent();
@@ -40,18 +65,33 @@ namespace ObjectOrientedPractics.View.Panels
             catch { }
         }
 
+        /// <summary>
+        /// Обработчик события нажатия на кнопку добавления покупателя по умолчанию.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void AddDefaultButton_Click(object sender, EventArgs e)
         {
             Customer newCustomer = new Customer();
             _customers.Add(newCustomer);
         }
 
+        /// <summary>
+        /// Обработчик события нажатия на кнопку добавления случайного покупателя.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void AddRandomButton_Click(object sender, EventArgs e)
         {
             Customer newCustomer = CustomerFactory.GenerateCustomer();
             _customers.Add(newCustomer);
         }
 
+        /// <summary>
+        /// Обработчик события нажатия на кнопку удаления выбранного покупателя.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void RemoveButton_Click(object sender, EventArgs e)
         {
             if (CustomersListBox.SelectedIndex != -1)
@@ -67,6 +107,12 @@ namespace ObjectOrientedPractics.View.Panels
 
         }
 
+        /// <summary>
+        /// Обработчик события изменения текста в поле полного имени покупателя.
+        /// Валидирует ввод и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Пргументы события.</param>
         private void FullnameTextBox_TextChanged(object sender, EventArgs e)
         {
             if (CustomersListBox.SelectedIndex != -1)
@@ -80,31 +126,43 @@ namespace ObjectOrientedPractics.View.Panels
             }
         }
 
+        /// <summary>
+        /// Обработчик события потери фокуса поля полного имени покупателя.
+        /// Обновления отображаемого имени покупателя в <see cref="CustomersListBox"/>
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Пргументы события.</param>
         private void FullnameTextBox_Leave(object sender, EventArgs e)
         {
             RefreshCustomersListBox();
         }
 
-        private void AddressTextBox_TextChanged(object sender, EventArgs e)
+        /// <summary>
+        /// ОБработчик события изменения поля адреса покупателя
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Пргументы события.</param>
+        private void addressControl1_OnAddressChanged(object sender, EventArgs e)
         {
             if (CustomersListBox.SelectedIndex != -1)
             {
-                try
-                {
-                    _customers[CustomersListBox.SelectedIndex].Address = AddressTextBox.Text;
-                    AddressTextBox.BackColor = Color.White;
-                }
-                catch { AddressTextBox.BackColor = Color.LightPink; }
+                _customers[CustomersListBox.SelectedIndex].Address = addressControl1.CurrentAddress;
             }
         }
 
+        /// <summary>
+        /// Обработчик события изменения выбранного элемента в списке покупателей.
+        /// Заполняет текстовые поля информацией о выбранном покупателе.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Пргументы события.</param>
         private void CustomersListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (CustomersListBox.SelectedIndex != -1)
             {
                 IDTextBox.Text = ((Customer)CustomersListBox.SelectedItem).ID.ToString();
                 FullnameTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Fullname;
-                AddressTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Address;
+                addressControl1.CurrentAddress = ((Customer)CustomersListBox.SelectedItem).Address;
             }
             else
             {
@@ -119,7 +177,7 @@ namespace ObjectOrientedPractics.View.Panels
         {
             IDTextBox.Text = "";
             FullnameTextBox.Text = "";
-            AddressTextBox.Text = "";
+            addressControl1.CurrentAddress = null;
         }
 
         /// <summary>
@@ -127,11 +185,12 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         private void RefreshCustomersListBox()
         {
-            CustomersListBox.DataSource = null;
             CustomersListBox.DataSource = _customers;
-            CustomersListBox.DisplayMember = "Fullname";
         }
 
+        /// <summary>
+        /// Сериализует список покупателей
+        /// </summary>
         public void SerializeCustomers()
         {
             ProjectSerializer.SerializeJsonCustomersFile(_customers, "\\Saved Data\\Customer Objects.json");

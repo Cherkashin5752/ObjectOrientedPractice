@@ -1,13 +1,18 @@
-﻿using ObjectOrientedPractics.Service;
+﻿using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Service;
 using ObjectOrientedPractics.View.Panels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net;
 using System.Text;
 
 namespace ObjectOrientedPractics.Model
 {
-    public class Customer
+    /// <summary>
+    /// Хранит ID, полное имя и адрес покупателя
+    /// </summary>
+    internal class Customer
     {
         /// <summary>
         /// Счётчик для генерации уникальных Id
@@ -27,7 +32,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Адрес покупателя
         /// </summary>
-        private string _address;
+        private Address _address;
 
         /// <summary>
         /// Корзина покупателя
@@ -66,7 +71,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Возвращает и задаёт адрес покупателя
         /// </summary>
-        public string Address
+        public Address Address
         {
             get
             {
@@ -74,33 +79,8 @@ namespace ObjectOrientedPractics.Model
             }
             set
             {
-                if (ValueValidator.AssertStringOnLength(value, 500, "Address"))
-                {
-                    _address = value;
-                }
-                else
-                {
-                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
-                }
+                _address = value;
             }
-        }
-
-        /// <summary>
-        /// Возвращает и задаёт корзину покупателя
-        /// </summary>
-        public Cart Cart
-        {
-            get { return _cart; }
-            set { _cart = value; }
-        }
-
-        /// <summary>
-        /// Возвращает и задаёт список заказов
-        /// </summary>
-        public List<Order> Orders
-        {
-            get { return _orders; }
-            set { _orders = value; }
         }
 
         /// <summary>
@@ -110,23 +90,19 @@ namespace ObjectOrientedPractics.Model
         {
             ID = _idCounter++;
             Fullname = "Default fullname";
-            Address = "Default";
-            Cart = new Cart();
-            Orders = new List<Order>();
+            Address = new Address();
         }
 
         /// <summary>
-        /// Инициализирует новый экземаляр класса <see cref="Customer">
+        /// Инициализирует новый экземпляр класса <see cref="Customer">
         /// </summary>
         /// <param name="fullname">Имя покупателя</param>
         /// <param name="address">Адрес покупателя</param>
-        public Customer(string fullname, string address)
+        public Customer(string fullname, Address address)
         {
             ID = _idCounter++;
             Fullname = fullname;
-            Address = address;
-            Cart = new Cart();
-            Orders = new List<Order>();
+            Address = new Address(address);
         }
     }
 }
