@@ -70,6 +70,7 @@
             AddToCartButton.TabIndex = 2;
             AddToCartButton.Text = "Add to Cart";
             AddToCartButton.UseVisualStyleBackColor = true;
+            AddToCartButton.Click += AddToCartButton_Click;
             // 
             // CustomerLabel
             // 
@@ -150,6 +151,7 @@
             RemoveItemButotn.TabIndex = 10;
             RemoveItemButotn.Text = "Remove item";
             RemoveItemButotn.UseVisualStyleBackColor = true;
+            RemoveItemButotn.Click += RemoveItemButotn_Click;
             // 
             // CreateOrderButton
             // 

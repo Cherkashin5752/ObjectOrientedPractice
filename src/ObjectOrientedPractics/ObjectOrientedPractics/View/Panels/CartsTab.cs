@@ -55,11 +55,30 @@ namespace ObjectOrientedPractics.View.Panels
         {
             if (CustomerComboBox.SelectedIndex != -1)
             {
-                CartContentListBox.DataSource = ((Customer)CustomerComboBox.SelectedItem).Cart.Items;
+                CurrentCustomer = (Customer)CustomerComboBox.SelectedItem;
+                RefreshCartContentListBox();
             }
             else
             {
                 CartContentListBox.DataSource = null;
+            }
+        }
+
+        private void AddToCartButton_Click(object sender, EventArgs e)
+        {
+            if (ItemsCartsListBox.SelectedIndex != -1)
+            {
+                CurrentCustomer.Cart.Items.Add((Item)ItemsCartsListBox.SelectedItem);
+                RefreshCartContentListBox();
+            }
+        }
+
+        private void RemoveItemButotn_Click(object sender, EventArgs e)
+        {
+            if (ItemsCartsListBox.SelectedIndex != -1)
+            {
+                CurrentCustomer.Cart.Items.Remove((Item)ItemsCartsListBox.SelectedItem);
+                RefreshCartContentListBox();
             }
         }
 
@@ -71,6 +90,13 @@ namespace ObjectOrientedPractics.View.Panels
         private void RefreshCustomerComboBox()
         {
             CustomerComboBox.DataSource = Customers;
+            CustomerComboBox.DisplayMember = "Fullname";
+        }
+        
+        private void RefreshCartContentListBox()
+        {
+            CartContentListBox.DataSource = CurrentCustomer.Cart.Items;
+            CartContentListBox.DisplayMember = "Name";
         }
     }
 }
