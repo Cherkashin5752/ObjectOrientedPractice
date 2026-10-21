@@ -50,7 +50,7 @@
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(562, 434);
+            tabControl1.Size = new Size(600, 464);
             tabControl1.TabIndex = 0;
             // 
             // ItemsTab
@@ -59,7 +59,7 @@
             ItemsTab.Location = new Point(4, 24);
             ItemsTab.Name = "ItemsTab";
             ItemsTab.Padding = new Padding(3);
-            ItemsTab.Size = new Size(612, 488);
+            ItemsTab.Size = new Size(592, 436);
             ItemsTab.TabIndex = 0;
             ItemsTab.Text = "Items";
             ItemsTab.UseVisualStyleBackColor = true;
@@ -69,7 +69,7 @@
             itemsTab1.Dock = DockStyle.Fill;
             itemsTab1.Location = new Point(3, 3);
             itemsTab1.Name = "itemsTab1";
-            itemsTab1.Size = new Size(606, 482);
+            itemsTab1.Size = new Size(586, 430);
             itemsTab1.TabIndex = 0;
             // 
             // CustomersTab
@@ -78,7 +78,7 @@
             CustomersTab.Location = new Point(4, 24);
             CustomersTab.Name = "CustomersTab";
             CustomersTab.Padding = new Padding(3);
-            CustomersTab.Size = new Size(612, 488);
+            CustomersTab.Size = new Size(554, 406);
             CustomersTab.TabIndex = 1;
             CustomersTab.Text = "Customers";
             CustomersTab.UseVisualStyleBackColor = true;
@@ -88,7 +88,7 @@
             customersTab1.Dock = DockStyle.Fill;
             customersTab1.Location = new Point(3, 3);
             customersTab1.Name = "customersTab1";
-            customersTab1.Size = new Size(606, 482);
+            customersTab1.Size = new Size(548, 400);
             customersTab1.TabIndex = 0;
             // 
             // CartsTab
@@ -113,8 +113,9 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(562, 434);
+            ClientSize = new Size(600, 464);
             Controls.Add(tabControl1);
+            MinimumSize = new Size(616, 503);
             Name = "Main";
             Text = "Form1";
             FormClosing += Main_FormClosing;
