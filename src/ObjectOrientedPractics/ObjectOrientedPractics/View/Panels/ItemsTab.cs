@@ -46,7 +46,7 @@ namespace ObjectOrientedPractics.View.Panels
         {
             InitializeComponent();
 
-            ItemsListBox.DataSource = _items;
+            ItemsListBox.DataSource = Enum.GetNames<ProductCategory>();
             ItemsListBox.DisplayMember = "Name";
 
             CategoryComboBox.DataSource = Enum.GetValues<ProductCategory>();
@@ -230,7 +230,9 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         private void RefreshItemsListBox()
         {
+            ItemsListBox.DataSource = null;
             ItemsListBox.DataSource = Items;
+            ItemsListBox.DisplayMember = "Name";
         }
 
         /// <summary>

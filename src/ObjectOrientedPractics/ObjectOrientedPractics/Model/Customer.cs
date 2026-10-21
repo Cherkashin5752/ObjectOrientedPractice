@@ -91,7 +91,7 @@ namespace ObjectOrientedPractics.Model
         {
             ID = _idCounter++;
             Fullname = fullname;
-            Address = address;
+            Address = new Address(address);
         }
     }
 }
