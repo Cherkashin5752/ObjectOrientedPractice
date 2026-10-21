@@ -8,7 +8,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Класс корщины
     /// </summary>
-    internal class Cart
+    public class Cart
     {
         /// <summary>
         /// Список товаров в корщине

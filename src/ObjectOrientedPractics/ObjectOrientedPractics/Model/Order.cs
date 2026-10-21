@@ -8,7 +8,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Класс заказов
     /// </summary>
-    internal class Order
+    public class Order
     {
         /// <summary>
         /// Счётчик для генерации уникальных Id

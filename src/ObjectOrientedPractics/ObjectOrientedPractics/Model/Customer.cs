@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ObjectOrientedPractics.Model
 {
-    internal class Customer
+    public class Customer
     {
         /// <summary>
         /// Счётчик для генерации уникальных Id

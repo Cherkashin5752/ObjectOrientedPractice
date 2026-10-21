@@ -116,7 +116,7 @@
             SelectedCustomerGroupBox.Size = new Size(403, 193);
             SelectedCustomerGroupBox.TabIndex = 1;
             SelectedCustomerGroupBox.TabStop = false;
-            SelectedCustomerGroupBox.Text = "groupBox2";
+            SelectedCustomerGroupBox.Text = "Customers Info";
             // 
             // AddressLabel
             // 
@@ -205,11 +205,11 @@
         private Button RemoveButton;
         private Button AddDefaultButton;
         private TextBox IDTextBox;
-        private Panel Panel1;
         private Label AddressLabel;
         private Label FullNameLabel;
         private Label IDLabel;
         private TextBox AddressTextBox;
         private TextBox FullnameTextBox;
+        private Panel Panel1;
     }
 }
