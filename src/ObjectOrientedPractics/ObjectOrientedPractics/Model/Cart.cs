@@ -16,7 +16,7 @@ namespace ObjectOrientedPractics.Model
         private BindingList<Item> _items;
 
         /// <summary>
-        /// 
+        /// Возвращает и задаёт список товаров в корщине
         /// </summary>
         public BindingList<Item> Items
         {
@@ -30,6 +30,9 @@ namespace ObjectOrientedPractics.Model
             }
         }
     
+        /// <summary>
+        /// Возвращает общую стоимость всех товаров в корзине
+        /// </summary>
         public double Amount
         {
             get

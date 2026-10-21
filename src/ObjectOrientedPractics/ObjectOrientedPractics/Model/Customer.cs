@@ -35,6 +35,11 @@ namespace ObjectOrientedPractics.Model
         private Cart _cart;
 
         /// <summary>
+        /// Список заказов покупателя
+        /// </summary>
+        private List<Order> _orders;
+
+        /// <summary>
         /// Возвращает Id товара
         /// </summary>
         public int ID { get { return _id; } init { _id = value; } }
@@ -88,7 +93,16 @@ namespace ObjectOrientedPractics.Model
             get { return _cart; }
             set { _cart = value; }
         }
-        
+
+        /// <summary>
+        /// Возвращает и задаёт список заказов
+        /// </summary>
+        public List<Order> Orders
+        {
+            get { return _orders; }
+            set { _orders = value; }
+        }
+
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Customer">
         /// </summary>
@@ -98,6 +112,7 @@ namespace ObjectOrientedPractics.Model
             Fullname = "Default fullname";
             Address = "Default";
             Cart = new Cart();
+            Orders = new List<Order>();
         }
 
         /// <summary>
@@ -111,6 +126,7 @@ namespace ObjectOrientedPractics.Model
             Fullname = fullname;
             Address = address;
             Cart = new Cart();
+            Orders = new List<Order>();
         }
     }
 }
