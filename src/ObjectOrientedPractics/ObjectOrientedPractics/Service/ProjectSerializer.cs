@@ -17,7 +17,7 @@ namespace ObjectOrientedPractics.Service
         static public BindingList<Item> DeserializeJsonItemsFile(string path)
         {
             string itemsJsonText = File.ReadAllText(PathService.GetProjectRootDir() + path);
-
+            ///
             BindingList<Item> items = JsonConvert.DeserializeObject<BindingList<Item>>(itemsJsonText);
 
             return items;

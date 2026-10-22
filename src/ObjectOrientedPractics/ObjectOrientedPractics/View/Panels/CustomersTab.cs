@@ -185,7 +185,9 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         private void RefreshCustomersListBox()
         {
+            CustomersListBox.DataSource = null;
             CustomersListBox.DataSource = _customers;
+            CustomersListBox.DisplayMember = "Fullname";
         }
 
         /// <summary>

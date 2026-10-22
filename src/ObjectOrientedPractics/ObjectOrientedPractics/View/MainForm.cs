@@ -46,5 +46,14 @@ namespace ObjectOrientedPractics
         {
             ProjectSerializer.SerializeJsonStoreFile(_store, "\\Saved Data\\Store Object.json");
         }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedTab == CartsTab)
+            {
+                cartsTab1.RefreshCustomerComboBox();
+                cartsTab1.RefreshItemsCartsListBox();
+            }
+        }
     }
 }

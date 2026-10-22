@@ -155,17 +155,21 @@ namespace ObjectOrientedPractics.View.Panels
         /// <summary>
         /// Обновление отображения ItemsCartsListBox
         /// </summary>
-        private void RefreshItemsCartsListBox()
+        public void RefreshItemsCartsListBox()
         {
+            ItemsCartsListBox.DataSource = null;
             ItemsCartsListBox.DataSource = Items;
+            ItemsCartsListBox.DisplayMember = "Name";
         }
 
         /// <summary>
         /// Обновления отображения CustomerComboBox
         /// </summary>
-        private void RefreshCustomerComboBox()
+        public void RefreshCustomerComboBox()
         {
+            CustomerComboBox.DataSource = null;
             CustomerComboBox.DataSource = Customers;
+            CustomerComboBox.DisplayMember = "Fullname";
         }
 
         /// <summary>
@@ -173,7 +177,9 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         private void RefreshCartContentListBox()
         {
+            CartContentListBox.DataSource = null;
             CartContentListBox.DataSource = CurrentCustomer.Cart.Items;
+            CartContentListBox.DisplayMember = "Name";
         }
 
         /// <summary>
