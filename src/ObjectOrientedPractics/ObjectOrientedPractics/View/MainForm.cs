@@ -1,5 +1,6 @@
 using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Service;
+using System.ComponentModel;
 
 namespace ObjectOrientedPractics
 {
@@ -33,11 +34,13 @@ namespace ObjectOrientedPractics
             catch { }
 
             itemsTab1.Items = _store.Items;
+            
             customersTab1.Customers = _store.Customers;
+            
             cartsTab1.Items = _store.Items;
             cartsTab1.Customers = _store.Customers;
+
             ordersTab1.Customers = _store.Customers;
-            
             
             if (_store.Items.Count > 0)
             {
