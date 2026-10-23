@@ -57,10 +57,6 @@ namespace ObjectOrientedPractics.Model
                 {
                     _name = value;
                 }
-                else
-                {
-                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
-                }
             }
         }
 
@@ -76,10 +72,6 @@ namespace ObjectOrientedPractics.Model
                 {
                     _info = value;
                 }
-                else
-                {
-                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
-                }
             }
         }
 
@@ -91,13 +83,9 @@ namespace ObjectOrientedPractics.Model
             get { return _cost; }
             set
             {
-                if (value >= 0.0 && value <= 100000.0)
+                if (ValueValidator.ValueInRange(value, 0.0, 100000.0, "Cost"))
                 {
                     _cost = value;
-                }
-                else
-                {
-                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
                 }
             }
         }

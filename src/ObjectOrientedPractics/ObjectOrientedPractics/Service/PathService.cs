@@ -13,16 +13,17 @@ namespace ObjectOrientedPractics.Service
         /// <returns>Путь к исполняемому файлу проекта</returns>
         static public string GetProjectRootDir()
         {
-            string tempPath = Assembly.GetExecutingAssembly().Location;
+            return AppDomain.CurrentDomain.BaseDirectory;
+        }
 
-            string path = "";
+        static public void CreateDirectoryExist(string path)
+        {
+            string directory = Path.GetDirectoryName(PathService.GetProjectRootDir() + path);
 
-            for (int i = 0; i < tempPath.LastIndexOf("\\"); i++)
+            if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
             {
-                path += tempPath[i];
+                Directory.CreateDirectory(directory);
             }
-
-            return path;
         }
     }
 }

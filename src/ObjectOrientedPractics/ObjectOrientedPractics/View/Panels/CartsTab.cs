@@ -202,7 +202,7 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         private void ClearCart()
         {
-            CurrentCustomer.Cart = new();
+            CurrentCustomer.Cart.Items.Clear();
             RefreshCartContentListBox();
             RefreshCartAmount();
         }

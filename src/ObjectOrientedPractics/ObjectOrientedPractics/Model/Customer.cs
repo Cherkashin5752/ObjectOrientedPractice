@@ -61,10 +61,6 @@ namespace ObjectOrientedPractics.Model
                 {
                     _fullname = value;
                 }
-                else
-                {
-                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
-                }
             }
         }
 

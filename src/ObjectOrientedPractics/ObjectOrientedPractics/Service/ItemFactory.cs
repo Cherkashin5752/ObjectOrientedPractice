@@ -29,6 +29,8 @@ namespace ObjectOrientedPractics.Service
         /// </summary>
         static private List<string> _info = new List<string>();
 
+        static private List<ProductCategory> _caregories = new List<ProductCategory>();
+
         static private Random _random = new Random();
         /// <summary>
         /// Генерирует и возвращает товар со случайным состоянием
@@ -60,7 +62,7 @@ namespace ObjectOrientedPractics.Service
 
             int newCost = _random.Next(100_000);
 
-            ProductCategory newCategory = (ProductCategory)_random.Next(Enum.GetNames<ProductCategory>().Length);
+            ProductCategory newCategory = _caregories[_random.Next(_caregories.Count - 1)];
 
             Item newItem = new Item(newName, newInfo, newCost, newCategory);
 
@@ -85,6 +87,8 @@ namespace ObjectOrientedPractics.Service
             {
                 _info = JsonConvert.DeserializeObject<List<string>>(reader);
             }
+
+            _caregories = Enum.GetValues<ProductCategory>().ToList();
 
             if (_names != null && _info != null)
             {

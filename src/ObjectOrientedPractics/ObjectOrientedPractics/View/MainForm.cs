@@ -16,9 +16,9 @@ namespace ObjectOrientedPractics
 
             try
             {
-                string jsonPath = "\\Saved Data\\Store Object.json";
+                string jsonPath = "Saved Data\\Store Object.json";
 
-                Store tempStore = ProjectSerializer.DeserializeJsonStoreFile(jsonPath);
+                Store tempStore = ProjectSerializer.Deserialize<Store>(jsonPath);
 
                 if (tempStore == null)
                 {
@@ -36,10 +36,13 @@ namespace ObjectOrientedPractics
             ordersTab1.Customers = _store.Customers;
             
             
-            if (_store.Items.Count != 0 || _store.Customers.Count != 0)
+            if (_store.Items.Count > 0)
             {
                 Item.SetIdCounter(_store.Items.Max(items => items.Id));
+            }
 
+            if (_store.Customers.Count > 0)
+            {
                 Customer.SetIdCounter(_store.Customers.Max(customer => customer.Id));
 
                 int maxOrderId = _store.Customers
@@ -59,7 +62,7 @@ namespace ObjectOrientedPractics
         /// <param name="e">Аргумент события.</param>
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            ProjectSerializer.SerializeJsonStoreFile(_store, "\\Saved Data\\Store Object.json");
+            ProjectSerializer.Serialize<Store>(_store, "Saved Data\\Store Object.json");
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)

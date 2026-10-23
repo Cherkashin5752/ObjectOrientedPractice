@@ -113,7 +113,7 @@ namespace ObjectOrientedPractics.Model
             Id = _idCounter++;
             CreateTime = DateTime.Now;
             Address = new Address(customer.Address);
-            Items = new BindingList<Item>(customer.Cart.Items);
+            Items = new BindingList<Item>(customer.Cart.Items.ToList());
             Amount = customer.Cart.Amount;
             Status = OrderStatus.New;
         }

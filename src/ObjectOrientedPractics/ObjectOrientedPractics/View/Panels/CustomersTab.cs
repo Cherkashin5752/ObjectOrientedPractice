@@ -46,21 +46,9 @@ namespace ObjectOrientedPractics.View.Panels
         {
             InitializeComponent();
 
-            CustomersListBox.DataSource = _customers;
-            CustomersListBox.DisplayMember = "Fullname";
-
             try
             {
                 CustomerFactory.SetUpCustomerFactory();
-
-                BindingList<Customer> tempCustomer = ProjectSerializer.DeserializeJsonCustomersFile("\\Saved Data\\Customer Objects.json");
-
-                if (tempCustomer != null)
-                {
-                    _customers = tempCustomer;
-                }
-
-                RefreshCustomersListBox();
             }
             catch { }
 
@@ -136,7 +124,8 @@ namespace ObjectOrientedPractics.View.Panels
         /// <param name="e">Пргументы события.</param>
         private void FullnameTextBox_Leave(object sender, EventArgs e)
         {
-            RefreshCustomersListBox();
+            int selectedCustomerIndex = CustomersListBox.SelectedIndex;
+            Customers.ResetItem(selectedCustomerIndex);
         }
 
         /// <summary>
@@ -190,14 +179,6 @@ namespace ObjectOrientedPractics.View.Panels
             CustomersListBox.DataSource = null;
             CustomersListBox.DataSource = _customers;
             CustomersListBox.DisplayMember = "Fullname";
-        }
-
-        /// <summary>
-        /// Сериализует список покупателей
-        /// </summary>
-        public void SerializeCustomers()
-        {
-            ProjectSerializer.SerializeJsonCustomersFile(_customers, "\\Saved Data\\Customer Objects.json");
         }
     }
 }
