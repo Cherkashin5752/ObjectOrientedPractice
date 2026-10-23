@@ -24,7 +24,7 @@ namespace ObjectOrientedPractics.View.Panels
         /// Возвращает и задаёт список покупателей
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        internal BindingList<Customer> Customers
+        public BindingList<Customer> Customers
         {
             get
             {
@@ -46,23 +46,13 @@ namespace ObjectOrientedPractics.View.Panels
         {
             InitializeComponent();
 
-            CustomersListBox.DataSource = _customers;
-            CustomersListBox.DisplayMember = "Fullname";
-
             try
             {
                 CustomerFactory.SetUpCustomerFactory();
-
-                BindingList<Customer> tempCustomer = ProjectSerializer.DeserializeJsonCustomersFile("\\Saved Data\\Customer Objects.json");
-
-                if (tempCustomer != null)
-                {
-                    _customers = tempCustomer;
-                }
-
-                RefreshCustomersListBox();
             }
             catch { }
+
+            addressControl1.ReadOnly = false;
         }
 
         /// <summary>
@@ -134,7 +124,8 @@ namespace ObjectOrientedPractics.View.Panels
         /// <param name="e">Пргументы события.</param>
         private void FullnameTextBox_Leave(object sender, EventArgs e)
         {
-            RefreshCustomersListBox();
+            int selectedCustomerIndex = CustomersListBox.SelectedIndex;
+            Customers.ResetItem(selectedCustomerIndex);
         }
 
         /// <summary>
@@ -160,7 +151,7 @@ namespace ObjectOrientedPractics.View.Panels
         {
             if (CustomersListBox.SelectedIndex != -1)
             {
-                IDTextBox.Text = ((Customer)CustomersListBox.SelectedItem).ID.ToString();
+                IDTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Id.ToString();
                 FullnameTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Fullname;
                 addressControl1.CurrentAddress = ((Customer)CustomersListBox.SelectedItem).Address;
             }
@@ -185,15 +176,9 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         private void RefreshCustomersListBox()
         {
+            CustomersListBox.DataSource = null;
             CustomersListBox.DataSource = _customers;
-        }
-
-        /// <summary>
-        /// Сериализует список покупателей
-        /// </summary>
-        public void SerializeCustomers()
-        {
-            ProjectSerializer.SerializeJsonCustomersFile(_customers, "\\Saved Data\\Customer Objects.json");
+            CustomersListBox.DisplayMember = "Fullname";
         }
     }
 }

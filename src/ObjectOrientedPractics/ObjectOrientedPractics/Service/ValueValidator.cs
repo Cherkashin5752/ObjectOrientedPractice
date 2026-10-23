@@ -54,7 +54,7 @@ namespace ObjectOrientedPractics.Service
         /// <param name="propetryName">Вызываемое свойство</param>
         /// <returns>Возвращает true, если число находится в диапазоне</returns>
         /// <exception cref="ArgumentException">Ошибка, если число не назодится в диапазоне</exception>
-        static public bool ValueInRange(int value, int min, int max, string propetryName)
+        static public bool ValueInRange(double value, double min, double max, string propetryName)
         {
             if (value > min && value < max)
             {

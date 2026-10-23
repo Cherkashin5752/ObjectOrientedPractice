@@ -1,0 +1,3648 @@
+﻿=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Program.cs ===
+namespace ObjectOrientedPractics
+{
+    internal static class Program
+    {
+        /// <summary>
+        ///  The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            // To customize application configuration such as set high DPI settings or default font,
+            // see https://aka.ms/applicationconfiguration.
+            ApplicationConfiguration.Initialize();
+            Application.Run(new MainForm());
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Model\Address.cs ===
+using ObjectOrientedPractics.Service;
+using System.Diagnostics.Metrics;
+
+namespace ObjectOrientedPractics.Model
+{
+    /// <summary>
+    /// Хранит адрес покупателя
+    /// </summary>
+    public class Address
+    {
+        /// <summary>
+        /// Индекс покупателя
+        /// </summary>
+        private int _index;
+
+        /// <summary>
+        /// Страна (регион) покупателя
+        /// </summary>
+        private string _country;
+
+        /// <summary>
+        /// Город покупателя
+        /// </summary>
+        private string _city;
+
+        /// <summary>
+        /// Улица покупателя
+        /// </summary>
+        private string _street;
+
+        /// <summary>
+        /// номер дома покупателя
+        /// </summary>
+        private string _building;
+
+        /// <summary>
+        /// Номер квартиры/помещения покупателя
+        /// </summary>
+        private string _apartment;
+
+        /// <summary>
+        /// Возвращает и задаёт индекс покупателя 
+        /// </summary>
+        public int Index
+        {
+            get { return _index; }
+            set
+            {
+                if (ValueValidator.ValueInRange(value, 99_999, 1_000_000, "Index"))
+                {
+                    _index = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт страну/регион покупателя
+        /// </summary>
+        public string Country
+        {
+            get { return _country; }
+            set
+            {
+                if (ValueValidator.AssertStringOnLength(value, 50, "Country"))
+                {
+                    _country = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт город покупателя
+        /// </summary>
+        public string City
+        {
+            get { return _city; }
+            set
+            {
+                if (ValueValidator.AssertStringOnLength(value, 50, "City"))
+                {
+                    _city = value;
+                }
+            }
+        }
+        /// <summary>
+        /// Возвращает и задаёт улицу покупателя
+        /// </summary>
+        public string Street
+        {
+            get { return _street; }
+            set
+            {
+                if (ValueValidator.AssertStringOnLength(value, 100, "Street"))
+                {
+                    _street = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт номер дома покупателя
+        /// </summary>
+        public string Building
+        {
+            get { return _building; }
+            set
+            {
+                if (ValueValidator.AssertStringOnLength(value, 10, "Building"))
+                {
+                    _building = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт номер квартиры/помещения покупателя
+        /// </summary>
+        public string Apartment
+        {
+            get { return _apartment; }
+            set
+            {
+                if (ValueValidator.AssertStringOnLength(value, 10, "Apartment"))
+                {
+                    _apartment = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Конструктор по умолчанию. Инициализирует новый экземпляр класса <see cref="Address"> с дефолтными значениями
+        /// </summary>
+        public Address()
+        {
+            Index = 100_000;
+            Country = "Default";
+            City = "Default";
+            Street = "Default";
+            Building = "Default";
+            Apartment = "Default";
+        }
+
+        /// <summary>
+        /// Конструктор копирования. Инициализирует новый экземпляр класса <see cref="Address">
+        /// </summary>
+        /// <param name="address"></param>
+        public Address(Address address)
+        {
+            Index = address.Index;
+            Country = address.Country;
+            City = address.City;
+            Street = address.Street;
+            Building = address.Building;
+            Apartment = address.Apartment;
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Model\Cart.cs ===
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
+
+namespace ObjectOrientedPractics.Model
+{
+    /// <summary>
+    /// Класс корщины
+    /// </summary>
+    public class Cart
+    {
+        /// <summary>
+        /// Список товаров в корщине
+        /// </summary>
+        private BindingList<Item> _items = new();
+
+        /// <summary>
+        /// Возвращает и задаёт список товаров в корщине
+        /// </summary>
+        public BindingList<Item> Items
+        {
+            get { return _items; }
+            set
+            {   
+                if (value != null)
+                {
+                    _items = value;
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Возвращает общую стоимость всех товаров в корзине
+        /// </summary>
+        public double Amount
+        {
+            get
+            {
+                if (Items == null || Items.Count == 0)
+                {
+                    return 0.0;
+                }
+
+                double sum = 0;
+
+                for (int i = 0; i < Items.Count; i++)
+                {
+                    sum += Items[i].Cost;
+                }
+
+                return sum;
+            }
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Model\Customer.cs ===
+using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Service;
+using ObjectOrientedPractics.View.Panels;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Net;
+using System.Text;
+
+namespace ObjectOrientedPractics.Model
+{
+    /// <summary>
+    /// Хранит ID, полное имя и адрес покупателя
+    /// </summary>
+    public class Customer
+    {
+        /// <summary>
+        /// Счётчик для генерации уникальных Id
+        /// </summary>
+        static private int _idCounter;
+
+        /// <summary>
+        /// Id покупателя
+        /// </summary>
+        private readonly int _id;
+
+        /// <summary>
+        /// Полное имя покупателя
+        /// </summary>
+        private string _fullname;
+
+        /// <summary>
+        /// Адрес покупателя
+        /// </summary>
+        private Address _address;
+
+        /// <summary>
+        /// Корзина покупателя
+        /// </summary>
+        private Cart _cart;
+
+        /// <summary>
+        /// Список заказов покупателя
+        /// </summary>
+        private List<Order> _orders;
+
+        /// <summary>
+        /// Возвращает Id товара
+        /// </summary>
+        public int Id { get { return _id; } init { _id = value; } }
+
+        /// <summary>
+        /// Возвращает и задаёт полное имя покупателя
+        /// </summary>
+        public string Fullname
+        {
+            get { return _fullname; }
+            set
+            {
+                if (ValueValidator.AssertStringOnLength(value, 200, "Fullname"))
+                {
+                    _fullname = value;
+                }
+                else
+                {
+                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт адрес покупателя
+        /// </summary>
+        public Address Address
+        {
+            get { return _address; }
+            set { _address = value; }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт корзину покупателя
+        /// </summary>
+        public Cart Cart
+        {
+            get { return _cart; }
+            set { _cart = value; }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт список заказов покупателя
+        /// </summary>
+        public List<Order> Orders
+        {
+            get { return _orders; }
+            set { _orders = value; }
+        }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Customer">
+        /// </summary>
+        public Customer()
+        {
+            Id = _idCounter++;
+            Fullname = "Default fullname";
+            Address = new Address();
+            Cart = new Cart();
+            Orders = new List<Order>();
+        }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Customer">
+        /// </summary>
+        /// <param name="fullname">Имя покупателя</param>
+        /// <param name="address">Адрес покупателя</param>
+        public Customer(string fullname, Address address)
+        {
+            Id = _idCounter++;
+            Fullname = fullname;
+            Address = new Address(address);
+            Cart = new Cart();
+            Orders = new List<Order>();
+        }
+
+        static public void SetIdCounter(int maxId)
+        {
+            _idCounter = ++maxId;
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Model\Item.cs ===
+using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Service;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.Security.Policy;
+using System.Text;
+using System.Xml.Linq;
+
+namespace ObjectOrientedPractics.Model
+{
+    /// <summary>
+    /// Хранит Id, именование, информацию и стоимость товара
+    /// </summary>
+    public class Item
+    {
+        /// <summary>
+        /// Счётчик для генерации уникальных Id
+        /// </summary>
+        static private int _idCounter;
+
+        /// <summary>
+        /// Id товара
+        /// </summary>
+        private readonly int _id;
+
+        /// <summary>
+        /// Именование товара
+        /// </summary>>
+        private string _name;
+
+        /// <summary>
+        /// Информация о товаре
+        /// </summary>
+        private string _info;
+
+        /// <summary>
+        /// Стоимость товара
+        /// </summary>
+        private double _cost;
+
+        /// <summary>
+        /// Возвращает Id товара
+        /// </summary>
+        public int Id { get { return _id; } init { _id = value; } }
+
+        /// <summary>
+        /// Возвращает и задаёт именование товара
+        /// </summary>
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (ValueValidator.AssertStringOnLength(value, 200, "Name"))
+                {
+                    _name = value;
+                }
+                else
+                {
+                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт информацию о товаре
+        /// </summary>
+        public string Info
+        {
+            get { return _info; }
+            set
+            {
+                if (ValueValidator.AssertStringOnLength(value, 1000, "Info"))
+                {
+                    _info = value;
+                }
+                else
+                {
+                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт стоимость товара
+        /// </summary>
+        public double Cost
+        {
+            get { return _cost; }
+            set
+            {
+                if (value >= 0.0 && value <= 100000.0)
+                {
+                    _cost = value;
+                }
+                else
+                {
+                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
+                }
+            }
+        }
+
+        public ProductCategory Category { get; set; }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Item"> с дефолтными значениям
+        /// </summary>
+        public Item()
+        {
+            Id = _idCounter++;
+            Name = "Default";
+            Info = "Default";
+            Cost = 0;
+            Category = ProductCategory.Default;
+        }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Item">
+        /// </summary>
+        /// <param name="name">Название товара</param>
+        /// <param name="info">Информация о товаре</param>
+        /// <param name="cost">Стоимость товара</param>
+        /// <param name="category">Категория товара</param>
+        public Item(string name, string info, double cost, ProductCategory category)
+        {
+            Id = _idCounter++;
+            Name = name;
+            Info = info;
+            Cost = cost;
+            Category = category;
+        }
+
+        static public void SetIdCounter(int maxId)
+        {
+            _idCounter = ++maxId;
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Model\Order.cs ===
+using ObjectOrientedPractics.Model.Enums;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
+
+namespace ObjectOrientedPractics.Model
+{
+    /// <summary>
+    /// Класс заказов
+    /// </summary>
+    public class Order
+    {
+        /// <summary>
+        /// Счётчик для генерации уникальных Id
+        /// </summary>
+        static private int _idCounter;
+
+        /// <summary>
+        /// Id заказа
+        /// </summary>
+        private readonly int _id;
+        
+        /// <summary>
+        /// Время создание заказа
+        /// </summary>
+        private readonly DateTime _createTime;
+        
+        /// <summary>
+        /// Адрес заказа
+        /// </summary>
+        private Address _address;
+        
+        /// <summary>
+        /// Список товаров в заказе
+        /// </summary>
+        private BindingList<Item> _items;
+        
+        /// <summary>
+        /// Стоимость заказа
+        /// </summary>
+        private double _amount;
+    
+        /// <summary>
+        /// Возвращает Id заказа
+        /// </summary>
+        public int Id
+        {
+            get { return _id; }
+            init { _id = value; }
+        }
+
+        /// <summary>
+        /// Возвращает время создание заказа
+        /// </summary>
+        public DateTime CreateTime
+        {
+            get { return _createTime; }
+            init { _createTime = value; }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт адрес заказа
+        /// </summary>
+        public Address Address
+        {
+            get { return _address; }
+            init {_address = value; }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт список товаров в заказе
+        /// </summary>
+        public BindingList<Item> Items
+        {
+            get { return _items; }
+            set { _items = value; }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт стоимость заказа
+        /// </summary>
+        public double Amount
+        {
+            get { return _amount; }
+            set { _amount = value; }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт статус заказа
+        /// </summary>
+        public OrderStatus Status { get; set; }
+
+        /// <summary>
+        /// Инициализирует экземпляр класса <see cref="Order">
+        /// </summary>
+        public Order()
+        {
+            Id = _idCounter++;
+            CreateTime = DateTime.Now;
+            Address = new Address();
+            Items = new();
+            Amount = 0.0;
+            Status = OrderStatus.New;
+        }
+
+        /// <summary>
+        /// Инициализирует экземпляр класса <see cref="Order">
+        /// </summary>
+        /// <param name="customer">Покупатель, оформляющий заказ</param>
+        public Order(Customer customer)
+        {
+            Id = _idCounter++;
+            CreateTime = DateTime.Now;
+            Address = new Address(customer.Address);
+            Items = new BindingList<Item>(customer.Cart.Items);
+            Amount = customer.Cart.Amount;
+            Status = OrderStatus.New;
+        }
+
+        static public void SetIdCounter(int maxId)
+        {
+            _idCounter = ++maxId;
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Model\Store.cs ===
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
+
+namespace ObjectOrientedPractics.Model
+{
+    /// <summary>
+    /// Хранит списки товаров и покупателей
+    /// </summary>
+    internal class Store
+    {
+        /// <summary>
+        /// Список товаров
+        /// </summary>
+        private BindingList<Item> _items;
+
+        /// <summary>
+        /// Список покупателей
+        /// </summary>
+        private BindingList<Customer> _customers;
+
+        /// <summary>
+        /// Возвращает и задаёт список товаров
+        /// </summary>
+        public BindingList<Item> Items { get { return _items; } set { _items = value; } }
+
+        /// <summary>
+        /// Возвращает и задаёт список покупателей
+        /// </summary>
+        public BindingList<Customer> Customers { get { return _customers; } set { _customers = value; } }
+
+        /// <summary>
+        /// Инициализирует новый экземплар класса <see cref="Store">
+        /// </summary>
+        public Store()
+        {
+            Items = new();
+            Customers = new();
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Model\Subject.cs ===
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ObjectOrientedPractics.Model
+{
+    /// <summary>
+    /// Хранит название, количество часов и преподавателя дисциплины
+    /// </summary>
+    internal class Subject
+    {
+        /// <summary>
+        /// Возвращает и задаёт название дисциплины
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
+        /// Возвращает и щадаёт количество часов дисциплины
+        /// </summary>
+        public int FullHours { get; set; }
+
+        /// <summary>
+        /// Возвращает и задаёт преподпвателя ддисциплины
+        /// </summary>
+        public Teacher Teacher { get; set; }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Subject">
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="fullHours"></param>
+        /// <param name="teacher"></param>
+        public Subject(string title, int fullHours, string name, int experience)
+        {
+            Title = title;
+            FullHours = fullHours;
+            Teacher = new Teacher(name, experience);
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Model\Teacher.cs ===
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ObjectOrientedPractics.Model
+{
+    /// <summary>
+    /// Хранит имя и опыт преподавателя
+    /// </summary>
+    internal class Teacher
+    {
+        /// <summary>
+        /// Возвращает и задаёт имя
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Возвращает и задаёт опыт
+        /// </summary>
+        public int Experience { get; set; }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Teacher">
+        /// </summary>
+        /// <param name="name">Имя преподавателя</param>
+        /// <param name="experience">Опыт преподавателя</param>
+        public Teacher(string name, int experience)
+        {
+            Name = name;
+            Experience = experience;
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Model\Enums\OrderStatus.cs ===
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ObjectOrientedPractics.Model.Enums
+{
+    /// <summary>
+    /// Перечисление статуса заказа
+    /// </summary>
+    public enum OrderStatus
+    {
+        New,
+        Processing,
+        Assembly, 
+        Sent,
+        Delivered,
+        Returned,
+        Abandoned
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Model\Enums\ProductCategory.cs ===
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ObjectOrientedPractics.Model.Enums
+{
+    /// <summary>
+    /// Перечисление категорий товаров
+    /// </summary>
+    public enum ProductCategory
+    {
+        Default,
+        Electronics,
+        Clothing,
+        Food,
+        Book,
+        Digital,
+        Furniture,
+        Cosmetics
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Service\CustomerFactory.cs ===
+using Newtonsoft.Json;
+using ObjectOrientedPractics.Model;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ObjectOrientedPractics.Service
+{
+    internal class CustomerFactory
+    {
+        /// <summary>
+        /// Максимальное количество покупателей, доступных для генерации (определяется наименьшим размером из списка имён и адресов).
+        /// </summary>
+        static private int maxCustomersCount;
+
+        /// <summary>
+        /// Список полных имён покупателей, загруженных из файла.
+        /// </summary>
+        static private List<string> _fullnames = new List<string>();
+
+        /// <summary>
+        /// Список адрессов покупателей, загруженных из файла.
+        /// </summary>
+        static private List<Address> _addresses = new List<Address>();
+
+        static private Random _random = new Random();
+
+        /// <summary>
+        /// Генерирует экземпляр класса <see cref="Customer"/> со случайным именем и адресом из загруженных данных.
+        /// </summary>
+        /// <returns>Возвращает новый экземпляр класса <see cref="Customer"/>.</returns>
+        static public Customer GenerateCustomer()
+        {
+            int randomCustomer = _random.Next(0, maxCustomersCount);
+
+            string newFullname;
+            Address newAddress;
+
+            if (_fullnames != null)
+            {
+                newFullname = _fullnames[randomCustomer];
+            }
+            else
+            {
+                newFullname = "Default";
+            }
+
+            if (_addresses != null)
+            {
+                newAddress = _addresses[randomCustomer];
+            }
+            else
+            {
+                newAddress = new Address();
+            }
+
+            Customer newCustomer = new Customer(newFullname, newAddress);
+
+            return newCustomer;
+        }
+
+
+        /// <summary>
+        /// Выполняет первичную настройку фабрики покупателей: считает списки имён и адресов из текстовых файлов и рассчитывает <see cref="maxCustomersCount">.
+        /// </summary>
+        static public void SetUpCustomerFactory()
+        {
+            string reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Customers Fullnames.json");
+
+            if (reader != null)
+            {
+                _fullnames = JsonConvert.DeserializeObject<List<string>>(reader);
+            }
+
+            reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Customers Addresses.json");
+
+            if (reader != null)
+            {
+                _addresses = JsonConvert.DeserializeObject<List<Address>>(reader);
+            }
+
+            if (_fullnames != null && _addresses != null)
+            {
+                maxCustomersCount = int.Min(_fullnames.Count, _addresses.Count);
+            }
+        }
+
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Service\ItemFactory.cs ===
+using System;
+using System.Collections.Generic;
+using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
+
+namespace ObjectOrientedPractics.Service
+{
+    /// <summary>
+    /// Сервисный класс для создания товаров со случайными состояниями
+    /// </summary>
+    static internal class ItemFactory
+    {
+        /// <summary>
+        /// Количество товаров, лежащее в прочтённых файлах
+        /// </summary>
+        static private int maxItemsCount;
+        
+        /// <summary>
+        /// Список наименований товаров, прочтённых из файла
+        /// </summary>
+        static private List<string> _names = new List<string>();
+
+        /// <summary>
+        /// Список описаний для товаров, прочтённых из файла
+        /// </summary>
+        static private List<string> _info = new List<string>();
+
+        static private Random _random = new Random();
+        /// <summary>
+        /// Генерирует и возвращает товар со случайным состоянием
+        /// </summary>
+        /// <returns></returns>
+        static public Item GenerateItem()
+        {
+            int randomItem = _random.Next(maxItemsCount);
+
+            string newName, newInfo;
+
+            if (_names != null)
+            {
+                newName = _names[randomItem];
+            }
+            else
+            {
+                newName = "Default";
+            }
+
+            if (_info != null)
+            {
+                newInfo = _info[randomItem];
+            }
+            else
+            {
+                newInfo = "Default";
+            }
+
+            int newCost = _random.Next(100_000);
+
+            ProductCategory newCategory = (ProductCategory)_random.Next(Enum.GetNames<ProductCategory>().Length);
+
+            Item newItem = new Item(newName, newInfo, newCost, newCategory);
+
+            return newItem;
+        }
+
+        /// <summary>
+        /// Настраивает класс ItemsFactory, считывает файлы с заранее записанными данными
+        /// </summary>
+        static public void SetUpItemFactory()
+        {
+            string reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Items Names.json");
+
+            if (reader != null)
+            {
+                _names = JsonConvert.DeserializeObject<List<string>>(reader);
+            }
+
+            reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Items Info.json");
+
+            if (reader != null)
+            {
+                _info = JsonConvert.DeserializeObject<List<string>>(reader);
+            }
+
+            if (_names != null && _info != null)
+            {
+                maxItemsCount = int.Min(_names.Count, _info.Count);
+            }
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Service\PathService.cs ===
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
+
+namespace ObjectOrientedPractics.Service
+{
+    static internal class PathService
+    {
+        /// <summary>
+        /// Возвращает относительный путь к дериктории исполняемого файла программы
+        /// </summary>
+        /// <returns>Путь к исполняемому файлу проекта</returns>
+        static public string GetProjectRootDir()
+        {
+            string tempPath = Assembly.GetExecutingAssembly().Location;
+
+            string path = "";
+
+            for (int i = 0; i < tempPath.LastIndexOf("\\"); i++)
+            {
+                path += tempPath[i];
+            }
+
+            return path;
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Service\ProjectSerializer.cs ===
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using ObjectOrientedPractics.Model;
+using System.ComponentModel;
+
+namespace ObjectOrientedPractics.Service
+{
+    static internal class ProjectSerializer
+    {
+        /// <summary>
+        /// Выполняет десериализацию списка товаров из файла формат JSON.
+        /// </summary>
+        /// <param name="path">Путь к файлу, содержащему данные о списке товаров.</param>
+        /// <returns>Список товаров в виде <see cref="BindingList{T}"/></returns>
+        static public BindingList<Item> DeserializeJsonItemsFile(string path)
+        {
+            string itemsJsonText = File.ReadAllText(PathService.GetProjectRootDir() + path);
+            ///
+            BindingList<Item> items = JsonConvert.DeserializeObject<BindingList<Item>>(itemsJsonText);
+
+            return items;
+        }
+
+        /// <summary>
+        /// Сериализует список товаров в формат JSON и сохраняет его в указанный файл.
+        /// </summary>
+        /// <param name="BindingList{T}">Список товаров <see cref="BindingList{T}"/> для сохранения.</param>
+        /// <param name="path">Путь к файлу, в который будут записаны данные.</param>
+        static public void SerializeJsonItemsFile(BindingList<Item> items, string path)
+        {
+            string jsonStore = JsonConvert.SerializeObject(items);
+
+            File.WriteAllText(PathService.GetProjectRootDir() + path, jsonStore);
+        }
+
+        /// <summary>
+        /// Выполняет десериализацию списка товаров из файла формат JSON.
+        /// </summary>
+        /// <param name="path">Путь к файлу, содержащему данные о списке товаров.</param>
+        /// <returns>Список товаров в виде <see cref="BindingList{T}"/></returns>
+        static public BindingList<Customer> DeserializeJsonCustomersFile(string path)
+        {
+            string customersJsonText = File.ReadAllText(PathService.GetProjectRootDir() + path);
+
+            BindingList<Customer> customers = JsonConvert.DeserializeObject<BindingList<Customer>>(customersJsonText);
+
+            return customers;
+        }
+
+        /// <summary>
+        /// Сериализует список товаров в формат JSON и сохраняет его в указанный файл.
+        /// </summary>
+        /// <param name="BindingList{T}">Список товаров <see cref="BindingList{T}"/> для сохранения.</param>
+        /// <param name="path">Путь к файлу, в который будут записаны данные.</param>
+        static public void SerializeJsonCustomersFile(BindingList<Customer> customers, string path)
+        {
+            string jsonCustomers = JsonConvert.SerializeObject(customers);
+
+            File.WriteAllText(PathService.GetProjectRootDir() + path, jsonCustomers);
+        }
+
+        /// <summary>
+        /// Выполняет десериализацию списка товаров из файла формат JSON.
+        /// </summary>
+        /// <param name="path">Путь к файлу, содержащему данные о списке товаров.</param>
+        /// <returns>Список товаров в виде <see cref="Store"/></returns>
+        static public Store DeserializeJsonStoreFile(string path)
+        {
+            string storeJsonText = File.ReadAllText(PathService.GetProjectRootDir() + path);
+
+            Store store = JsonConvert.DeserializeObject<Store>(storeJsonText);
+
+            return store;
+        }
+
+        /// <summary>
+        /// Сериализует список товаров в формат JSON и сохраняет его в указанный файл.
+        /// </summary>
+        /// <param name="Store">Список товаров <see cref="Store"/> для сохранения.</param>
+        /// <param name="path">Путь к файлу, в который будут записаны данные.</param>
+        static public void SerializeJsonStoreFile(Store store, string path)
+        {
+            string jsonStore = JsonConvert.SerializeObject(store);
+
+            File.WriteAllText(PathService.GetProjectRootDir() + path, jsonStore);
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Service\ValueValidator.cs ===
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ObjectOrientedPractics.Service
+{
+    static internal class ValueValidator
+    {
+        /// <summary>
+        /// Проверяет на то, не больше ли строка некторого количества символов
+        /// </summary>
+        /// <param name="value">Проверяемая строка</param>
+        /// <param name="maxLength">Вверхняя границы</param>
+        /// <param name="propertyName">Вызываемое свойство</param>
+        /// <returns>Возвращает true, если строка короче maxLength</returns>
+        /// <exception cref="ArgumentException">Ошибка, если строка длинее maxLength</exception>
+        static public bool AssertStringOnLength(string value, int maxLength, string propertyName)
+        {
+            if (value.Length != 0 && value.Length <= maxLength)
+            {
+                return true;
+            }
+            else
+            {
+                throw new ArgumentException($"{propertyName} должен быть не больше {maxLength} символов");
+            }
+        }
+
+        /// <summary>
+        /// Проверяет, что целочисленное число является положительным
+        /// </summary>
+        /// <param name="value">Проверяемое число</param>
+        /// <param name="propetryName">Вызываемое свойство</param>
+        /// <returns>Возвращает true, если число положительное</returns>
+        /// <exception cref="ArgumentException">Ошибка, если число не положительное</exception>
+        static public bool ValueIsPositive(int value, string propetryName)
+        {
+            if (value > 0)
+            {
+                return true;
+            }
+            else
+            {
+                throw new ArgumentException($"{propetryName} должен быть положительным");
+            }
+        }
+
+        /// <summary>
+        /// Проверяет, что целочисленное число назодится в диапазоне от min до max
+        /// </summary>
+        /// <param name="value">Проверяемое число</param>
+        /// <param name="min">Минимальное значение</param>
+        /// <param name="max">Максимальное значение</param>
+        /// <param name="propetryName">Вызываемое свойство</param>
+        /// <returns>Возвращает true, если число находится в диапазоне</returns>
+        /// <exception cref="ArgumentException">Ошибка, если число не назодится в диапазоне</exception>
+        static public bool ValueInRange(int value, int min, int max, string propetryName)
+        {
+            if (value > min && value < max)
+            {
+                return true;
+            }
+            else
+            {
+                throw new ArgumentException($"{propetryName} должен быть не меньше {min} и не больше {max}");
+            }
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\MainForm.cs ===
+using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Service;
+
+namespace ObjectOrientedPractics
+{
+    public partial class MainForm : Form
+    {
+        private Store _store = new Store();
+
+        /// <summary>
+        /// РРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РЅРѕРІС‹Р№ СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР° <see cref="MainForm"/>.
+        /// </summary>
+        public MainForm()
+        {
+            InitializeComponent();
+
+            try
+            {
+                string jsonPath = "\\Saved Data\\Store Object.json";
+
+                Store tempStore = ProjectSerializer.DeserializeJsonStoreFile(jsonPath);
+
+                if (tempStore == null)
+                {
+                    throw new Exception();
+                }
+
+                _store = tempStore;
+            }
+            catch { }
+
+            itemsTab1.Items = _store.Items;
+            customersTab1.Customers = _store.Customers;
+            cartsTab1.Items = _store.Items;
+            cartsTab1.Customers = _store.Customers;
+            ordersTab1.Customers = _store.Customers;
+            
+            
+            if (_store.Items.Count != 0 || _store.Customers.Count != 0)
+            {
+                Item.SetIdCounter(_store.Items.Max(items => items.Id));
+
+                Customer.SetIdCounter(_store.Customers.Max(customer => customer.Id));
+
+                int maxOrderId = _store.Customers
+                    .Where(c => c.Orders != null)
+                    .SelectMany(c => c.Orders)
+                    .Select(o => (int?)o.Id)
+                    .Max() ?? 0;
+                Order.SetIdCounter(maxOrderId);
+            }
+        }
+
+        /// <summary>
+        /// РћС‚Р±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёСЏ Р·Р°РєСЂС‹С‚РёСЏ РѕРєРЅР°
+        /// РЎРµСЂРёР°Р»РёР·СѓРµС‚ СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР° <see cref="Store">
+        /// </summary>
+        /// <param name="sender">РСЃС‚РѕС‡РЅРёРє СЃРѕР±С‹С‚РёСЏ.</param>
+        /// <param name="e">РђСЂРіСѓРјРµРЅС‚ СЃРѕР±С‹С‚РёСЏ.</param>
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ProjectSerializer.SerializeJsonStoreFile(_store, "\\Saved Data\\Store Object.json");
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+                
+            if (tabControl1.SelectedTab == CartsTab)
+            {
+                cartsTab1.RefreshCustomerComboBox();
+                cartsTab1.RefreshItemsCartsListBox();
+            }
+            else if (tabControl1.SelectedTab == OrdersTab)
+            {
+                ordersTab1.UpdateOrders();
+            }
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\MainForm.Designer.cs ===
+namespace ObjectOrientedPractics
+{
+    partial class MainForm
+    {
+        /// <summary>
+        ///  Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        ///  Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            tabControl1 = new TabControl();
+            ItemsTab = new TabPage();
+            itemsTab1 = new ObjectOrientedPractics.View.Panels.ItemsTab();
+            CustomersTab = new TabPage();
+            customersTab1 = new ObjectOrientedPractics.View.Panels.CustomersTab();
+            CartsTab = new TabPage();
+            cartsTab1 = new ObjectOrientedPractics.View.Panels.CartsTab();
+            OrdersTab = new TabPage();
+            ordersTab1 = new ObjectOrientedPractics.View.Panels.OrdersTab();
+            tabControl1.SuspendLayout();
+            ItemsTab.SuspendLayout();
+            CustomersTab.SuspendLayout();
+            CartsTab.SuspendLayout();
+            OrdersTab.SuspendLayout();
+            SuspendLayout();
+            // 
+            // tabControl1
+            // 
+            tabControl1.Controls.Add(ItemsTab);
+            tabControl1.Controls.Add(CustomersTab);
+            tabControl1.Controls.Add(CartsTab);
+            tabControl1.Controls.Add(OrdersTab);
+            tabControl1.Dock = DockStyle.Fill;
+            tabControl1.Location = new Point(0, 0);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(763, 476);
+            tabControl1.TabIndex = 0;
+            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
+            // 
+            // ItemsTab
+            // 
+            ItemsTab.Controls.Add(itemsTab1);
+            ItemsTab.Location = new Point(4, 24);
+            ItemsTab.Name = "ItemsTab";
+            ItemsTab.Padding = new Padding(3);
+            ItemsTab.Size = new Size(755, 448);
+            ItemsTab.TabIndex = 0;
+            ItemsTab.Text = "Items";
+            ItemsTab.UseVisualStyleBackColor = true;
+            // 
+            // itemsTab1
+            // 
+            itemsTab1.Dock = DockStyle.Fill;
+            itemsTab1.Location = new Point(3, 3);
+            itemsTab1.Name = "itemsTab1";
+            itemsTab1.Size = new Size(749, 442);
+            itemsTab1.TabIndex = 0;
+            // 
+            // CustomersTab
+            // 
+            CustomersTab.Controls.Add(customersTab1);
+            CustomersTab.Location = new Point(4, 24);
+            CustomersTab.Name = "CustomersTab";
+            CustomersTab.Padding = new Padding(3);
+            CustomersTab.Size = new Size(755, 448);
+            CustomersTab.TabIndex = 1;
+            CustomersTab.Text = "Cusotmers";
+            // 
+            // customersTab1
+            // 
+            customersTab1.Dock = DockStyle.Fill;
+            customersTab1.Location = new Point(3, 3);
+            customersTab1.Name = "customersTab1";
+            customersTab1.Size = new Size(749, 442);
+            customersTab1.TabIndex = 0;
+            // 
+            // CartsTab
+            // 
+            CartsTab.Controls.Add(cartsTab1);
+            CartsTab.Location = new Point(4, 24);
+            CartsTab.Name = "CartsTab";
+            CartsTab.Size = new Size(755, 448);
+            CartsTab.TabIndex = 2;
+            CartsTab.Text = "Carts";
+            CartsTab.UseVisualStyleBackColor = true;
+            // 
+            // cartsTab1
+            // 
+            cartsTab1.Dock = DockStyle.Fill;
+            cartsTab1.Location = new Point(0, 0);
+            cartsTab1.Name = "cartsTab1";
+            cartsTab1.Size = new Size(755, 448);
+            cartsTab1.TabIndex = 0;
+            // 
+            // OrdersTab
+            // 
+            OrdersTab.Controls.Add(ordersTab1);
+            OrdersTab.Location = new Point(4, 24);
+            OrdersTab.Name = "OrdersTab";
+            OrdersTab.Padding = new Padding(3);
+            OrdersTab.Size = new Size(755, 448);
+            OrdersTab.TabIndex = 3;
+            OrdersTab.Text = "Orders";
+            OrdersTab.UseVisualStyleBackColor = true;
+            // 
+            // ordersTab1
+            // 
+            ordersTab1.Dock = DockStyle.Fill;
+            ordersTab1.Location = new Point(3, 3);
+            ordersTab1.Name = "ordersTab1";
+            ordersTab1.Size = new Size(749, 442);
+            ordersTab1.TabIndex = 0;
+            // 
+            // MainForm
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(763, 476);
+            Controls.Add(tabControl1);
+            MinimumSize = new Size(779, 515);
+            Name = "MainForm";
+            Text = "Object Oriented Practice";
+            FormClosing += Main_FormClosing;
+            tabControl1.ResumeLayout(false);
+            ItemsTab.ResumeLayout(false);
+            CustomersTab.ResumeLayout(false);
+            CartsTab.ResumeLayout(false);
+            OrdersTab.ResumeLayout(false);
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private TabControl tabControl1;
+        private TabPage ItemsTab;
+        private View.Panels.ItemsTab itemsTab1;
+        private TabPage CustomersTab;
+        private View.Panels.CustomersTab customersTab1;
+        private TabPage CartsTab;
+        private View.Panels.CartsTab cartsTab1;
+        private TabPage OrdersTab;
+        private View.Panels.OrdersTab ordersTab1;
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\Controls\AddressControl.cs ===
+using ObjectOrientedPractics.Model;
+using System.ComponentModel;
+using WinControl = System.Windows.Forms.Control;
+using WinTextBox = System.Windows.Forms.TextBox;
+
+namespace ObjectOrientedPractics.View.Control
+{
+    /// <summary>
+    /// Пользовательский элемент, который осуществляет логику работы с адресами покупателей
+    /// </summary>
+    public partial class AddressControl : UserControl
+    {
+        /// <summary>
+        /// Сдрес текуще-выбранного покупателя
+        /// </summary>
+        private Address _currentAddress;
+
+        private bool _readOnly;
+
+        /// <summary>
+        /// Событие. Возникает при изменении любого поля класса
+        /// </summary>
+        public event EventHandler AddressChanged;
+
+        /// <summary>
+        /// Возвращает и задаёт значение текуще-выбранного покупателя
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public Address CurrentAddress
+        {
+            get
+            {
+                return _currentAddress;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    ClearTextBoxAddress();
+                    return;
+                }
+
+                _currentAddress = value;
+
+                RefreshAddressInfo();
+            }
+        }
+
+        [System.ComponentModel.Category("Behavior")]
+        [System.ComponentModel.Description("Определяет, доступны ли поля адреса только для чтения.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public bool ReadOnly
+        {
+            get => _readOnly;
+            set
+            {
+                _readOnly = value;
+                SetTextBoxesReadOnly(this, value);
+            }
+        }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="AddressControl"/>.
+        /// <summary>
+        public AddressControl()
+        {
+            InitializeComponent();
+        }
+
+        /// <summary>
+        /// Очищает текстовые поля формы о адресе покупателя
+        /// </summary>
+        private void ClearTextBoxAddress()
+        {
+            PostIndexTextBox.Text = "";
+            CountryTextBox.Text = "";
+            CityTextBox.Text = "";
+            StreetTextBox.Text = "";
+            BuildingTextBox.Text = "";
+            ApartmentTextBox.Text = "";
+        }
+
+        /// <summary>
+        /// Вызывает событие <see cref="AddressChanged">
+        /// </summary>
+        public void OnAddressChanged()
+        {
+            AddressChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Меняет значения текстовых полей Address в форме на значения текуще-выбранного покупателя
+        /// </summary>
+        private void RefreshAddressInfo()
+        {
+            PostIndexTextBox.Text = CurrentAddress.Index.ToString();
+            CountryTextBox.Text = CurrentAddress.Country;
+            CityTextBox.Text = CurrentAddress.City;
+            StreetTextBox.Text = CurrentAddress.Street;
+            BuildingTextBox.Text = CurrentAddress.Building;
+            ApartmentTextBox.Text = CurrentAddress.Apartment;
+        }
+
+        /// <summary>
+        /// Обработчик события изменения текста в поле индекса адреса покупателя.
+        /// Валидирует ввод и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Пргументы события.</param>
+        private void PostIndexTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (CurrentAddress != null)
+            {
+                try
+                {
+                    CurrentAddress.Index = int.Parse(PostIndexTextBox.Text);
+                    OnAddressChanged();
+                    PostIndexTextBox.BackColor = Color.White;
+                }
+                catch { PostIndexTextBox.BackColor = Color.LightPink; }
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события изменения текста в поле страны/региона адреса покупателя.
+        /// Валидирует ввод и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Пргументы события.</param>
+        private void CountryTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (CurrentAddress != null)
+            {
+                try
+                {
+                    CurrentAddress.Country = CountryTextBox.Text;
+                    OnAddressChanged();
+                    CountryTextBox.BackColor = Color.White;
+                }
+                catch { CountryTextBox.BackColor = Color.LightPink; }
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события изменения текста в поле города адреса покупателя.
+        /// Валидирует ввод и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Пргументы события.</param>
+        private void CityTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (CurrentAddress != null)
+            {
+                try
+                {
+                    CurrentAddress.City = CityTextBox.Text;
+                    OnAddressChanged();
+                    CityTextBox.BackColor = Color.White;
+                }
+                catch { CityTextBox.BackColor = Color.LightPink; }
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события изменения текста в поле улицы адреса покупателя.
+        /// Валидирует ввод и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Пргументы события.</param>
+        private void StreetTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (CurrentAddress != null)
+            {
+                try
+                {
+                    CurrentAddress.Street = StreetTextBox.Text;
+                    OnAddressChanged();
+                    StreetTextBox.BackColor = Color.White;
+                }
+                catch { StreetTextBox.BackColor = Color.LightPink; }
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события изменения текста в поле номера дома адреса покупателя.
+        /// Валидирует ввод и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Пргументы события.</param>
+        private void BuildingTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (CurrentAddress != null)
+            {
+                try
+                {
+                    CurrentAddress.Building = BuildingTextBox.Text;
+                    OnAddressChanged();
+                    BuildingTextBox.BackColor = Color.White;
+                }
+                catch { BuildingTextBox.BackColor = Color.LightPink; }
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события изменения текста в поле номера квартиры/помещения адреса покупателя.
+        /// Валидирует ввод и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Пргументы события.</param>
+        private void ApartmentTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (CurrentAddress != null)
+            {
+                try
+                {
+                    CurrentAddress.Apartment = ApartmentTextBox.Text;
+                    OnAddressChanged();
+                    ApartmentTextBox.BackColor = Color.White;
+                }
+                catch { ApartmentTextBox.BackColor = Color.LightPink; }
+            }
+        }
+
+        private void SetTextBoxesReadOnly(WinControl parent, bool isReadOnly)
+        {
+            foreach (WinControl control in parent.Controls)
+            {
+                if (control is WinTextBox textBox)
+                {
+                    textBox.ReadOnly = isReadOnly;
+                }
+
+                if (control.HasChildren)
+                {
+                    SetTextBoxesReadOnly(control, isReadOnly);
+                }
+            }
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\Controls\AddressControl.Designer.cs ===
+namespace ObjectOrientedPractics.View.Control
+{
+    partial class AddressControl
+    {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            DeliveryAddressLabel = new Label();
+            PostIndexTextBox = new TextBox();
+            CountryTextBox = new TextBox();
+            StreetTextBox = new TextBox();
+            BuildingTextBox = new TextBox();
+            CityTextBox = new TextBox();
+            ApartmentTextBox = new TextBox();
+            PostIndexLabel = new Label();
+            CountryLabel = new Label();
+            StreetLabel = new Label();
+            BuildingLabel = new Label();
+            CityLabel = new Label();
+            ApartmentLabel = new Label();
+            SuspendLayout();
+            // 
+            // DeliveryAddressLabel
+            // 
+            DeliveryAddressLabel.AutoSize = true;
+            DeliveryAddressLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            DeliveryAddressLabel.Location = new Point(3, 2);
+            DeliveryAddressLabel.Name = "DeliveryAddressLabel";
+            DeliveryAddressLabel.Size = new Size(101, 15);
+            DeliveryAddressLabel.TabIndex = 0;
+            DeliveryAddressLabel.Text = "Delivery Address";
+            // 
+            // PostIndexTextBox
+            // 
+            PostIndexTextBox.Location = new Point(72, 27);
+            PostIndexTextBox.Name = "PostIndexTextBox";
+            PostIndexTextBox.Size = new Size(129, 23);
+            PostIndexTextBox.TabIndex = 1;
+            PostIndexTextBox.TextChanged += PostIndexTextBox_TextChanged;
+            // 
+            // CountryTextBox
+            // 
+            CountryTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            CountryTextBox.Location = new Point(72, 56);
+            CountryTextBox.Name = "CountryTextBox";
+            CountryTextBox.Size = new Size(197, 23);
+            CountryTextBox.TabIndex = 2;
+            CountryTextBox.TextChanged += CountryTextBox_TextChanged;
+            // 
+            // StreetTextBox
+            // 
+            StreetTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            StreetTextBox.Location = new Point(72, 85);
+            StreetTextBox.Name = "StreetTextBox";
+            StreetTextBox.Size = new Size(414, 23);
+            StreetTextBox.TabIndex = 3;
+            StreetTextBox.TextChanged += StreetTextBox_TextChanged;
+            // 
+            // BuildingTextBox
+            // 
+            BuildingTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            BuildingTextBox.Location = new Point(72, 114);
+            BuildingTextBox.Name = "BuildingTextBox";
+            BuildingTextBox.Size = new Size(114, 23);
+            BuildingTextBox.TabIndex = 4;
+            BuildingTextBox.TextChanged += BuildingTextBox_TextChanged;
+            // 
+            // CityTextBox
+            // 
+            CityTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            CityTextBox.Location = new Point(326, 56);
+            CityTextBox.Name = "CityTextBox";
+            CityTextBox.Size = new Size(160, 23);
+            CityTextBox.TabIndex = 5;
+            CityTextBox.TextChanged += CityTextBox_TextChanged;
+            // 
+            // ApartmentTextBox
+            // 
+            ApartmentTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            ApartmentTextBox.Location = new Point(279, 114);
+            ApartmentTextBox.Name = "ApartmentTextBox";
+            ApartmentTextBox.Size = new Size(100, 23);
+            ApartmentTextBox.TabIndex = 6;
+            ApartmentTextBox.TextChanged += ApartmentTextBox_TextChanged;
+            // 
+            // PostIndexLabel
+            // 
+            PostIndexLabel.AutoSize = true;
+            PostIndexLabel.Location = new Point(3, 30);
+            PostIndexLabel.Name = "PostIndexLabel";
+            PostIndexLabel.Size = new Size(64, 15);
+            PostIndexLabel.TabIndex = 7;
+            PostIndexLabel.Text = "Post Index:";
+            // 
+            // CountryLabel
+            // 
+            CountryLabel.AutoSize = true;
+            CountryLabel.Location = new Point(3, 59);
+            CountryLabel.Name = "CountryLabel";
+            CountryLabel.Size = new Size(53, 15);
+            CountryLabel.TabIndex = 8;
+            CountryLabel.Text = "Country:";
+            // 
+            // StreetLabel
+            // 
+            StreetLabel.AutoSize = true;
+            StreetLabel.Location = new Point(3, 88);
+            StreetLabel.Name = "StreetLabel";
+            StreetLabel.Size = new Size(40, 15);
+            StreetLabel.TabIndex = 9;
+            StreetLabel.Text = "Street:";
+            // 
+            // BuildingLabel
+            // 
+            BuildingLabel.AutoSize = true;
+            BuildingLabel.Location = new Point(3, 117);
+            BuildingLabel.Name = "BuildingLabel";
+            BuildingLabel.Size = new Size(54, 15);
+            BuildingLabel.TabIndex = 10;
+            BuildingLabel.Text = "Building:";
+            // 
+            // CityLabel
+            // 
+            CityLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            CityLabel.AutoSize = true;
+            CityLabel.Location = new Point(289, 59);
+            CityLabel.Name = "CityLabel";
+            CityLabel.Size = new Size(31, 15);
+            CityLabel.TabIndex = 11;
+            CityLabel.Text = "City:";
+            // 
+            // ApartmentLabel
+            // 
+            ApartmentLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            ApartmentLabel.AutoSize = true;
+            ApartmentLabel.Location = new Point(206, 117);
+            ApartmentLabel.Name = "ApartmentLabel";
+            ApartmentLabel.Size = new Size(67, 15);
+            ApartmentLabel.TabIndex = 12;
+            ApartmentLabel.Text = "Apartment:";
+            // 
+            // AddressControl
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(ApartmentLabel);
+            Controls.Add(CityLabel);
+            Controls.Add(BuildingLabel);
+            Controls.Add(StreetLabel);
+            Controls.Add(CountryLabel);
+            Controls.Add(PostIndexLabel);
+            Controls.Add(ApartmentTextBox);
+            Controls.Add(CityTextBox);
+            Controls.Add(BuildingTextBox);
+            Controls.Add(StreetTextBox);
+            Controls.Add(CountryTextBox);
+            Controls.Add(PostIndexTextBox);
+            Controls.Add(DeliveryAddressLabel);
+            Name = "AddressControl";
+            Size = new Size(489, 145);
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private Label DeliveryAddressLabel;
+        private TextBox PostIndexTextBox;
+        private TextBox CountryTextBox;
+        private TextBox StreetTextBox;
+        private TextBox BuildingTextBox;
+        private TextBox CityTextBox;
+        private TextBox ApartmentTextBox;
+        private Label PostIndexLabel;
+        private Label CountryLabel;
+        private Label StreetLabel;
+        private Label BuildingLabel;
+        private Label CityLabel;
+        private Label ApartmentLabel;
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\Controls\OrderControl.cs ===
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+
+namespace ObjectOrientedPractics.View.Controls
+{
+    public partial class OrderControl : UserControl
+    {
+        public OrderControl()
+        {
+            InitializeComponent();
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\Controls\OrderControl.Designer.cs ===
+namespace ObjectOrientedPractics.View.Controls
+{
+    partial class OrderControl
+    {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            dataGridView1 = new DataGridView();
+            OrdersLabel = new Label();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            SuspendLayout();
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(0, 18);
+            dataGridView1.MultiSelect = false;
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
+            dataGridView1.Size = new Size(398, 487);
+            dataGridView1.TabIndex = 0;
+            // 
+            // OrdersLabel
+            // 
+            OrdersLabel.AutoSize = true;
+            OrdersLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            OrdersLabel.Location = new Point(-1, 0);
+            OrdersLabel.Name = "OrdersLabel";
+            OrdersLabel.Size = new Size(45, 15);
+            OrdersLabel.TabIndex = 1;
+            OrdersLabel.Text = "Orders";
+            // 
+            // OrderControl
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(OrdersLabel);
+            Controls.Add(dataGridView1);
+            Name = "OrderControl";
+            Size = new Size(401, 508);
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        public DataGridView dataGridView1;
+        private Label OrdersLabel;
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\Controls\SelectedOrderControl.cs ===
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+
+namespace ObjectOrientedPractics.View.Controls
+{
+    public partial class SelectedOrderControl : UserControl
+    {
+        public SelectedOrderControl()
+        {
+            InitializeComponent();
+
+            addressControl1.ReadOnly = true;
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\Controls\SelectedOrderControl.Designer.cs ===
+namespace ObjectOrientedPractics.View.Controls
+{
+    partial class SelectedOrderControl
+    {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            SelectedOrderLabel = new Label();
+            IdTextBox = new TextBox();
+            CreatedTextBox = new TextBox();
+            StatusComboBox = new ComboBox();
+            addressControl1 = new ObjectOrientedPractics.View.Control.AddressControl();
+            OrderItemsLabel = new Label();
+            ItemsOrderListBox = new ListBox();
+            IdLabel = new Label();
+            CreatedLabel = new Label();
+            StatusLabel = new Label();
+            AmountLabel = new Label();
+            AmountOrderLabel = new Label();
+            SuspendLayout();
+            // 
+            // SelectedOrderLabel
+            // 
+            SelectedOrderLabel.AutoSize = true;
+            SelectedOrderLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            SelectedOrderLabel.Location = new Point(3, 0);
+            SelectedOrderLabel.Name = "SelectedOrderLabel";
+            SelectedOrderLabel.Size = new Size(92, 15);
+            SelectedOrderLabel.TabIndex = 0;
+            SelectedOrderLabel.Text = "Selected Order";
+            // 
+            // IdTextBox
+            // 
+            IdTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            IdTextBox.Location = new Point(73, 24);
+            IdTextBox.Name = "IdTextBox";
+            IdTextBox.ReadOnly = true;
+            IdTextBox.Size = new Size(157, 23);
+            IdTextBox.TabIndex = 1;
+            // 
+            // CreatedTextBox
+            // 
+            CreatedTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            CreatedTextBox.Location = new Point(73, 53);
+            CreatedTextBox.Name = "CreatedTextBox";
+            CreatedTextBox.ReadOnly = true;
+            CreatedTextBox.Size = new Size(157, 23);
+            CreatedTextBox.TabIndex = 2;
+            // 
+            // StatusComboBox
+            // 
+            StatusComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            StatusComboBox.FormattingEnabled = true;
+            StatusComboBox.Location = new Point(73, 82);
+            StatusComboBox.Name = "StatusComboBox";
+            StatusComboBox.Size = new Size(157, 23);
+            StatusComboBox.TabIndex = 3;
+            // 
+            // addressControl1
+            // 
+            addressControl1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            addressControl1.Location = new Point(3, 111);
+            addressControl1.Name = "addressControl1";
+            addressControl1.Size = new Size(458, 145);
+            addressControl1.TabIndex = 4;
+            // 
+            // OrderItemsLabel
+            // 
+            OrderItemsLabel.AutoSize = true;
+            OrderItemsLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            OrderItemsLabel.Location = new Point(3, 259);
+            OrderItemsLabel.Name = "OrderItemsLabel";
+            OrderItemsLabel.Size = new Size(75, 15);
+            OrderItemsLabel.TabIndex = 5;
+            OrderItemsLabel.Text = "Order Items";
+            // 
+            // ItemsOrderListBox
+            // 
+            ItemsOrderListBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            ItemsOrderListBox.FormattingEnabled = true;
+            ItemsOrderListBox.Location = new Point(3, 277);
+            ItemsOrderListBox.Name = "ItemsOrderListBox";
+            ItemsOrderListBox.Size = new Size(458, 154);
+            ItemsOrderListBox.TabIndex = 6;
+            // 
+            // IdLabel
+            // 
+            IdLabel.AutoSize = true;
+            IdLabel.Location = new Point(3, 27);
+            IdLabel.Name = "IdLabel";
+            IdLabel.Size = new Size(21, 15);
+            IdLabel.TabIndex = 7;
+            IdLabel.Text = "ID:";
+            // 
+            // CreatedLabel
+            // 
+            CreatedLabel.AutoSize = true;
+            CreatedLabel.Location = new Point(3, 56);
+            CreatedLabel.Name = "CreatedLabel";
+            CreatedLabel.Size = new Size(51, 15);
+            CreatedLabel.TabIndex = 8;
+            CreatedLabel.Text = "Created:";
+            // 
+            // StatusLabel
+            // 
+            StatusLabel.AutoSize = true;
+            StatusLabel.Location = new Point(3, 85);
+            StatusLabel.Name = "StatusLabel";
+            StatusLabel.Size = new Size(42, 15);
+            StatusLabel.TabIndex = 9;
+            StatusLabel.Text = "Status:";
+            // 
+            // AmountLabel
+            // 
+            AmountLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            AmountLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            AmountLabel.Location = new Point(387, 434);
+            AmountLabel.Name = "AmountLabel";
+            AmountLabel.Size = new Size(74, 20);
+            AmountLabel.TabIndex = 10;
+            AmountLabel.Text = "Amount";
+            AmountLabel.TextAlign = ContentAlignment.TopRight;
+            // 
+            // AmountOrderLabel
+            // 
+            AmountOrderLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            AmountOrderLabel.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            AmountOrderLabel.Location = new Point(361, 454);
+            AmountOrderLabel.Name = "AmountOrderLabel";
+            AmountOrderLabel.Size = new Size(100, 38);
+            AmountOrderLabel.TabIndex = 11;
+            AmountOrderLabel.Text = "0,0";
+            AmountOrderLabel.TextAlign = ContentAlignment.TopRight;
+            // 
+            // SelectedOrderControl
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(AmountOrderLabel);
+            Controls.Add(AmountLabel);
+            Controls.Add(StatusLabel);
+            Controls.Add(CreatedLabel);
+            Controls.Add(IdLabel);
+            Controls.Add(ItemsOrderListBox);
+            Controls.Add(OrderItemsLabel);
+            Controls.Add(addressControl1);
+            Controls.Add(StatusComboBox);
+            Controls.Add(CreatedTextBox);
+            Controls.Add(IdTextBox);
+            Controls.Add(SelectedOrderLabel);
+            Name = "SelectedOrderControl";
+            Size = new Size(464, 492);
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private Label SelectedOrderLabel;
+        private TextBox IdTextBox;
+        private TextBox CreatedTextBox;
+        private ComboBox StatusComboBox;
+        private Control.AddressControl addressControl1;
+        private Label OrderItemsLabel;
+        private ListBox ItemsOrderListBox;
+        private Label IdLabel;
+        private Label CreatedLabel;
+        private Label StatusLabel;
+        private Label AmountLabel;
+        private Label AmountOrderLabel;
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\Panels\CartsTab.cs ===
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using ObjectOrientedPractics.Model;
+
+namespace ObjectOrientedPractics.View.Panels
+{
+    /// <summary>
+    /// Пользовательский элемент, который осуществляет логику работы с заказами покупателей
+    /// </summary>
+    public partial class CartsTab : UserControl
+    {
+        /// <summary>
+        /// Список товаров
+        /// </summary>
+        private BindingList<Item> _items = new();
+        
+        /// <summary>
+        /// Список покупателей
+        /// </summary>
+        private BindingList<Customer> _customer = new();
+
+        /// <summary>
+        /// Возвращает и задаёт список товаров
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public BindingList<Item> Items
+        {
+            get { return _items; }
+            set
+            {
+                _items = value;
+                RefreshItemsCartsListBox();
+            }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт список покупателей
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public BindingList<Customer> Customers
+        {
+            get { return _customer; }
+            set
+            {
+                _customer = value;
+                RefreshCustomerComboBox();
+            }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт текуще выбранного покупателя
+        /// </summary>
+        private Customer CurrentCustomer { get; set; }
+
+        /// <summary>
+        /// Инициализирует экземпляр класса <see cref="CartsTab">
+        /// </summary>
+        public CartsTab()
+        {
+            InitializeComponent();
+
+            ItemsCartsListBox.DataSource = Items;
+            ItemsCartsListBox.DisplayMember = "Name";
+
+            CustomerComboBox.DataSource = Customers;
+            CustomerComboBox.DisplayMember = "Fullname";
+
+            CartContentListBox.DisplayMember = "Name";
+        }
+
+        /// <summary>
+        /// Обработка события смены выбранного покупателя в CustomerComboBox
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void CustomerComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (CustomerComboBox.SelectedIndex != -1)
+            {
+                CurrentCustomer = (Customer)CustomerComboBox.SelectedItem;
+                RefreshCartContentListBox();
+                RefreshCartAmount();
+            }
+            else
+            {
+                CurrentCustomer = null;
+                CartContentListBox.DataSource = null;
+            }
+        }
+
+        /// <summary>
+        /// Обработка события нажатия на кнопку добавления товара в корзину AddToCartButton
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void AddToCartButton_Click(object sender, EventArgs e)
+        {
+            if (ItemsCartsListBox.SelectedIndex != -1 && CurrentCustomer != null)
+            {
+                CurrentCustomer.Cart.Items.Add((Item)ItemsCartsListBox.SelectedItem);
+                RefreshCartAmount();
+            }
+        }
+
+        /// <summary>
+        /// Обработка события нажатия на кнопку убирания товара из корзины RemoveItemButton
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void RemoveItemButton_Click(object sender, EventArgs e)
+        {
+            if (CartContentListBox.SelectedIndex != -1 && CurrentCustomer != null)
+            {
+                var selectedItem = (Item)CartContentListBox.SelectedItem;
+
+                CurrentCustomer.Cart.Items.Remove(selectedItem);
+                RefreshCartContentListBox();
+                RefreshCartAmount();
+            }
+        }
+
+        /// <summary>
+        /// Обработка события нажатия на кнопку создания заказа CreateOrderButton
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void CreateOrderButton_Click(object sender, EventArgs e)
+        {
+            if (CurrentCustomer != null && CurrentCustomer.Cart.Items.Count > 0)
+            {
+                Order newOrder = new Order(CurrentCustomer);
+                CurrentCustomer.Orders.Add(newOrder);
+                ClearCart();
+            }
+        }
+
+        /// <summary>
+        /// Обработка события нажатия на кнопку очищения корзины ClearCartButton
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void ClearCartButton_Click(object sender, EventArgs e)
+        {
+            if (CurrentCustomer != null)
+            {
+                ClearCart();
+            }
+        }
+
+        /// <summary>
+        /// Обновление отображения ItemsCartsListBox
+        /// </summary>
+        public void RefreshItemsCartsListBox()
+        {
+            ItemsCartsListBox.DataSource = null;
+            ItemsCartsListBox.DataSource = Items;
+            ItemsCartsListBox.DisplayMember = "Name";
+        }
+
+        /// <summary>
+        /// Обновления отображения CustomerComboBox
+        /// </summary>
+        public void RefreshCustomerComboBox()
+        {
+            CustomerComboBox.DataSource = null;
+            CustomerComboBox.DataSource = Customers;
+            CustomerComboBox.DisplayMember = "Fullname";
+        }
+
+        /// <summary>
+        /// Обновление отображения CartContentListBox
+        /// </summary>
+        private void RefreshCartContentListBox()
+        {
+            CartContentListBox.DataSource = null;
+            CartContentListBox.DataSource = CurrentCustomer.Cart.Items;
+            CartContentListBox.DisplayMember = "Name";
+        }
+
+        /// <summary>
+        /// Обновление отображения CartAmountLabel
+        /// </summary>
+        private void RefreshCartAmount()
+        {
+            if (CurrentCustomer != null)
+            {
+                CartAmountLabel.Text = (CurrentCustomer.Cart.Amount).ToString();
+            }
+            else
+            {
+                CartAmountLabel.Text = "0,0";
+            }
+        }
+
+        /// <summary>
+        /// Полностью очищает корзину покупателя
+        /// </summary>
+        private void ClearCart()
+        {
+            CurrentCustomer.Cart = new();
+            RefreshCartContentListBox();
+            RefreshCartAmount();
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\Panels\CartsTab.Designer.cs ===
+namespace ObjectOrientedPractics.View.Panels
+{
+    partial class CartsTab
+    {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            ItemsCartsListBox = new ListBox();
+            ItemsLabel = new Label();
+            AddToCartButton = new Button();
+            CustomerLabel = new Label();
+            CustomerComboBox = new ComboBox();
+            CartContentListBox = new ListBox();
+            CartLabel = new Label();
+            AmountLabel = new Label();
+            CartAmountLabel = new Label();
+            ClearCartButton = new Button();
+            RemoveItemButton = new Button();
+            CreateOrderButton = new Button();
+            SuspendLayout();
+            // 
+            // ItemsCartsListBox
+            // 
+            ItemsCartsListBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            ItemsCartsListBox.FormattingEnabled = true;
+            ItemsCartsListBox.Location = new Point(6, 22);
+            ItemsCartsListBox.Name = "ItemsCartsListBox";
+            ItemsCartsListBox.Size = new Size(237, 424);
+            ItemsCartsListBox.TabIndex = 0;
+            // 
+            // ItemsLabel
+            // 
+            ItemsLabel.AutoSize = true;
+            ItemsLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            ItemsLabel.Location = new Point(6, 4);
+            ItemsLabel.Name = "ItemsLabel";
+            ItemsLabel.Size = new Size(39, 15);
+            ItemsLabel.TabIndex = 1;
+            ItemsLabel.Text = "Items";
+            // 
+            // AddToCartButton
+            // 
+            AddToCartButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            AddToCartButton.Location = new Point(6, 452);
+            AddToCartButton.Name = "AddToCartButton";
+            AddToCartButton.Size = new Size(83, 46);
+            AddToCartButton.TabIndex = 2;
+            AddToCartButton.Text = "Add to Cart";
+            AddToCartButton.UseVisualStyleBackColor = true;
+            AddToCartButton.Click += AddToCartButton_Click;
+            // 
+            // CustomerLabel
+            // 
+            CustomerLabel.AutoSize = true;
+            CustomerLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            CustomerLabel.Location = new Point(263, 25);
+            CustomerLabel.Name = "CustomerLabel";
+            CustomerLabel.Size = new Size(64, 15);
+            CustomerLabel.TabIndex = 3;
+            CustomerLabel.Text = "Customer:";
+            // 
+            // CustomerComboBox
+            // 
+            CustomerComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            CustomerComboBox.FormattingEnabled = true;
+            CustomerComboBox.Location = new Point(331, 22);
+            CustomerComboBox.Name = "CustomerComboBox";
+            CustomerComboBox.Size = new Size(319, 23);
+            CustomerComboBox.TabIndex = 4;
+            CustomerComboBox.SelectedIndexChanged += CustomerComboBox_SelectedIndexChanged;
+            // 
+            // CartContentListBox
+            // 
+            CartContentListBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            CartContentListBox.FormattingEnabled = true;
+            CartContentListBox.Location = new Point(263, 83);
+            CartContentListBox.Name = "CartContentListBox";
+            CartContentListBox.Size = new Size(387, 154);
+            CartContentListBox.TabIndex = 5;
+            // 
+            // CartLabel
+            // 
+            CartLabel.AutoSize = true;
+            CartLabel.Location = new Point(263, 65);
+            CartLabel.Name = "CartLabel";
+            CartLabel.Size = new Size(32, 15);
+            CartLabel.TabIndex = 6;
+            CartLabel.Text = "Cart:";
+            // 
+            // AmountLabel
+            // 
+            AmountLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            AmountLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            AmountLabel.Location = new Point(550, 254);
+            AmountLabel.Name = "AmountLabel";
+            AmountLabel.Size = new Size(100, 19);
+            AmountLabel.TabIndex = 7;
+            AmountLabel.Text = "Amount:";
+            AmountLabel.TextAlign = ContentAlignment.TopRight;
+            // 
+            // CartAmountLabel
+            // 
+            CartAmountLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            CartAmountLabel.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            CartAmountLabel.Location = new Point(263, 273);
+            CartAmountLabel.Name = "CartAmountLabel";
+            CartAmountLabel.Size = new Size(387, 32);
+            CartAmountLabel.TabIndex = 8;
+            CartAmountLabel.Text = "0,0";
+            CartAmountLabel.TextAlign = ContentAlignment.TopRight;
+            // 
+            // ClearCartButton
+            // 
+            ClearCartButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            ClearCartButton.Location = new Point(567, 308);
+            ClearCartButton.Name = "ClearCartButton";
+            ClearCartButton.Size = new Size(83, 46);
+            ClearCartButton.TabIndex = 9;
+            ClearCartButton.Text = "Clear Cart";
+            ClearCartButton.UseVisualStyleBackColor = true;
+            ClearCartButton.Click += ClearCartButton_Click;
+            // 
+            // RemoveItemButton
+            // 
+            RemoveItemButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            RemoveItemButton.Location = new Point(478, 308);
+            RemoveItemButton.Name = "RemoveItemButton";
+            RemoveItemButton.Size = new Size(83, 46);
+            RemoveItemButton.TabIndex = 10;
+            RemoveItemButton.Text = "Remove item";
+            RemoveItemButton.UseVisualStyleBackColor = true;
+            RemoveItemButton.Click += RemoveItemButton_Click;
+            // 
+            // CreateOrderButton
+            // 
+            CreateOrderButton.Location = new Point(263, 308);
+            CreateOrderButton.Name = "CreateOrderButton";
+            CreateOrderButton.Size = new Size(83, 46);
+            CreateOrderButton.TabIndex = 11;
+            CreateOrderButton.Text = "Create Order";
+            CreateOrderButton.UseVisualStyleBackColor = true;
+            CreateOrderButton.Click += CreateOrderButton_Click;
+            // 
+            // CartsTab
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(CreateOrderButton);
+            Controls.Add(RemoveItemButton);
+            Controls.Add(ClearCartButton);
+            Controls.Add(CartAmountLabel);
+            Controls.Add(AmountLabel);
+            Controls.Add(CartLabel);
+            Controls.Add(CartContentListBox);
+            Controls.Add(CustomerComboBox);
+            Controls.Add(CustomerLabel);
+            Controls.Add(AddToCartButton);
+            Controls.Add(ItemsLabel);
+            Controls.Add(ItemsCartsListBox);
+            Name = "CartsTab";
+            Size = new Size(666, 510);
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private ListBox ItemsCartsListBox;
+        private Label ItemsLabel;
+        private Button AddToCartButton;
+        private Label CustomerLabel;
+        private ComboBox CustomerComboBox;
+        private ListBox CartContentListBox;
+        private Label CartLabel;
+        private Label AmountLabel;
+        private Label CartAmountLabel;
+        private Button ClearCartButton;
+        private Button RemoveItemButton;
+        private Button CreateOrderButton;
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\Panels\CustomersTab.cs ===
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Service;
+
+namespace ObjectOrientedPractics.View.Panels
+{
+    /// <summary>
+    /// Пользовательский элемент, который осуществляет логику работы с покупателями
+    /// </summary>
+    public partial class CustomersTab : UserControl
+    {
+        /// <summary>
+        /// Список покупателей, привязанный к графическому интерфейсу.
+        /// </summary>
+        private BindingList<Customer> _customers = new();
+
+        /// <summary>
+        /// Возвращает и задаёт список покупателей
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public BindingList<Customer> Customers
+        {
+            get
+            {
+                return _customers;
+            }
+            set
+            {
+                _customers = value;
+                RefreshCustomersListBox();
+            }
+        }
+
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="CustomersTab"/>.
+        /// Загружает сохранённых покупателей из файла JSON и настраивает фабрику генерации покупателей.
+        /// </summary>
+        public CustomersTab()
+        {
+            InitializeComponent();
+
+            CustomersListBox.DataSource = _customers;
+            CustomersListBox.DisplayMember = "Fullname";
+
+            try
+            {
+                CustomerFactory.SetUpCustomerFactory();
+
+                BindingList<Customer> tempCustomer = ProjectSerializer.DeserializeJsonCustomersFile("\\Saved Data\\Customer Objects.json");
+
+                if (tempCustomer != null)
+                {
+                    _customers = tempCustomer;
+                }
+
+                RefreshCustomersListBox();
+            }
+            catch { }
+
+            addressControl1.ReadOnly = false;
+        }
+
+        /// <summary>
+        /// Обработчик события нажатия на кнопку добавления покупателя по умолчанию.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void AddDefaultButton_Click(object sender, EventArgs e)
+        {
+            Customer newCustomer = new Customer();
+            _customers.Add(newCustomer);
+        }
+
+        /// <summary>
+        /// Обработчик события нажатия на кнопку добавления случайного покупателя.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void AddRandomButton_Click(object sender, EventArgs e)
+        {
+            Customer newCustomer = CustomerFactory.GenerateCustomer();
+            _customers.Add(newCustomer);
+        }
+
+        /// <summary>
+        /// Обработчик события нажатия на кнопку удаления выбранного покупателя.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
+        private void RemoveButton_Click(object sender, EventArgs e)
+        {
+            if (CustomersListBox.SelectedIndex != -1)
+            {
+                int selectedIndex = CustomersListBox.SelectedIndex;
+
+                _customers.RemoveAt(selectedIndex);
+
+                CustomersListBox.SelectedIndex = -1;
+
+                ClearCustomersInfo();
+            }
+
+        }
+
+        /// <summary>
+        /// Обработчик события изменения текста в поле полного имени покупателя.
+        /// Валидирует ввод и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Пргументы события.</param>
+        private void FullnameTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (CustomersListBox.SelectedIndex != -1)
+            {
+                try
+                {
+                    _customers[CustomersListBox.SelectedIndex].Fullname = FullnameTextBox.Text;
+                    FullnameTextBox.BackColor = Color.White;
+                }
+                catch { FullnameTextBox.BackColor = Color.LightPink; }
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события потери фокуса поля полного имени покупателя.
+        /// Обновления отображаемого имени покупателя в <see cref="CustomersListBox"/>
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Пргументы события.</param>
+        private void FullnameTextBox_Leave(object sender, EventArgs e)
+        {
+            RefreshCustomersListBox();
+        }
+
+        /// <summary>
+        /// ОБработчик события изменения поля адреса покупателя
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Пргументы события.</param>
+        private void addressControl1_OnAddressChanged(object sender, EventArgs e)
+        {
+            if (CustomersListBox.SelectedIndex != -1)
+            {
+                _customers[CustomersListBox.SelectedIndex].Address = addressControl1.CurrentAddress;
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события изменения выбранного элемента в списке покупателей.
+        /// Заполняет текстовые поля информацией о выбранном покупателе.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Пргументы события.</param>
+        private void CustomersListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (CustomersListBox.SelectedIndex != -1)
+            {
+                IDTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Id.ToString();
+                FullnameTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Fullname;
+                addressControl1.CurrentAddress = ((Customer)CustomersListBox.SelectedItem).Address;
+            }
+            else
+            {
+                ClearCustomersInfo();
+            }
+        }
+
+        /// <summary>
+        /// Очищает текстовые поля формы о данных покупателя.
+        /// </summary>
+        private void ClearCustomersInfo()
+        {
+            IDTextBox.Text = "";
+            FullnameTextBox.Text = "";
+            addressControl1.CurrentAddress = null;
+        }
+
+        /// <summary>
+        /// Обновляет отображение CustomersListBox
+        /// </summary>
+        private void RefreshCustomersListBox()
+        {
+            CustomersListBox.DataSource = null;
+            CustomersListBox.DataSource = _customers;
+            CustomersListBox.DisplayMember = "Fullname";
+        }
+
+        /// <summary>
+        /// Сериализует список покупателей
+        /// </summary>
+        public void SerializeCustomers()
+        {
+            ProjectSerializer.SerializeJsonCustomersFile(_customers, "\\Saved Data\\Customer Objects.json");
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\Panels\CustomersTab.Designer.cs ===
+namespace ObjectOrientedPractics.View.Panels
+{
+    partial class CustomersTab
+    {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            CustomersGroupBox = new GroupBox();
+            AddRandomButton = new Button();
+            RemoveButton = new Button();
+            AddDefaultButton = new Button();
+            CustomersListBox = new ListBox();
+            SelectedCustomerGroupBox = new GroupBox();
+            addressControl1 = new ObjectOrientedPractics.View.Control.AddressControl();
+            FullNameLabel = new Label();
+            IDLabel = new Label();
+            FullnameTextBox = new TextBox();
+            IDTextBox = new TextBox();
+            Panel1 = new Panel();
+            CustomersGroupBox.SuspendLayout();
+            SelectedCustomerGroupBox.SuspendLayout();
+            SuspendLayout();
+            // 
+            // CustomersGroupBox
+            // 
+            CustomersGroupBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            CustomersGroupBox.Controls.Add(AddRandomButton);
+            CustomersGroupBox.Controls.Add(RemoveButton);
+            CustomersGroupBox.Controls.Add(AddDefaultButton);
+            CustomersGroupBox.Controls.Add(CustomersListBox);
+            CustomersGroupBox.Location = new Point(3, 3);
+            CustomersGroupBox.Name = "CustomersGroupBox";
+            CustomersGroupBox.Size = new Size(251, 504);
+            CustomersGroupBox.TabIndex = 0;
+            CustomersGroupBox.TabStop = false;
+            CustomersGroupBox.Text = "Customers";
+            // 
+            // AddRandomButton
+            // 
+            AddRandomButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            AddRandomButton.Location = new Point(168, 452);
+            AddRandomButton.Name = "AddRandomButton";
+            AddRandomButton.Size = new Size(75, 46);
+            AddRandomButton.TabIndex = 2;
+            AddRandomButton.Text = "Add (Random)";
+            AddRandomButton.UseVisualStyleBackColor = true;
+            AddRandomButton.Click += AddRandomButton_Click;
+            // 
+            // RemoveButton
+            // 
+            RemoveButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            RemoveButton.Location = new Point(87, 452);
+            RemoveButton.Name = "RemoveButton";
+            RemoveButton.Size = new Size(75, 46);
+            RemoveButton.TabIndex = 2;
+            RemoveButton.Text = "Remove";
+            RemoveButton.UseVisualStyleBackColor = true;
+            RemoveButton.Click += RemoveButton_Click;
+            // 
+            // AddDefaultButton
+            // 
+            AddDefaultButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            AddDefaultButton.Location = new Point(6, 452);
+            AddDefaultButton.Name = "AddDefaultButton";
+            AddDefaultButton.Size = new Size(75, 46);
+            AddDefaultButton.TabIndex = 2;
+            AddDefaultButton.Text = "Add (Default)";
+            AddDefaultButton.UseVisualStyleBackColor = true;
+            AddDefaultButton.Click += AddDefaultButton_Click;
+            // 
+            // CustomersListBox
+            // 
+            CustomersListBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            CustomersListBox.FormattingEnabled = true;
+            CustomersListBox.Location = new Point(6, 22);
+            CustomersListBox.Name = "CustomersListBox";
+            CustomersListBox.Size = new Size(237, 424);
+            CustomersListBox.TabIndex = 2;
+            CustomersListBox.SelectedIndexChanged += CustomersListBox_SelectedIndexChanged;
+            // 
+            // SelectedCustomerGroupBox
+            // 
+            SelectedCustomerGroupBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            SelectedCustomerGroupBox.Controls.Add(addressControl1);
+            SelectedCustomerGroupBox.Controls.Add(FullNameLabel);
+            SelectedCustomerGroupBox.Controls.Add(IDLabel);
+            SelectedCustomerGroupBox.Controls.Add(FullnameTextBox);
+            SelectedCustomerGroupBox.Controls.Add(IDTextBox);
+            SelectedCustomerGroupBox.Location = new Point(260, 3);
+            SelectedCustomerGroupBox.Name = "SelectedCustomerGroupBox";
+            SelectedCustomerGroupBox.Size = new Size(403, 236);
+            SelectedCustomerGroupBox.TabIndex = 1;
+            SelectedCustomerGroupBox.TabStop = false;
+            SelectedCustomerGroupBox.Text = "Selected Customer";
+            // 
+            // addressControl1
+            // 
+            addressControl1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            addressControl1.Location = new Point(6, 87);
+            addressControl1.Name = "addressControl1";
+            addressControl1.Size = new Size(391, 145);
+            addressControl1.TabIndex = 5;
+            addressControl1.AddressChanged += addressControl1_OnAddressChanged;
+            // 
+            // FullNameLabel
+            // 
+            FullNameLabel.AutoSize = true;
+            FullNameLabel.Location = new Point(6, 61);
+            FullNameLabel.Name = "FullNameLabel";
+            FullNameLabel.Size = new Size(64, 15);
+            FullNameLabel.TabIndex = 4;
+            FullNameLabel.Text = "Full Name:";
+            // 
+            // IDLabel
+            // 
+            IDLabel.AutoSize = true;
+            IDLabel.Location = new Point(6, 32);
+            IDLabel.Name = "IDLabel";
+            IDLabel.Size = new Size(21, 15);
+            IDLabel.TabIndex = 3;
+            IDLabel.Text = "ID:";
+            // 
+            // FullnameTextBox
+            // 
+            FullnameTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            FullnameTextBox.Location = new Point(76, 58);
+            FullnameTextBox.Name = "FullnameTextBox";
+            FullnameTextBox.Size = new Size(321, 23);
+            FullnameTextBox.TabIndex = 1;
+            FullnameTextBox.TextChanged += FullnameTextBox_TextChanged;
+            FullnameTextBox.Leave += FullnameTextBox_Leave;
+            // 
+            // IDTextBox
+            // 
+            IDTextBox.Location = new Point(76, 29);
+            IDTextBox.Name = "IDTextBox";
+            IDTextBox.ReadOnly = true;
+            IDTextBox.Size = new Size(126, 23);
+            IDTextBox.TabIndex = 0;
+            // 
+            // Panel1
+            // 
+            Panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            Panel1.Location = new Point(260, 245);
+            Panel1.Name = "Panel1";
+            Panel1.Size = new Size(403, 256);
+            Panel1.TabIndex = 2;
+            // 
+            // CustomersTab
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(Panel1);
+            Controls.Add(SelectedCustomerGroupBox);
+            Controls.Add(CustomersGroupBox);
+            Name = "CustomersTab";
+            Size = new Size(666, 510);
+            CustomersGroupBox.ResumeLayout(false);
+            SelectedCustomerGroupBox.ResumeLayout(false);
+            SelectedCustomerGroupBox.PerformLayout();
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private GroupBox CustomersGroupBox;
+        private GroupBox SelectedCustomerGroupBox;
+        private ListBox CustomersListBox;
+        private Button AddRandomButton;
+        private Button RemoveButton;
+        private Button AddDefaultButton;
+        private TextBox IDTextBox;
+        private Panel Panel1;
+        private Label FullNameLabel;
+        private Label IDLabel;
+        private TextBox FullnameTextBox;
+        private Control.AddressControl addressControl1;
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\Panels\ItemsTab.cs ===
+using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Service;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+
+namespace ObjectOrientedPractics.View.Panels
+{
+    /// <summary>
+    /// Пользовательский элемент, который осуществляет логику работы с товарами
+    /// </summary>
+    public partial class ItemsTab : UserControl
+    {
+        /// <summary>
+        /// Список товаров, привязанный к графическому интерфейсу.
+        /// </summary>
+        private BindingList<Item> _items = new();
+
+        /// <summary>
+        /// Возвращает и задаёт список товаров
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        internal BindingList<Item> Items
+        {
+            get
+            {
+                return _items;
+            }
+            set
+            {
+                _items = value;
+                RefreshItemsListBox();
+            }
+        }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="ItemsTab"/>.
+        /// Загружает сохранённые товары из файла JSON и настраивает фабрику генерации товаров.
+        /// </summary>
+        public ItemsTab()
+        {
+            InitializeComponent();
+
+            ItemsListBox.DataSource = Items;
+            ItemsListBox.DisplayMember = "Name";
+
+            CategoryComboBox.DataSource = Enum.GetValues<ProductCategory>();
+
+            try
+            {
+                ItemFactory.SetUpItemFactory();
+
+                BindingList<Item> tempItems = ProjectSerializer.DeserializeJsonItemsFile("\\Saved Data\\Item Objects.json");
+
+                if (tempItems != null)
+                {
+                    Items = tempItems;
+                }
+
+                RefreshItemsListBox();
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// Обработчик события нажатия на кнопку добавления товара по умолчанию.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
+        private void AddDefaultButton_Click(object sender, EventArgs e)
+        {
+            Item newItem = new Item();
+            Items.Add(newItem);
+        }
+
+        /// <summary>
+        /// Оработчик события нажатия на кнопку добавления случайного товара.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
+        private void AddRandomButton_Click(object sender, EventArgs e)
+        {
+            Item newItem = ItemFactory.GenerateItem();
+            Items.Add(newItem);
+        }
+
+        /// <summary>
+        /// Обработчик события нажатия на кнопку удаления выбранного товара.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
+        private void RemoveButton_Click(object sender, EventArgs e)
+        {
+            if (ItemsListBox.SelectedIndex != -1)
+            {
+                int selectedIndex = ItemsListBox.SelectedIndex;
+
+                Items.RemoveAt(selectedIndex);
+
+                ItemsListBox.SelectedIndex = -1;
+
+                ClearItemsInfo();
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события изменения стоимости в поле товара.
+        /// Валидирует поле и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
+        private void CostTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (ItemsListBox.SelectedIndex != -1)
+            {
+                try
+                {
+                    Items[ItemsListBox.SelectedIndex].Cost = double.Parse(CostTextBox.Text);
+                    CostTextBox.BackColor = Color.White;
+                }
+                catch { CostTextBox.BackColor = Color.LightPink; }
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события изменения текста в поле названия товара.
+        /// Валидирует ввод и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
+        private void NameTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (ItemsListBox.SelectedIndex != -1)
+            {
+                try
+                {
+                    Items[ItemsListBox.SelectedIndex].Name = NameTextBox.Text;
+                    NameTextBox.BackColor = Color.White;
+                }
+                catch { NameTextBox.BackColor = Color.LightPink; }
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события потери фокуса поля названия товара.
+        /// Обновляет отображаемое название товара в <see cref="ItemsListBox"/>
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
+        private void NameTextBox_Leave(object sender, EventArgs e)
+        {
+            RefreshItemsListBox();
+        }
+
+        /// <summary>
+        /// Обработчик события изменения текста в поле описания товара.
+        /// Валидирует ввод и подсвечивает поле при ошибке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
+        private void DescriptionTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (ItemsListBox.SelectedIndex != -1)
+            {
+                try
+                {
+                    Items[ItemsListBox.SelectedIndex].Info = DescriptionTextBox.Text;
+                    DescriptionTextBox.BackColor = Color.White;
+                }
+                catch { DescriptionTextBox.BackColor = Color.LightPink; }
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события изменения выбранного элемента в выпадающем списке категории товара.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
+        private void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selectedIndex = ItemsListBox.SelectedIndex;
+
+            if (selectedIndex != -1)
+            {
+                Items[selectedIndex].Category = (ProductCategory)CategoryComboBox.SelectedItem;
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события изменения выбраного элемента в списке товаров.
+        /// Заполняет текстовые поля информацией о выбранном товаре.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
+        private void ItemsListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ItemsListBox.SelectedIndex != -1)
+            {
+                IDTextBox.Text = ((Item)ItemsListBox.SelectedItem).Id.ToString();
+                NameTextBox.Text = ((Item)ItemsListBox.SelectedItem).Name;
+                DescriptionTextBox.Text = ((Item)ItemsListBox.SelectedItem).Info;
+                CostTextBox.Text = ((Item)ItemsListBox.SelectedItem).Cost.ToString();
+                CategoryComboBox.SelectedItem = ((Item)ItemsListBox.SelectedItem).Category;
+            }
+            else
+            {
+                ClearItemsInfo();
+            }
+        }
+
+        /// <summary>
+        /// Очищает текстовые поля формы от данных товара.
+        /// </summary>
+        private void ClearItemsInfo()
+        {
+            IDTextBox.Text = "";
+            CostTextBox.Text = "";
+            NameTextBox.Text = "";
+            DescriptionTextBox.Text = "";
+            CategoryComboBox.SelectedIndex = -1;
+        }
+
+        /// <summary>
+        /// Обновляет отображение ItemsListBox
+        /// </summary>
+        private void RefreshItemsListBox()
+        {
+            ItemsListBox.DataSource = null;
+            ItemsListBox.DataSource = Items;
+            ItemsListBox.DisplayMember = "Name";
+        }
+
+        /// <summary>
+        /// Сериализует список товаров 
+        /// </summary>
+        public void SerializeItems()
+        {
+            ProjectSerializer.SerializeJsonItemsFile(Items, "\\Saved Data\\Item Objects.json");
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\Panels\ItemsTab.Designer.cs ===
+namespace ObjectOrientedPractics.View.Panels
+{
+    partial class ItemsTab
+    {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            ItemsGroupBox = new GroupBox();
+            AddRandomButton = new Button();
+            RemoveButton = new Button();
+            AddDefaultButton = new Button();
+            ItemsListBox = new ListBox();
+            SelectedItemGroupBox = new GroupBox();
+            CategoryLabel = new Label();
+            CategoryComboBox = new ComboBox();
+            DescriptionLabel = new Label();
+            NameLabel = new Label();
+            label2 = new Label();
+            IdLabel = new Label();
+            DescriptionTextBox = new TextBox();
+            NameTextBox = new TextBox();
+            CostTextBox = new TextBox();
+            IDTextBox = new TextBox();
+            ItemsGroupBox.SuspendLayout();
+            SelectedItemGroupBox.SuspendLayout();
+            SuspendLayout();
+            // 
+            // ItemsGroupBox
+            // 
+            ItemsGroupBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            ItemsGroupBox.Controls.Add(AddRandomButton);
+            ItemsGroupBox.Controls.Add(RemoveButton);
+            ItemsGroupBox.Controls.Add(AddDefaultButton);
+            ItemsGroupBox.Controls.Add(ItemsListBox);
+            ItemsGroupBox.Location = new Point(3, 3);
+            ItemsGroupBox.Name = "ItemsGroupBox";
+            ItemsGroupBox.Size = new Size(251, 504);
+            ItemsGroupBox.TabIndex = 0;
+            ItemsGroupBox.TabStop = false;
+            ItemsGroupBox.Text = "Items";
+            // 
+            // AddRandomButton
+            // 
+            AddRandomButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            AddRandomButton.Location = new Point(168, 452);
+            AddRandomButton.Name = "AddRandomButton";
+            AddRandomButton.Size = new Size(75, 46);
+            AddRandomButton.TabIndex = 2;
+            AddRandomButton.Text = "Add (Random)";
+            AddRandomButton.UseVisualStyleBackColor = true;
+            AddRandomButton.Click += AddRandomButton_Click;
+            // 
+            // RemoveButton
+            // 
+            RemoveButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            RemoveButton.Location = new Point(87, 452);
+            RemoveButton.Name = "RemoveButton";
+            RemoveButton.Size = new Size(75, 46);
+            RemoveButton.TabIndex = 1;
+            RemoveButton.Text = "Remove";
+            RemoveButton.UseVisualStyleBackColor = true;
+            RemoveButton.Click += RemoveButton_Click;
+            // 
+            // AddDefaultButton
+            // 
+            AddDefaultButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            AddDefaultButton.Location = new Point(6, 452);
+            AddDefaultButton.Name = "AddDefaultButton";
+            AddDefaultButton.Size = new Size(75, 46);
+            AddDefaultButton.TabIndex = 1;
+            AddDefaultButton.Text = "Add (Default)";
+            AddDefaultButton.UseVisualStyleBackColor = true;
+            AddDefaultButton.Click += AddDefaultButton_Click;
+            // 
+            // ItemsListBox
+            // 
+            ItemsListBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            ItemsListBox.FormattingEnabled = true;
+            ItemsListBox.Location = new Point(6, 22);
+            ItemsListBox.Name = "ItemsListBox";
+            ItemsListBox.Size = new Size(237, 424);
+            ItemsListBox.TabIndex = 0;
+            ItemsListBox.SelectedIndexChanged += ItemsListBox_SelectedIndexChanged;
+            // 
+            // SelectedItemGroupBox
+            // 
+            SelectedItemGroupBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            SelectedItemGroupBox.Controls.Add(CategoryLabel);
+            SelectedItemGroupBox.Controls.Add(CategoryComboBox);
+            SelectedItemGroupBox.Controls.Add(DescriptionLabel);
+            SelectedItemGroupBox.Controls.Add(NameLabel);
+            SelectedItemGroupBox.Controls.Add(label2);
+            SelectedItemGroupBox.Controls.Add(IdLabel);
+            SelectedItemGroupBox.Controls.Add(DescriptionTextBox);
+            SelectedItemGroupBox.Controls.Add(NameTextBox);
+            SelectedItemGroupBox.Controls.Add(CostTextBox);
+            SelectedItemGroupBox.Controls.Add(IDTextBox);
+            SelectedItemGroupBox.Location = new Point(260, 3);
+            SelectedItemGroupBox.Name = "SelectedItemGroupBox";
+            SelectedItemGroupBox.Size = new Size(403, 504);
+            SelectedItemGroupBox.TabIndex = 1;
+            SelectedItemGroupBox.TabStop = false;
+            SelectedItemGroupBox.Text = "Selected Item";
+            // 
+            // CategoryLabel
+            // 
+            CategoryLabel.AutoSize = true;
+            CategoryLabel.Location = new Point(6, 90);
+            CategoryLabel.Name = "CategoryLabel";
+            CategoryLabel.Size = new Size(58, 15);
+            CategoryLabel.TabIndex = 9;
+            CategoryLabel.Text = "Category:";
+            // 
+            // CategoryComboBox
+            // 
+            CategoryComboBox.FormattingEnabled = true;
+            CategoryComboBox.Location = new Point(76, 87);
+            CategoryComboBox.Name = "CategoryComboBox";
+            CategoryComboBox.Size = new Size(126, 23);
+            CategoryComboBox.TabIndex = 8;
+            CategoryComboBox.SelectedIndexChanged += CategoryComboBox_SelectedIndexChanged;
+            // 
+            // DescriptionLabel
+            // 
+            DescriptionLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            DescriptionLabel.AutoSize = true;
+            DescriptionLabel.Location = new Point(6, 265);
+            DescriptionLabel.Name = "DescriptionLabel";
+            DescriptionLabel.Size = new Size(70, 15);
+            DescriptionLabel.TabIndex = 7;
+            DescriptionLabel.Text = "Description:";
+            // 
+            // NameLabel
+            // 
+            NameLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            NameLabel.AutoSize = true;
+            NameLabel.Location = new Point(6, 124);
+            NameLabel.Name = "NameLabel";
+            NameLabel.Size = new Size(42, 15);
+            NameLabel.TabIndex = 6;
+            NameLabel.Text = "Name:";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(6, 61);
+            label2.Name = "label2";
+            label2.Size = new Size(34, 15);
+            label2.TabIndex = 5;
+            label2.Text = "Cost:";
+            // 
+            // IdLabel
+            // 
+            IdLabel.AutoSize = true;
+            IdLabel.Location = new Point(6, 32);
+            IdLabel.Name = "IdLabel";
+            IdLabel.Size = new Size(21, 15);
+            IdLabel.TabIndex = 4;
+            IdLabel.Text = "ID:";
+            // 
+            // DescriptionTextBox
+            // 
+            DescriptionTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            DescriptionTextBox.Location = new Point(6, 283);
+            DescriptionTextBox.Multiline = true;
+            DescriptionTextBox.Name = "DescriptionTextBox";
+            DescriptionTextBox.Size = new Size(391, 146);
+            DescriptionTextBox.TabIndex = 3;
+            DescriptionTextBox.TextChanged += DescriptionTextBox_TextChanged;
+            // 
+            // NameTextBox
+            // 
+            NameTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            NameTextBox.Location = new Point(6, 142);
+            NameTextBox.Multiline = true;
+            NameTextBox.Name = "NameTextBox";
+            NameTextBox.Size = new Size(391, 100);
+            NameTextBox.TabIndex = 2;
+            NameTextBox.TextChanged += NameTextBox_TextChanged;
+            NameTextBox.Leave += NameTextBox_Leave;
+            // 
+            // CostTextBox
+            // 
+            CostTextBox.Location = new Point(76, 58);
+            CostTextBox.Name = "CostTextBox";
+            CostTextBox.Size = new Size(126, 23);
+            CostTextBox.TabIndex = 1;
+            CostTextBox.TextChanged += CostTextBox_TextChanged;
+            // 
+            // IDTextBox
+            // 
+            IDTextBox.Location = new Point(76, 29);
+            IDTextBox.Name = "IDTextBox";
+            IDTextBox.ReadOnly = true;
+            IDTextBox.Size = new Size(126, 23);
+            IDTextBox.TabIndex = 0;
+            // 
+            // ItemsTab
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(SelectedItemGroupBox);
+            Controls.Add(ItemsGroupBox);
+            Name = "ItemsTab";
+            Size = new Size(666, 510);
+            ItemsGroupBox.ResumeLayout(false);
+            SelectedItemGroupBox.ResumeLayout(false);
+            SelectedItemGroupBox.PerformLayout();
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private GroupBox ItemsGroupBox;
+        private Button AddRandomButton;
+        private Button RemoveButton;
+        private Button AddDefaultButton;
+        private ListBox ItemsListBox;
+        private GroupBox SelectedItemGroupBox;
+        private Label DescriptionLabel;
+        private Label NameLabel;
+        private Label label2;
+        private Label IdLabel;
+        private TextBox DescriptionTextBox;
+        private TextBox NameTextBox;
+        private TextBox CostTextBox;
+        private TextBox IDTextBox;
+        private Label CategoryLabel;
+        private ComboBox CategoryComboBox;
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\Panels\OrdersTab.cs ===
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.View.Control;
+
+namespace ObjectOrientedPractics.View.Panels
+{
+    public partial class OrdersTab : UserControl
+    {
+        private BindingList<Customer> _customer = new();
+        private BindingList<Order> _orders = new();
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public BindingList<Customer> Customers
+        {
+            get { return _customer; }
+            set
+            {
+                _customer = value;
+                UpdateOrders();
+            }
+        }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public BindingList<Order> Orders
+        {
+            get { return _orders; }
+            set { _orders = value; }
+        }
+
+        public OrdersTab()
+        {
+            InitializeComponent();
+
+            orderControl1.dataGridView1.DataSource = Orders;
+        }
+
+        public void UpdateOrders()
+        {
+            Orders.Clear();
+            foreach (Customer customer in Customers)
+            {
+                foreach(Order order in customer.Orders)
+                {
+                    Orders.Add(order);
+                }
+            }
+        }
+    }
+}
+=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\Panels\OrdersTab.Designer.cs ===
+namespace ObjectOrientedPractics.View.Panels
+{
+    partial class OrdersTab
+    {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            selectedOrderControl1 = new ObjectOrientedPractics.View.Controls.SelectedOrderControl();
+            orderControl1 = new ObjectOrientedPractics.View.Controls.OrderControl();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            tableLayoutPanel1.SuspendLayout();
+            SuspendLayout();
+            // 
+            // selectedOrderControl1
+            // 
+            selectedOrderControl1.Dock = DockStyle.Fill;
+            selectedOrderControl1.Location = new Point(336, 3);
+            selectedOrderControl1.Name = "selectedOrderControl1";
+            selectedOrderControl1.Size = new Size(327, 504);
+            selectedOrderControl1.TabIndex = 1;
+            // 
+            // orderControl1
+            // 
+            orderControl1.Dock = DockStyle.Fill;
+            orderControl1.Location = new Point(3, 3);
+            orderControl1.Name = "orderControl1";
+            orderControl1.Size = new Size(327, 504);
+            orderControl1.TabIndex = 0;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Controls.Add(orderControl1, 0, 0);
+            tableLayoutPanel1.Controls.Add(selectedOrderControl1, 1, 0);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Size = new Size(666, 510);
+            tableLayoutPanel1.TabIndex = 14;
+            // 
+            // OrdersTab
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(tableLayoutPanel1);
+            Name = "OrdersTab";
+            Size = new Size(666, 510);
+            tableLayoutPanel1.ResumeLayout(false);
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private Controls.SelectedOrderControl selectedOrderControl1;
+        private Controls.OrderControl orderControl1;
+        private TableLayoutPanel tableLayoutPanel1;
+    }
+}
