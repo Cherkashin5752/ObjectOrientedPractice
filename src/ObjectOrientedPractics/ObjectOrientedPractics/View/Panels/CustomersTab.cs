@@ -63,6 +63,8 @@ namespace ObjectOrientedPractics.View.Panels
                 RefreshCustomersListBox();
             }
             catch { }
+
+            addressControl1.ReadOnly = false;
         }
 
         /// <summary>

@@ -120,5 +120,10 @@ namespace ObjectOrientedPractics.Model
             Cart = new Cart();
             Orders = new List<Order>();
         }
+
+        static public void SetIdCounter(int maxId)
+        {
+            _idCounter = ++maxId;
+        }
     }
 }

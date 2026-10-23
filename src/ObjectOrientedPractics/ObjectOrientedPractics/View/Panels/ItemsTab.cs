@@ -201,7 +201,7 @@ namespace ObjectOrientedPractics.View.Panels
         {
             if (ItemsListBox.SelectedIndex != -1)
             {
-                IDTextBox.Text = ((Item)ItemsListBox.SelectedItem).ID.ToString();
+                IDTextBox.Text = ((Item)ItemsListBox.SelectedItem).Id.ToString();
                 NameTextBox.Text = ((Item)ItemsListBox.SelectedItem).Name;
                 DescriptionTextBox.Text = ((Item)ItemsListBox.SelectedItem).Info;
                 CostTextBox.Text = ((Item)ItemsListBox.SelectedItem).Cost.ToString();

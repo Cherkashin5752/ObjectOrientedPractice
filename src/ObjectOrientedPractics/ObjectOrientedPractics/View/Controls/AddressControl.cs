@@ -1,5 +1,7 @@
 ﻿using ObjectOrientedPractics.Model;
 using System.ComponentModel;
+using WinControl = System.Windows.Forms.Control;
+using WinTextBox = System.Windows.Forms.TextBox;
 
 namespace ObjectOrientedPractics.View.Control
 {
@@ -12,6 +14,8 @@ namespace ObjectOrientedPractics.View.Control
         /// Сдрес текуще-выбранного покупателя
         /// </summary>
         private Address _currentAddress;
+
+        private bool _readOnly;
 
         /// <summary>
         /// Событие. Возникает при изменении любого поля класса
@@ -39,6 +43,19 @@ namespace ObjectOrientedPractics.View.Control
                 _currentAddress = value;
 
                 RefreshAddressInfo();
+            }
+        }
+
+        [System.ComponentModel.Category("Behavior")]
+        [System.ComponentModel.Description("Определяет, доступны ли поля адреса только для чтения.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public bool ReadOnly
+        {
+            get => _readOnly;
+            set
+            {
+                _readOnly = value;
+                SetTextBoxesReadOnly(this, value);
             }
         }
 
@@ -201,6 +218,22 @@ namespace ObjectOrientedPractics.View.Control
                     ApartmentTextBox.BackColor = Color.White;
                 }
                 catch { ApartmentTextBox.BackColor = Color.LightPink; }
+            }
+        }
+
+        private void SetTextBoxesReadOnly(WinControl parent, bool isReadOnly)
+        {
+            foreach (WinControl control in parent.Controls)
+            {
+                if (control is WinTextBox textBox)
+                {
+                    textBox.ReadOnly = isReadOnly;
+                }
+
+                if (control.HasChildren)
+                {
+                    SetTextBoxesReadOnly(control, isReadOnly);
+                }
             }
         }
     }

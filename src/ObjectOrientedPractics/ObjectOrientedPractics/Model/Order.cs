@@ -117,5 +117,10 @@ namespace ObjectOrientedPractics.Model
             Amount = customer.Cart.Amount;
             Status = OrderStatus.New;
         }
+
+        static public void SetIdCounter(int maxId)
+        {
+            _idCounter = ++maxId;
+        }
     }
 }
