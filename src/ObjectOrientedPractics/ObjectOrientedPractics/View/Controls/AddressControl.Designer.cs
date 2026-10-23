@@ -84,7 +84,7 @@
             BuildingTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             BuildingTextBox.Location = new Point(72, 114);
             BuildingTextBox.Name = "BuildingTextBox";
-            BuildingTextBox.Size = new Size(114, 23);
+            BuildingTextBox.Size = new Size(175, 23);
             BuildingTextBox.TabIndex = 4;
             BuildingTextBox.TextChanged += BuildingTextBox_TextChanged;
             // 
@@ -100,7 +100,7 @@
             // ApartmentTextBox
             // 
             ApartmentTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            ApartmentTextBox.Location = new Point(279, 114);
+            ApartmentTextBox.Location = new Point(326, 114);
             ApartmentTextBox.Name = "ApartmentTextBox";
             ApartmentTextBox.Size = new Size(100, 23);
             ApartmentTextBox.TabIndex = 6;
@@ -156,7 +156,7 @@
             // 
             ApartmentLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ApartmentLabel.AutoSize = true;
-            ApartmentLabel.Location = new Point(206, 117);
+            ApartmentLabel.Location = new Point(253, 117);
             ApartmentLabel.Name = "ApartmentLabel";
             ApartmentLabel.Size = new Size(67, 15);
             ApartmentLabel.TabIndex = 12;

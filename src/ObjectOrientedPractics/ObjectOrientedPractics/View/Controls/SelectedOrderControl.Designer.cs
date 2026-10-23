@@ -54,29 +54,26 @@
             // 
             // IdTextBox
             // 
-            IdTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             IdTextBox.Location = new Point(73, 24);
             IdTextBox.Name = "IdTextBox";
             IdTextBox.ReadOnly = true;
-            IdTextBox.Size = new Size(157, 23);
+            IdTextBox.Size = new Size(110, 23);
             IdTextBox.TabIndex = 1;
             // 
             // CreatedTextBox
             // 
-            CreatedTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             CreatedTextBox.Location = new Point(73, 53);
             CreatedTextBox.Name = "CreatedTextBox";
             CreatedTextBox.ReadOnly = true;
-            CreatedTextBox.Size = new Size(157, 23);
+            CreatedTextBox.Size = new Size(110, 23);
             CreatedTextBox.TabIndex = 2;
             // 
             // StatusComboBox
             // 
-            StatusComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             StatusComboBox.FormattingEnabled = true;
             StatusComboBox.Location = new Point(73, 82);
             StatusComboBox.Name = "StatusComboBox";
-            StatusComboBox.Size = new Size(157, 23);
+            StatusComboBox.Size = new Size(110, 23);
             StatusComboBox.TabIndex = 3;
             // 
             // addressControl1
@@ -84,7 +81,7 @@
             addressControl1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             addressControl1.Location = new Point(3, 111);
             addressControl1.Name = "addressControl1";
-            addressControl1.Size = new Size(458, 145);
+            addressControl1.Size = new Size(472, 145);
             addressControl1.TabIndex = 4;
             // 
             // OrderItemsLabel
@@ -103,7 +100,7 @@
             ItemsOrderListBox.FormattingEnabled = true;
             ItemsOrderListBox.Location = new Point(3, 277);
             ItemsOrderListBox.Name = "ItemsOrderListBox";
-            ItemsOrderListBox.Size = new Size(458, 154);
+            ItemsOrderListBox.Size = new Size(472, 154);
             ItemsOrderListBox.TabIndex = 6;
             // 
             // IdLabel
@@ -137,7 +134,7 @@
             // 
             AmountLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             AmountLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            AmountLabel.Location = new Point(387, 434);
+            AmountLabel.Location = new Point(401, 434);
             AmountLabel.Name = "AmountLabel";
             AmountLabel.Size = new Size(74, 20);
             AmountLabel.TabIndex = 10;
@@ -146,11 +143,11 @@
             // 
             // AmountOrderLabel
             // 
-            AmountOrderLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            AmountOrderLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             AmountOrderLabel.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            AmountOrderLabel.Location = new Point(361, 454);
+            AmountOrderLabel.Location = new Point(3, 454);
             AmountOrderLabel.Name = "AmountOrderLabel";
-            AmountOrderLabel.Size = new Size(100, 38);
+            AmountOrderLabel.Size = new Size(472, 38);
             AmountOrderLabel.TabIndex = 11;
             AmountOrderLabel.Text = "0,0";
             AmountOrderLabel.TextAlign = ContentAlignment.TopRight;
@@ -172,7 +169,7 @@
             Controls.Add(IdTextBox);
             Controls.Add(SelectedOrderLabel);
             Name = "SelectedOrderControl";
-            Size = new Size(464, 492);
+            Size = new Size(478, 492);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -182,7 +179,7 @@
         private Label SelectedOrderLabel;
         private TextBox IdTextBox;
         private TextBox CreatedTextBox;
-        private ComboBox StatusComboBox;
+        public ComboBox StatusComboBox;
         private Control.AddressControl addressControl1;
         private Label OrderItemsLabel;
         private ListBox ItemsOrderListBox;

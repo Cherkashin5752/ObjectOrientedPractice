@@ -153,5 +153,14 @@ namespace ObjectOrientedPractics.Model
             Building = address.Building;
             Apartment = address.Apartment;
         }
+
+        /// <summary>
+        /// Возвращает строку, содержащюю все элементы экземпляра
+        /// </summary>
+        /// <returns>Строка состояния всех полей</returns>
+        public override string ToString()
+        {
+            return $"{Index}, {Country}, {City}, {Street}, {Building}, {Apartment}";
+        }
     }
 }

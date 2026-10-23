@@ -37,18 +37,20 @@
             // selectedOrderControl1
             // 
             selectedOrderControl1.Dock = DockStyle.Fill;
-            selectedOrderControl1.Location = new Point(336, 3);
+            selectedOrderControl1.Location = new Point(409, 3);
             selectedOrderControl1.Name = "selectedOrderControl1";
-            selectedOrderControl1.Size = new Size(327, 504);
+            selectedOrderControl1.Size = new Size(401, 504);
             selectedOrderControl1.TabIndex = 1;
+            selectedOrderControl1.StatusComboBox.SelectedIndexChanged += StatusOrder_SelectedIndexChanged;
             // 
             // orderControl1
             // 
             orderControl1.Dock = DockStyle.Fill;
             orderControl1.Location = new Point(3, 3);
             orderControl1.Name = "orderControl1";
-            orderControl1.Size = new Size(327, 504);
+            orderControl1.Size = new Size(400, 504);
             orderControl1.TabIndex = 0;
+            orderControl1.dataGridView1.SelectionChanged += DataGridView_SelectionChanged;
             // 
             // tableLayoutPanel1
             // 
@@ -68,7 +70,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new Size(666, 510);
+            tableLayoutPanel1.Size = new Size(813, 510);
             tableLayoutPanel1.TabIndex = 14;
             // 
             // OrdersTab
@@ -77,7 +79,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel1);
             Name = "OrdersTab";
-            Size = new Size(666, 510);
+            Size = new Size(813, 510);
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }

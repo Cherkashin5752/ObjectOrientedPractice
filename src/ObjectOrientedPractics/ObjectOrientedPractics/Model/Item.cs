@@ -90,6 +90,9 @@ namespace ObjectOrientedPractics.Model
             }
         }
 
+        /// <summary>
+        /// Возвращает и задаёт категорию товара
+        /// </summary>
         public ProductCategory Category { get; set; }
 
         /// <summary>
@@ -120,6 +123,10 @@ namespace ObjectOrientedPractics.Model
             Category = category;
         }
 
+        /// <summary>
+        /// Устанавливает _idCounter
+        /// </summary>
+        /// <param name="maxId"></param>
         static public void SetIdCounter(int maxId)
         {
             _idCounter = ++maxId;

@@ -19,10 +19,13 @@ namespace ObjectOrientedPractics.Service
         static private List<string> _fullnames = new List<string>();
 
         /// <summary>
-        /// Список адрессов покупателей, загруженных из файла.
+        /// Список адресов покупателей, загруженных из файла.
         /// </summary>
         static private List<Address> _addresses = new List<Address>();
 
+        /// <summary>
+        /// Генератор случайных чисел.
+        /// </summary>
         static private Random _random = new Random();
 
         /// <summary>
@@ -65,8 +68,8 @@ namespace ObjectOrientedPractics.Service
         /// </summary>
         static public void SetUpCustomerFactory()
         {
-            _fullnames = ProjectSerializer.Deserialize<List<string>>("Preload Data\\Items Names.json");
-            _addresses = ProjectSerializer.Deserialize<List<Address>>("Preload Data\\Items Addresses.json");
+            _fullnames = ProjectSerializer.Deserialize<List<string>>("Preload Data\\Customer Fullnames.json");
+            _addresses = ProjectSerializer.Deserialize<List<Address>>("Preload Data\\Customer Addresses.json");
 
             if (_fullnames != null && _addresses != null)
             {

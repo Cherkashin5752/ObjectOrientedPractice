@@ -87,6 +87,11 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
+        /// Возвращает полное имя покупателя заказа
+        /// </summary>
+        public string CustomerFullname { get; init; }
+
+        /// <summary>
         /// Возвращает и задаёт статус заказа
         /// </summary>
         public OrderStatus Status { get; set; }
@@ -101,6 +106,7 @@ namespace ObjectOrientedPractics.Model
             Address = new Address();
             Items = new();
             Amount = 0.0;
+            CustomerFullname = "Default";
             Status = OrderStatus.New;
         }
 
@@ -115,9 +121,14 @@ namespace ObjectOrientedPractics.Model
             Address = new Address(customer.Address);
             Items = new BindingList<Item>(customer.Cart.Items.ToList());
             Amount = customer.Cart.Amount;
+            CustomerFullname = customer.Fullname;
             Status = OrderStatus.New;
         }
 
+        /// <summary>
+        /// Устанавливает _idCounter
+        /// </summary>
+        /// <param name="maxId"></param>
         static public void SetIdCounter(int maxId)
         {
             _idCounter = ++maxId;

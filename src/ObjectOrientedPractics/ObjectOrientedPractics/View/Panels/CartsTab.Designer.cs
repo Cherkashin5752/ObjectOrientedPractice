@@ -188,11 +188,11 @@
 
         #endregion
 
-        private ListBox ItemsCartsListBox;
+        public ListBox ItemsCartsListBox;
         private Label ItemsLabel;
         private Button AddToCartButton;
         private Label CustomerLabel;
-        private ComboBox CustomerComboBox;
+        public ComboBox CustomerComboBox;
         private ListBox CartContentListBox;
         private Label CartLabel;
         private Label AmountLabel;

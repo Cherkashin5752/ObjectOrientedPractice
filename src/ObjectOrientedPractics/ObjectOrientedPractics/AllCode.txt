@@ -172,6 +172,11 @@ namespace ObjectOrientedPractics.Model
             Building = address.Building;
             Apartment = address.Apartment;
         }
+
+        public override string ToString()
+        {
+            return $"{Index}, {Country}, {City}, {Street}, {Building}, {Apartment}";
+        }
     }
 }
 === FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Model\Cart.cs ===
@@ -575,6 +580,8 @@ namespace ObjectOrientedPractics.Model
             set { _amount = value; }
         }
 
+        public string CustomerFullname { get; init; }
+
         /// <summary>
         /// Возвращает и задаёт статус заказа
         /// </summary>
@@ -590,6 +597,7 @@ namespace ObjectOrientedPractics.Model
             Address = new Address();
             Items = new();
             Amount = 0.0;
+            CustomerFullname = "Default";
             Status = OrderStatus.New;
         }
 
@@ -604,6 +612,7 @@ namespace ObjectOrientedPractics.Model
             Address = new Address(customer.Address);
             Items = new BindingList<Item>(customer.Cart.Items.ToList());
             Amount = customer.Cart.Amount;
+            CustomerFullname = customer.Fullname;
             Status = OrderStatus.New;
         }
 
@@ -653,81 +662,6 @@ namespace ObjectOrientedPractics.Model
         {
             Items = new();
             Customers = new();
-        }
-    }
-}
-=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Model\Subject.cs ===
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ObjectOrientedPractics.Model
-{
-    /// <summary>
-    /// Хранит название, количество часов и преподавателя дисциплины
-    /// </summary>
-    internal class Subject
-    {
-        /// <summary>
-        /// Возвращает и задаёт название дисциплины
-        /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
-        /// Возвращает и щадаёт количество часов дисциплины
-        /// </summary>
-        public int FullHours { get; set; }
-
-        /// <summary>
-        /// Возвращает и задаёт преподпвателя ддисциплины
-        /// </summary>
-        public Teacher Teacher { get; set; }
-
-        /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="Subject">
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="fullHours"></param>
-        /// <param name="teacher"></param>
-        public Subject(string title, int fullHours, string name, int experience)
-        {
-            Title = title;
-            FullHours = fullHours;
-            Teacher = new Teacher(name, experience);
-        }
-    }
-}
-=== FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Model\Teacher.cs ===
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ObjectOrientedPractics.Model
-{
-    /// <summary>
-    /// Хранит имя и опыт преподавателя
-    /// </summary>
-    internal class Teacher
-    {
-        /// <summary>
-        /// Возвращает и задаёт имя
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Возвращает и задаёт опыт
-        /// </summary>
-        public int Experience { get; set; }
-
-        /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="Teacher">
-        /// </summary>
-        /// <param name="name">Имя преподавателя</param>
-        /// <param name="experience">Опыт преподавателя</param>
-        public Teacher(string name, int experience)
-        {
-            Name = name;
-            Experience = experience;
         }
     }
 }
@@ -842,26 +776,14 @@ namespace ObjectOrientedPractics.Service
         /// </summary>
         static public void SetUpCustomerFactory()
         {
-            string reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Customers Fullnames.json");
-
-            if (reader != null)
-            {
-                _fullnames = JsonConvert.DeserializeObject<List<string>>(reader);
-            }
-
-            reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Customers Addresses.json");
-
-            if (reader != null)
-            {
-                _addresses = JsonConvert.DeserializeObject<List<Address>>(reader);
-            }
+            _fullnames = ProjectSerializer.Deserialize<List<string>>("Preload Data\\Customer Fullnames.json");
+            _addresses = ProjectSerializer.Deserialize<List<Address>>("Preload Data\\Customer Addresses.json");
 
             if (_fullnames != null && _addresses != null)
             {
                 maxCustomersCount = int.Min(_fullnames.Count, _addresses.Count);
             }
         }
-
     }
 }
 === FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\Service\ItemFactory.cs ===
@@ -941,19 +863,9 @@ namespace ObjectOrientedPractics.Service
         /// </summary>
         static public void SetUpItemFactory()
         {
-            string reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Items Names.json");
 
-            if (reader != null)
-            {
-                _names = JsonConvert.DeserializeObject<List<string>>(reader);
-            }
-
-            reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Items Info.json");
-
-            if (reader != null)
-            {
-                _info = JsonConvert.DeserializeObject<List<string>>(reader);
-            }
+            _names = ProjectSerializer.Deserialize<List<string>>("Preload Data\\Items Names.json");
+            _info = ProjectSerializer.Deserialize<List<string>>("Preload Data\\Items Info.json");
 
             _caregories = Enum.GetValues<ProductCategory>().ToList();
 
@@ -985,7 +897,7 @@ namespace ObjectOrientedPractics.Service
 
         static public void CreateDirectoryExist(string path)
         {
-            string directory = Path.GetDirectoryName(PathService.GetProjectRootDir() + path);
+            string directory = Path.GetDirectoryName(Path.Combine(PathService.GetProjectRootDir(), path));
 
             if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
             {
@@ -1027,7 +939,7 @@ namespace ObjectOrientedPractics.Service
         /// <param name="path">Путь к файлу, в который будут записаны данные</param>
         static public void Serialize<T>(T data, string relativePath)
         {
-            string fullPath = Path.Combine(PathService.GetProjectRootDir(), relativePath); ;
+            string fullPath = Path.Combine(PathService.GetProjectRootDir(), relativePath);
 
             PathService.CreateDirectoryExist(relativePath);
 
@@ -1276,7 +1188,7 @@ namespace ObjectOrientedPractics
             CustomersTab.Padding = new Padding(3);
             CustomersTab.Size = new Size(755, 448);
             CustomersTab.TabIndex = 1;
-            CustomersTab.Text = "Cusotmers";
+            CustomersTab.Text = "Customers";
             // 
             // customersTab1
             // 
@@ -1437,6 +1349,13 @@ namespace ObjectOrientedPractics.View.Control
             StreetTextBox.Text = "";
             BuildingTextBox.Text = "";
             ApartmentTextBox.Text = "";
+
+            PostIndexTextBox.BackColor = Color.White;
+            CountryTextBox.BackColor = Color.White;
+            CityTextBox.BackColor = Color.White;
+            StreetTextBox.BackColor = Color.White;
+            BuildingTextBox.BackColor = Color.White;
+            ApartmentTextBox.BackColor = Color.White;
         }
 
         /// <summary>
@@ -1700,7 +1619,7 @@ namespace ObjectOrientedPractics.View.Control
             // ApartmentTextBox
             // 
             ApartmentTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            ApartmentTextBox.Location = new Point(279, 114);
+            ApartmentTextBox.Location = new Point(326, 114);
             ApartmentTextBox.Name = "ApartmentTextBox";
             ApartmentTextBox.Size = new Size(100, 23);
             ApartmentTextBox.TabIndex = 6;
@@ -1756,7 +1675,7 @@ namespace ObjectOrientedPractics.View.Control
             // 
             ApartmentLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ApartmentLabel.AutoSize = true;
-            ApartmentLabel.Location = new Point(206, 117);
+            ApartmentLabel.Location = new Point(253, 117);
             ApartmentLabel.Name = "ApartmentLabel";
             ApartmentLabel.Size = new Size(67, 15);
             ApartmentLabel.TabIndex = 12;
@@ -1863,11 +1782,14 @@ namespace ObjectOrientedPractics.View.Controls
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeRows = false;
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(0, 18);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(398, 487);
             dataGridView1.TabIndex = 0;
             // 
@@ -1908,16 +1830,41 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using ObjectOrientedPractics.Model;
 
 namespace ObjectOrientedPractics.View.Controls
 {
     public partial class SelectedOrderControl : UserControl
     {
+        private Order _currentOrder;
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
+        public Order CurrentOrder
+        {
+            get { return _currentOrder; }
+            set
+            {
+                _currentOrder = value;
+                RefreshCurrentOrderInfo();
+            }
+        }
+
         public SelectedOrderControl()
         {
             InitializeComponent();
 
             addressControl1.ReadOnly = true;
+        }
+
+        private void RefreshCurrentOrderInfo()
+        {
+            IdTextBox.Text = CurrentOrder.Id.ToString();
+            CreatedTextBox.Text = CurrentOrder.CreateTime.ToString();
+            StatusComboBox.SelectedItem = CurrentOrder.Status;
+            addressControl1.CurrentAddress = CurrentOrder.Address;
+            ItemsOrderListBox.DataSource = CurrentOrder.Items;
+            ItemsOrderListBox.DisplayMember = "Name";
         }
     }
 }
@@ -1982,7 +1929,7 @@ namespace ObjectOrientedPractics.View.Controls
             IdTextBox.Location = new Point(73, 24);
             IdTextBox.Name = "IdTextBox";
             IdTextBox.ReadOnly = true;
-            IdTextBox.Size = new Size(157, 23);
+            IdTextBox.Size = new Size(275, 23);
             IdTextBox.TabIndex = 1;
             // 
             // CreatedTextBox
@@ -1991,7 +1938,7 @@ namespace ObjectOrientedPractics.View.Controls
             CreatedTextBox.Location = new Point(73, 53);
             CreatedTextBox.Name = "CreatedTextBox";
             CreatedTextBox.ReadOnly = true;
-            CreatedTextBox.Size = new Size(157, 23);
+            CreatedTextBox.Size = new Size(275, 23);
             CreatedTextBox.TabIndex = 2;
             // 
             // StatusComboBox
@@ -2000,7 +1947,7 @@ namespace ObjectOrientedPractics.View.Controls
             StatusComboBox.FormattingEnabled = true;
             StatusComboBox.Location = new Point(73, 82);
             StatusComboBox.Name = "StatusComboBox";
-            StatusComboBox.Size = new Size(157, 23);
+            StatusComboBox.Size = new Size(275, 23);
             StatusComboBox.TabIndex = 3;
             // 
             // addressControl1
@@ -2008,7 +1955,7 @@ namespace ObjectOrientedPractics.View.Controls
             addressControl1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             addressControl1.Location = new Point(3, 111);
             addressControl1.Name = "addressControl1";
-            addressControl1.Size = new Size(458, 145);
+            addressControl1.Size = new Size(472, 145);
             addressControl1.TabIndex = 4;
             // 
             // OrderItemsLabel
@@ -2027,7 +1974,7 @@ namespace ObjectOrientedPractics.View.Controls
             ItemsOrderListBox.FormattingEnabled = true;
             ItemsOrderListBox.Location = new Point(3, 277);
             ItemsOrderListBox.Name = "ItemsOrderListBox";
-            ItemsOrderListBox.Size = new Size(458, 154);
+            ItemsOrderListBox.Size = new Size(472, 154);
             ItemsOrderListBox.TabIndex = 6;
             // 
             // IdLabel
@@ -2061,7 +2008,7 @@ namespace ObjectOrientedPractics.View.Controls
             // 
             AmountLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             AmountLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            AmountLabel.Location = new Point(387, 434);
+            AmountLabel.Location = new Point(401, 434);
             AmountLabel.Name = "AmountLabel";
             AmountLabel.Size = new Size(74, 20);
             AmountLabel.TabIndex = 10;
@@ -2072,7 +2019,7 @@ namespace ObjectOrientedPractics.View.Controls
             // 
             AmountOrderLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             AmountOrderLabel.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            AmountOrderLabel.Location = new Point(361, 454);
+            AmountOrderLabel.Location = new Point(375, 454);
             AmountOrderLabel.Name = "AmountOrderLabel";
             AmountOrderLabel.Size = new Size(100, 38);
             AmountOrderLabel.TabIndex = 11;
@@ -2096,7 +2043,7 @@ namespace ObjectOrientedPractics.View.Controls
             Controls.Add(IdTextBox);
             Controls.Add(SelectedOrderLabel);
             Name = "SelectedOrderControl";
-            Size = new Size(464, 492);
+            Size = new Size(478, 492);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -2711,6 +2658,8 @@ namespace ObjectOrientedPractics.View.Panels
             IDTextBox.Text = "";
             FullnameTextBox.Text = "";
             addressControl1.CurrentAddress = null;
+
+            FullnameTextBox.BackColor = Color.White;
         }
 
         /// <summary>
@@ -3156,6 +3105,10 @@ namespace ObjectOrientedPractics.View.Panels
             NameTextBox.Text = "";
             DescriptionTextBox.Text = "";
             CategoryComboBox.SelectedIndex = -1;
+
+            CostTextBox.BackColor = Color.White;
+            NameTextBox.BackColor = Color.White;
+            DescriptionTextBox.BackColor = Color.White;
         }
 
         /// <summary>
@@ -3469,6 +3422,15 @@ namespace ObjectOrientedPractics.View.Panels
             orderControl1.dataGridView1.DataSource = Orders;
         }
 
+        private void DataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            if (orderControl1.dataGridView1.SelectedRows.Count > 0)
+            {
+                Order selectedOrder = (Order)orderControl1.dataGridView1.SelectedRows[0].DataBoundItem;
+                selectedOrderControl1.CurrentOrder = selectedOrder;
+            }
+        }
+
         public void UpdateOrders()
         {
             Orders.Clear();
@@ -3522,9 +3484,9 @@ namespace ObjectOrientedPractics.View.Panels
             // selectedOrderControl1
             // 
             selectedOrderControl1.Dock = DockStyle.Fill;
-            selectedOrderControl1.Location = new Point(336, 3);
+            selectedOrderControl1.Location = new Point(409, 3);
             selectedOrderControl1.Name = "selectedOrderControl1";
-            selectedOrderControl1.Size = new Size(327, 504);
+            selectedOrderControl1.Size = new Size(401, 504);
             selectedOrderControl1.TabIndex = 1;
             // 
             // orderControl1
@@ -3532,8 +3494,9 @@ namespace ObjectOrientedPractics.View.Panels
             orderControl1.Dock = DockStyle.Fill;
             orderControl1.Location = new Point(3, 3);
             orderControl1.Name = "orderControl1";
-            orderControl1.Size = new Size(327, 504);
+            orderControl1.Size = new Size(400, 504);
             orderControl1.TabIndex = 0;
+            orderControl1.dataGridView1.SelectionChanged += DataGridView_SelectionChanged;
             // 
             // tableLayoutPanel1
             // 
@@ -3553,7 +3516,7 @@ namespace ObjectOrientedPractics.View.Panels
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new Size(666, 510);
+            tableLayoutPanel1.Size = new Size(813, 510);
             tableLayoutPanel1.TabIndex = 14;
             // 
             // OrdersTab
@@ -3562,7 +3525,7 @@ namespace ObjectOrientedPractics.View.Panels
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel1);
             Name = "OrdersTab";
-            Size = new Size(666, 510);
+            Size = new Size(813, 510);
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }

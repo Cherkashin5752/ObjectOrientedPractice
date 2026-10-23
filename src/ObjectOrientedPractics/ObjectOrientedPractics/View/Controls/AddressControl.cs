@@ -11,10 +11,13 @@ namespace ObjectOrientedPractics.View.Control
     public partial class AddressControl : UserControl
     {
         /// <summary>
-        /// Сдрес текуще-выбранного покупателя
+        /// Адрес текуще-выбранного покупателя
         /// </summary>
         private Address _currentAddress;
 
+        /// <summary>
+        /// должны ли все TextBox элементы в пользовательском элементе быть ReadOnly
+        /// </summary>
         private bool _readOnly;
 
         /// <summary>
@@ -26,7 +29,6 @@ namespace ObjectOrientedPractics.View.Control
         /// Возвращает и задаёт значение текуще-выбранного покупателя
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [Browsable(false)]
         public Address CurrentAddress
         {
             get
@@ -47,10 +49,10 @@ namespace ObjectOrientedPractics.View.Control
             }
         }
 
-        [System.ComponentModel.Category("Behavior")]
-        [System.ComponentModel.Description("Определяет, доступны ли поля адреса только для чтения.")]
+        /// <summary>
+        /// Возвращает и задаёт поле ReadOnly. Также переводит на пользовательском элементе все TextBox элементы в соответствующее состояние ReadOnly
+        /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [Browsable(false)]
         public bool ReadOnly
         {
             get => _readOnly;
@@ -67,26 +69,6 @@ namespace ObjectOrientedPractics.View.Control
         public AddressControl()
         {
             InitializeComponent();
-        }
-
-        /// <summary>
-        /// Очищает текстовые поля формы о адресе покупателя
-        /// </summary>
-        private void ClearTextBoxAddress()
-        {
-            PostIndexTextBox.Text = "";
-            CountryTextBox.Text = "";
-            CityTextBox.Text = "";
-            StreetTextBox.Text = "";
-            BuildingTextBox.Text = "";
-            ApartmentTextBox.Text = "";
-
-            PostIndexTextBox.BackColor = Color.White;
-            CountryTextBox.BackColor = Color.White;
-            CityTextBox.BackColor = Color.White;
-            StreetTextBox.BackColor = Color.White;
-            BuildingTextBox.BackColor = Color.White;
-            ApartmentTextBox.BackColor = Color.White;
         }
 
         /// <summary>
@@ -118,7 +100,7 @@ namespace ObjectOrientedPractics.View.Control
         /// <param name="e">Пргументы события.</param>
         private void PostIndexTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CurrentAddress != null)
+            if (CurrentAddress != null && !ReadOnly)
             {
                 try
                 {
@@ -138,7 +120,7 @@ namespace ObjectOrientedPractics.View.Control
         /// <param name="e">Пргументы события.</param>
         private void CountryTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CurrentAddress != null)
+            if (CurrentAddress != null && !ReadOnly)
             {
                 try
                 {
@@ -158,7 +140,7 @@ namespace ObjectOrientedPractics.View.Control
         /// <param name="e">Пргументы события.</param>
         private void CityTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CurrentAddress != null)
+            if (CurrentAddress != null && !ReadOnly)
             {
                 try
                 {
@@ -178,7 +160,7 @@ namespace ObjectOrientedPractics.View.Control
         /// <param name="e">Пргументы события.</param>
         private void StreetTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CurrentAddress != null)
+            if (CurrentAddress != null && !ReadOnly)
             {
                 try
                 {
@@ -198,7 +180,7 @@ namespace ObjectOrientedPractics.View.Control
         /// <param name="e">Пргументы события.</param>
         private void BuildingTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CurrentAddress != null)
+            if (CurrentAddress != null && !ReadOnly)
             {
                 try
                 {
@@ -218,7 +200,7 @@ namespace ObjectOrientedPractics.View.Control
         /// <param name="e">Пргументы события.</param>
         private void ApartmentTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CurrentAddress != null)
+            if (CurrentAddress != null && !ReadOnly)
             {
                 try
                 {
@@ -230,6 +212,11 @@ namespace ObjectOrientedPractics.View.Control
             }
         }
 
+        /// <summary>
+        /// Переводит все TextBox элементы в соответствующее состояние ReadOnly.
+        /// </summary>
+        /// <param name="parent">Текущий пользовательский элемент.</param>
+        /// <param name="isReadOnly">В какой состояние ReadOnly перевести все TextBox элементы</param>
         private void SetTextBoxesReadOnly(WinControl parent, bool isReadOnly)
         {
             foreach (WinControl control in parent.Controls)
@@ -237,6 +224,7 @@ namespace ObjectOrientedPractics.View.Control
                 if (control is WinTextBox textBox)
                 {
                     textBox.ReadOnly = isReadOnly;
+                    textBox.BackColor = isReadOnly ? SystemColors.Control : Color.White;
                 }
 
                 if (control.HasChildren)
@@ -244,6 +232,26 @@ namespace ObjectOrientedPractics.View.Control
                     SetTextBoxesReadOnly(control, isReadOnly);
                 }
             }
+        }
+
+        /// <summary>
+        /// Очищает текстовые поля формы о адресе покупателя
+        /// </summary>
+        private void ClearTextBoxAddress()
+        {
+            PostIndexTextBox.Text = "";
+            CountryTextBox.Text = "";
+            CityTextBox.Text = "";
+            StreetTextBox.Text = "";
+            BuildingTextBox.Text = "";
+            ApartmentTextBox.Text = "";
+
+            PostIndexTextBox.BackColor = Color.White;
+            CountryTextBox.BackColor = Color.White;
+            CityTextBox.BackColor = Color.White;
+            StreetTextBox.BackColor = Color.White;
+            BuildingTextBox.BackColor = Color.White;
+            ApartmentTextBox.BackColor = Color.White;
         }
     }
 }

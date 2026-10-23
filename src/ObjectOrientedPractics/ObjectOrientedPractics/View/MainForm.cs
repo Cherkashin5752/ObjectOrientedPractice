@@ -5,6 +5,9 @@ namespace ObjectOrientedPractics
 {
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// Магазин, содержащиё списки товаров и покупателей.
+        /// </summary>
         private Store _store = new Store();
 
         /// <summary>
@@ -65,13 +68,18 @@ namespace ObjectOrientedPractics
             ProjectSerializer.Serialize<Store>(_store, "Saved Data\\Store Object.json");
         }
 
+        /// <summary>
+        /// Обработка события переключения вкладки tabControl1.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
                 
             if (tabControl1.SelectedTab == CartsTab)
             {
-                cartsTab1.RefreshCustomerComboBox();
-                cartsTab1.RefreshItemsCartsListBox();
+                cartsTab1.CustomerComboBox.Refresh();
+                cartsTab1.ItemsCartsListBox.Refresh();
             }
             else if (tabControl1.SelectedTab == OrdersTab)
             {

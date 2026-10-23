@@ -16,6 +16,10 @@ namespace ObjectOrientedPractics.Service
             return AppDomain.CurrentDomain.BaseDirectory;
         }
 
+        /// <summary>
+        /// Проверяет, существует ли дериктория, в которой ищется файл по пути <see cref="{path}">. Если нет - создаёт её
+        /// </summary>
+        /// <param name="path">Путь, в котором ищёт файлю</param>
         static public void CreateDirectoryExist(string path)
         {
             string directory = Path.GetDirectoryName(Path.Combine(PathService.GetProjectRootDir(), path));

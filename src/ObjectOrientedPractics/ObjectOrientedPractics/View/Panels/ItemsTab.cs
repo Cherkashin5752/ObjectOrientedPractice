@@ -25,7 +25,6 @@ namespace ObjectOrientedPractics.View.Panels
         /// Возвращает и задаёт список товаров
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [Browsable(false)]
         internal BindingList<Item> Items
         {
             get
@@ -35,7 +34,7 @@ namespace ObjectOrientedPractics.View.Panels
             set
             {
                 _items = value;
-                RefreshItemsListBox();
+                ItemsListBox.Refresh();
             }
         }
 
@@ -230,16 +229,6 @@ namespace ObjectOrientedPractics.View.Panels
             CostTextBox.BackColor = Color.White;
             NameTextBox.BackColor = Color.White;
             DescriptionTextBox.BackColor = Color.White;
-        }
-
-        /// <summary>
-        /// Обновляет отображение ItemsListBox
-        /// </summary>
-        private void RefreshItemsListBox()
-        {
-            ItemsListBox.DataSource = null;
-            ItemsListBox.DataSource = Items;
-            ItemsListBox.DisplayMember = "Name";
         }
     }
 }

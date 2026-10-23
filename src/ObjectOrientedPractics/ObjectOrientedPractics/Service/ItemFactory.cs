@@ -10,32 +10,39 @@ using ObjectOrientedPractics.Model.Enums;
 namespace ObjectOrientedPractics.Service
 {
     /// <summary>
-    /// Сервисный класс для создания товаров со случайными состояниями
+    /// Сервисный класс для создания товаров со случайными состояниями.
     /// </summary>
     static internal class ItemFactory
     {
         /// <summary>
-        /// Количество товаров, лежащее в прочтённых файлах
+        /// Количество товаров, лежащее в прочтённых файлах.
         /// </summary>
         static private int maxItemsCount;
         
         /// <summary>
-        /// Список наименований товаров, прочтённых из файла
+        /// Список наименований товаров, прочтённых из файла.
         /// </summary>
         static private List<string> _names = new List<string>();
 
         /// <summary>
-        /// Список описаний для товаров, прочтённых из файла
+        /// Список описаний для товаров, прочтённых из файла.
         /// </summary>
         static private List<string> _info = new List<string>();
-
+        
+        /// <summary>
+        /// Список категорий продуктов, прочтённых из файлов.
+        /// </summary>
         static private List<ProductCategory> _caregories = new List<ProductCategory>();
 
-        static private Random _random = new Random();
         /// <summary>
-        /// Генерирует и возвращает товар со случайным состоянием
+        /// Генератор случайных чисел.
         /// </summary>
-        /// <returns></returns>
+        static private Random _random = new Random();
+
+        /// <summary>
+        /// Генерирует и возвращает товар со случайным состоянием.
+        /// </summary>
+        /// <returns>Возвращает новый экземпляр класса <see cref="Item"/>.</returns>
         static public Item GenerateItem()
         {
             int randomItem = _random.Next(maxItemsCount);
@@ -70,23 +77,12 @@ namespace ObjectOrientedPractics.Service
         }
 
         /// <summary>
-        /// Настраивает класс ItemsFactory, считывает файлы с заранее записанными данными
+        /// Настраивает класс ItemsFactory, считывает файлы с заранее записанными данными/
         /// </summary>
         static public void SetUpItemFactory()
         {
-            string reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Items Names.json");
-
-            if (reader != null)
-            {
-                _names = JsonConvert.DeserializeObject<List<string>>(reader);
-            }
-
-            reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Items Info.json");
-
-            if (reader != null)
-            {
-                _info = JsonConvert.DeserializeObject<List<string>>(reader);
-            }
+            _names = ProjectSerializer.Deserialize<List<string>>("Preload Data\\Items Names.json");
+            _info = ProjectSerializer.Deserialize<List<string>>("Preload Data\\Items Info.json");
 
             _caregories = Enum.GetValues<ProductCategory>().ToList();
 

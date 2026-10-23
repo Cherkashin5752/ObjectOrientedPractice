@@ -39,11 +39,14 @@
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeRows = false;
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(0, 18);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(398, 487);
             dataGridView1.TabIndex = 0;
             // 

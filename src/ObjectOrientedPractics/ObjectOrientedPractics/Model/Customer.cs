@@ -117,6 +117,10 @@ namespace ObjectOrientedPractics.Model
             Orders = new List<Order>();
         }
 
+        /// <summary>
+        /// Устанавливает _idCounter
+        /// </summary>
+        /// <param name="maxId"></param>
         static public void SetIdCounter(int maxId)
         {
             _idCounter = ++maxId;

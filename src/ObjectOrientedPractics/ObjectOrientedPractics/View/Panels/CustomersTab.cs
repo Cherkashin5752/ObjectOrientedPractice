@@ -24,7 +24,6 @@ namespace ObjectOrientedPractics.View.Panels
         /// Возвращает и задаёт список покупателей
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [Browsable(false)]
         public BindingList<Customer> Customers
         {
             get
