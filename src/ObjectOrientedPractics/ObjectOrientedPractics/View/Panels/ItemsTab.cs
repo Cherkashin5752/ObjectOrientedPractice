@@ -34,7 +34,7 @@ namespace ObjectOrientedPractics.View.Panels
             set
             {
                 _items = value;
-                ItemsListBox.Refresh();
+                ItemsListBox.DataSource = Items;
             }
         }
 

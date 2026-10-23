@@ -68,8 +68,8 @@ namespace ObjectOrientedPractics.Service
         /// </summary>
         static public void SetUpCustomerFactory()
         {
-            _fullnames = ProjectSerializer.Deserialize<List<string>>("Preload Data\\Customer Fullnames.json");
-            _addresses = ProjectSerializer.Deserialize<List<Address>>("Preload Data\\Customer Addresses.json");
+            _fullnames = ProjectSerializer.Deserialize<List<string>>("Preload Data\\Customers Fullnames.json");
+            _addresses = ProjectSerializer.Deserialize<List<Address>>("Preload Data\\Customers Addresses.json");
 
             if (_fullnames != null && _addresses != null)
             {

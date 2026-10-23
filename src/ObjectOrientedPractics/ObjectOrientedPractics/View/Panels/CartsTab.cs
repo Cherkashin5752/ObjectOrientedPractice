@@ -81,6 +81,7 @@ namespace ObjectOrientedPractics.View.Panels
             if (CustomerComboBox.SelectedIndex != -1)
             {
                 CurrentCustomer = (Customer)CustomerComboBox.SelectedItem;
+                CartContentListBox.DataSource = CurrentCustomer.Cart.Items;
                 CartContentListBox.Refresh();
                 RefreshCartAmount();
             }

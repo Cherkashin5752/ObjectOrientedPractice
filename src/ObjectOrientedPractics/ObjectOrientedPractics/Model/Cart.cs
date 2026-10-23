@@ -6,17 +6,17 @@ using System.Text;
 namespace ObjectOrientedPractics.Model
 {
     /// <summary>
-    /// Класс корщины
+    /// Класс корщины.
     /// </summary>
     public class Cart
     {
         /// <summary>
-        /// Список товаров в корщине
+        /// Список товаров в корзине.
         /// </summary>
-        private BindingList<Item> _items = new();
+        private BindingList<Item> _items;
 
         /// <summary>
-        /// Возвращает и задаёт список товаров в корщине
+        /// Возвращает и задаёт список товаров в корщине.
         /// </summary>
         public BindingList<Item> Items
         {
@@ -51,6 +51,11 @@ namespace ObjectOrientedPractics.Model
 
                 return sum;
             }
+        }
+
+        public Cart()
+        {
+            Items = new BindingList<Item>();
         }
     }
 }
