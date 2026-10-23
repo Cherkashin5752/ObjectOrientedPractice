@@ -27,7 +27,8 @@ namespace ObjectOrientedPractics.View.Panels
         /// <summary>
         /// Возвращает и задаёт список товаров
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         public BindingList<Item> Items
         {
             get { return _items; }
@@ -41,7 +42,8 @@ namespace ObjectOrientedPractics.View.Panels
         /// <summary>
         /// Возвращает и задаёт список покупателей
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         public BindingList<Customer> Customers
         {
             get { return _customer; }
@@ -119,7 +121,6 @@ namespace ObjectOrientedPractics.View.Panels
                 var selectedItem = (Item)CartContentListBox.SelectedItem;
 
                 CurrentCustomer.Cart.Items.Remove(selectedItem);
-                RefreshCartContentListBox();
                 RefreshCartAmount();
             }
         }
@@ -203,7 +204,7 @@ namespace ObjectOrientedPractics.View.Panels
         private void ClearCart()
         {
             CurrentCustomer.Cart.Items.Clear();
-            RefreshCartContentListBox();
+            //RefreshCartContentListBox();
             RefreshCartAmount();
         }
     }

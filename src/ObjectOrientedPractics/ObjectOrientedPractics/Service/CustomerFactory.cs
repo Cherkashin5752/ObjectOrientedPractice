@@ -65,25 +65,13 @@ namespace ObjectOrientedPractics.Service
         /// </summary>
         static public void SetUpCustomerFactory()
         {
-            string reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Customers Fullnames.json");
-
-            if (reader != null)
-            {
-                _fullnames = JsonConvert.DeserializeObject<List<string>>(reader);
-            }
-
-            reader = File.ReadAllText(PathService.GetProjectRootDir() + "\\Preload Data\\Customers Addresses.json");
-
-            if (reader != null)
-            {
-                _addresses = JsonConvert.DeserializeObject<List<Address>>(reader);
-            }
+            _fullnames = ProjectSerializer.Deserialize<List<string>>("Preload Data\\Items Names.json");
+            _addresses = ProjectSerializer.Deserialize<List<Address>>("Preload Data\\Items Addresses.json");
 
             if (_fullnames != null && _addresses != null)
             {
                 maxCustomersCount = int.Min(_fullnames.Count, _addresses.Count);
             }
         }
-
     }
 }

@@ -30,7 +30,7 @@ namespace ObjectOrientedPractics.Service
         /// <param name="path">Путь к файлу, в который будут записаны данные</param>
         static public void Serialize<T>(T data, string relativePath)
         {
-            string fullPath = Path.Combine(PathService.GetProjectRootDir(), relativePath); ;
+            string fullPath = Path.Combine(PathService.GetProjectRootDir(), relativePath);
 
             PathService.CreateDirectoryExist(relativePath);
 

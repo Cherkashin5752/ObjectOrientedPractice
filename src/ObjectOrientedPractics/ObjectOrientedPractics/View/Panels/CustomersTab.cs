@@ -23,7 +23,8 @@ namespace ObjectOrientedPractics.View.Panels
         /// <summary>
         /// Возвращает и задаёт список покупателей
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         public BindingList<Customer> Customers
         {
             get
@@ -125,7 +126,11 @@ namespace ObjectOrientedPractics.View.Panels
         private void FullnameTextBox_Leave(object sender, EventArgs e)
         {
             int selectedCustomerIndex = CustomersListBox.SelectedIndex;
-            Customers.ResetItem(selectedCustomerIndex);
+            
+            if (selectedCustomerIndex != -1)
+            {
+                Customers.ResetItem(selectedCustomerIndex);
+            }
         }
 
         /// <summary>
@@ -169,6 +174,8 @@ namespace ObjectOrientedPractics.View.Panels
             IDTextBox.Text = "";
             FullnameTextBox.Text = "";
             addressControl1.CurrentAddress = null;
+
+            FullnameTextBox.BackColor = Color.White;
         }
 
         /// <summary>

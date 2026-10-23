@@ -18,7 +18,7 @@ namespace ObjectOrientedPractics.Service
 
         static public void CreateDirectoryExist(string path)
         {
-            string directory = Path.GetDirectoryName(PathService.GetProjectRootDir() + path);
+            string directory = Path.GetDirectoryName(Path.Combine(PathService.GetProjectRootDir(), path));
 
             if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
             {

@@ -46,7 +46,7 @@ namespace ObjectOrientedPractics.Model
             get { return _index; }
             set
             {
-                if (ValueValidator.ValueInRange(value, 99_999, 1_000_000, "Index"))
+                if (ValueValidator.ValueInRange(value, 100_000, 999_999, "Index"))
                 {
                     _index = value;
                 }

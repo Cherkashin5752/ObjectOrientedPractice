@@ -62,7 +62,7 @@ namespace ObjectOrientedPractics.Service
 
             int newCost = _random.Next(100_000);
 
-            ProductCategory newCategory = _caregories[_random.Next(_caregories.Count - 1)];
+            ProductCategory newCategory = _caregories[_random.Next(_caregories.Count)];
 
             Item newItem = new Item(newName, newInfo, newCost, newCategory);
 

@@ -65,7 +65,7 @@ namespace ObjectOrientedPractics.Model
             get { return _index; }
             set
             {
-                if (ValueValidator.ValueInRange(value, 99_999, 1_000_000, "Index"))
+                if (ValueValidator.ValueInRange(value, 100_000, 999_999, "Index"))
                 {
                     _index = value;
                 }
@@ -295,10 +295,6 @@ namespace ObjectOrientedPractics.Model
                 {
                     _fullname = value;
                 }
-                else
-                {
-                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
-                }
             }
         }
 
@@ -421,10 +417,6 @@ namespace ObjectOrientedPractics.Model
                 {
                     _name = value;
                 }
-                else
-                {
-                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
-                }
             }
         }
 
@@ -440,10 +432,6 @@ namespace ObjectOrientedPractics.Model
                 {
                     _info = value;
                 }
-                else
-                {
-                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
-                }
             }
         }
 
@@ -455,13 +443,9 @@ namespace ObjectOrientedPractics.Model
             get { return _cost; }
             set
             {
-                if (value >= 0.0 && value <= 100000.0)
+                if (ValueValidator.ValueInRange(value, 0.0, 100000.0, "Cost"))
                 {
                     _cost = value;
-                }
-                else
-                {
-                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
                 }
             }
         }
@@ -618,7 +602,7 @@ namespace ObjectOrientedPractics.Model
             Id = _idCounter++;
             CreateTime = DateTime.Now;
             Address = new Address(customer.Address);
-            Items = new BindingList<Item>(customer.Cart.Items);
+            Items = new BindingList<Item>(customer.Cart.Items.ToList());
             Amount = customer.Cart.Amount;
             Status = OrderStatus.New;
         }
@@ -912,6 +896,8 @@ namespace ObjectOrientedPractics.Service
         /// </summary>
         static private List<string> _info = new List<string>();
 
+        static private List<ProductCategory> _caregories = new List<ProductCategory>();
+
         static private Random _random = new Random();
         /// <summary>
         /// Генерирует и возвращает товар со случайным состоянием
@@ -943,7 +929,7 @@ namespace ObjectOrientedPractics.Service
 
             int newCost = _random.Next(100_000);
 
-            ProductCategory newCategory = (ProductCategory)_random.Next(Enum.GetNames<ProductCategory>().Length);
+            ProductCategory newCategory = _caregories[_random.Next(_caregories.Count)];
 
             Item newItem = new Item(newName, newInfo, newCost, newCategory);
 
@@ -969,6 +955,8 @@ namespace ObjectOrientedPractics.Service
                 _info = JsonConvert.DeserializeObject<List<string>>(reader);
             }
 
+            _caregories = Enum.GetValues<ProductCategory>().ToList();
+
             if (_names != null && _info != null)
             {
                 maxItemsCount = int.Min(_names.Count, _info.Count);
@@ -992,16 +980,17 @@ namespace ObjectOrientedPractics.Service
         /// <returns>Путь к исполняемому файлу проекта</returns>
         static public string GetProjectRootDir()
         {
-            string tempPath = Assembly.GetExecutingAssembly().Location;
+            return AppDomain.CurrentDomain.BaseDirectory;
+        }
 
-            string path = "";
+        static public void CreateDirectoryExist(string path)
+        {
+            string directory = Path.GetDirectoryName(PathService.GetProjectRootDir() + path);
 
-            for (int i = 0; i < tempPath.LastIndexOf("\\"); i++)
+            if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
             {
-                path += tempPath[i];
+                Directory.CreateDirectory(directory);
             }
-
-            return path;
         }
     }
 }
@@ -1020,79 +1009,29 @@ namespace ObjectOrientedPractics.Service
         /// <summary>
         /// Выполняет десериализацию списка товаров из файла формат JSON.
         /// </summary>
-        /// <param name="path">Путь к файлу, содержащему данные о списке товаров.</param>
-        /// <returns>Список товаров в виде <see cref="BindingList{T}"/></returns>
-        static public BindingList<Item> DeserializeJsonItemsFile(string path)
+        /// <param name="relativePath">Путь к файлу, содержащему данные о списке товаров.</param>
+        /// <returns>Список</returns>
+        static public T? Deserialize<T>(string relativePath)
         {
-            string itemsJsonText = File.ReadAllText(PathService.GetProjectRootDir() + path);
-            ///
-            BindingList<Item> items = JsonConvert.DeserializeObject<BindingList<Item>>(itemsJsonText);
+            string fullPath = Path.Combine(PathService.GetProjectRootDir(), relativePath);
 
-            return items;
+            return File.Exists(fullPath)
+                ? JsonConvert.DeserializeObject<T>(File.ReadAllText(fullPath))
+                : default;
         }
 
         /// <summary>
-        /// Сериализует список товаров в формат JSON и сохраняет его в указанный файл.
+        /// Сериализует список
         /// </summary>
-        /// <param name="BindingList{T}">Список товаров <see cref="BindingList{T}"/> для сохранения.</param>
-        /// <param name="path">Путь к файлу, в который будут записаны данные.</param>
-        static public void SerializeJsonItemsFile(BindingList<Item> items, string path)
+        /// <param name="data">Список, который необходимо сериализовать</param>
+        /// <param name="path">Путь к файлу, в который будут записаны данные</param>
+        static public void Serialize<T>(T data, string relativePath)
         {
-            string jsonStore = JsonConvert.SerializeObject(items);
+            string fullPath = Path.Combine(PathService.GetProjectRootDir(), relativePath); ;
 
-            File.WriteAllText(PathService.GetProjectRootDir() + path, jsonStore);
-        }
+            PathService.CreateDirectoryExist(relativePath);
 
-        /// <summary>
-        /// Выполняет десериализацию списка товаров из файла формат JSON.
-        /// </summary>
-        /// <param name="path">Путь к файлу, содержащему данные о списке товаров.</param>
-        /// <returns>Список товаров в виде <see cref="BindingList{T}"/></returns>
-        static public BindingList<Customer> DeserializeJsonCustomersFile(string path)
-        {
-            string customersJsonText = File.ReadAllText(PathService.GetProjectRootDir() + path);
-
-            BindingList<Customer> customers = JsonConvert.DeserializeObject<BindingList<Customer>>(customersJsonText);
-
-            return customers;
-        }
-
-        /// <summary>
-        /// Сериализует список товаров в формат JSON и сохраняет его в указанный файл.
-        /// </summary>
-        /// <param name="BindingList{T}">Список товаров <see cref="BindingList{T}"/> для сохранения.</param>
-        /// <param name="path">Путь к файлу, в который будут записаны данные.</param>
-        static public void SerializeJsonCustomersFile(BindingList<Customer> customers, string path)
-        {
-            string jsonCustomers = JsonConvert.SerializeObject(customers);
-
-            File.WriteAllText(PathService.GetProjectRootDir() + path, jsonCustomers);
-        }
-
-        /// <summary>
-        /// Выполняет десериализацию списка товаров из файла формат JSON.
-        /// </summary>
-        /// <param name="path">Путь к файлу, содержащему данные о списке товаров.</param>
-        /// <returns>Список товаров в виде <see cref="Store"/></returns>
-        static public Store DeserializeJsonStoreFile(string path)
-        {
-            string storeJsonText = File.ReadAllText(PathService.GetProjectRootDir() + path);
-
-            Store store = JsonConvert.DeserializeObject<Store>(storeJsonText);
-
-            return store;
-        }
-
-        /// <summary>
-        /// Сериализует список товаров в формат JSON и сохраняет его в указанный файл.
-        /// </summary>
-        /// <param name="Store">Список товаров <see cref="Store"/> для сохранения.</param>
-        /// <param name="path">Путь к файлу, в который будут записаны данные.</param>
-        static public void SerializeJsonStoreFile(Store store, string path)
-        {
-            string jsonStore = JsonConvert.SerializeObject(store);
-
-            File.WriteAllText(PathService.GetProjectRootDir() + path, jsonStore);
+            File.WriteAllText(fullPath, JsonConvert.SerializeObject(data, Formatting.Indented));
         }
     }
 }
@@ -1153,9 +1092,9 @@ namespace ObjectOrientedPractics.Service
         /// <param name="propetryName">Вызываемое свойство</param>
         /// <returns>Возвращает true, если число находится в диапазоне</returns>
         /// <exception cref="ArgumentException">Ошибка, если число не назодится в диапазоне</exception>
-        static public bool ValueInRange(int value, int min, int max, string propetryName)
+        static public bool ValueInRange(double value, double min, double max, string propetryName)
         {
-            if (value > min && value < max)
+            if (value >= min && value <= max)
             {
                 return true;
             }
@@ -1185,9 +1124,9 @@ namespace ObjectOrientedPractics
 
             try
             {
-                string jsonPath = "\\Saved Data\\Store Object.json";
+                string jsonPath = "Saved Data\\Store Object.json";
 
-                Store tempStore = ProjectSerializer.DeserializeJsonStoreFile(jsonPath);
+                Store tempStore = ProjectSerializer.Deserialize<Store>(jsonPath);
 
                 if (tempStore == null)
                 {
@@ -1205,10 +1144,13 @@ namespace ObjectOrientedPractics
             ordersTab1.Customers = _store.Customers;
             
             
-            if (_store.Items.Count != 0 || _store.Customers.Count != 0)
+            if (_store.Items.Count > 0)
             {
                 Item.SetIdCounter(_store.Items.Max(items => items.Id));
+            }
 
+            if (_store.Customers.Count > 0)
+            {
                 Customer.SetIdCounter(_store.Customers.Max(customer => customer.Id));
 
                 int maxOrderId = _store.Customers
@@ -1228,7 +1170,7 @@ namespace ObjectOrientedPractics
         /// <param name="e">РђСЂРіСѓРјРµРЅС‚ СЃРѕР±С‹С‚РёСЏ.</param>
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            ProjectSerializer.SerializeJsonStoreFile(_store, "\\Saved Data\\Store Object.json");
+            ProjectSerializer.Serialize<Store>(_store, "Saved Data\\Store Object.json");
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -1440,7 +1382,8 @@ namespace ObjectOrientedPractics.View.Control
         /// <summary>
         /// Возвращает и задаёт значение текуще-выбранного покупателя
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         public Address CurrentAddress
         {
             get
@@ -1449,13 +1392,13 @@ namespace ObjectOrientedPractics.View.Control
             }
             set
             {
+                _currentAddress = value;
+
                 if (value == null)
                 {
                     ClearTextBoxAddress();
                     return;
                 }
-
-                _currentAddress = value;
 
                 RefreshAddressInfo();
             }
@@ -1463,7 +1406,8 @@ namespace ObjectOrientedPractics.View.Control
 
         [System.ComponentModel.Category("Behavior")]
         [System.ComponentModel.Description("Определяет, доступны ли поля адреса только для чтения.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         public bool ReadOnly
         {
             get => _readOnly;
@@ -2203,7 +2147,8 @@ namespace ObjectOrientedPractics.View.Panels
         /// <summary>
         /// Возвращает и задаёт список товаров
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         public BindingList<Item> Items
         {
             get { return _items; }
@@ -2217,7 +2162,8 @@ namespace ObjectOrientedPractics.View.Panels
         /// <summary>
         /// Возвращает и задаёт список покупателей
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         public BindingList<Customer> Customers
         {
             get { return _customer; }
@@ -2295,7 +2241,6 @@ namespace ObjectOrientedPractics.View.Panels
                 var selectedItem = (Item)CartContentListBox.SelectedItem;
 
                 CurrentCustomer.Cart.Items.Remove(selectedItem);
-                RefreshCartContentListBox();
                 RefreshCartAmount();
             }
         }
@@ -2378,8 +2323,8 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         private void ClearCart()
         {
-            CurrentCustomer.Cart = new();
-            RefreshCartContentListBox();
+            CurrentCustomer.Cart.Items.Clear();
+            //RefreshCartContentListBox();
             RefreshCartAmount();
         }
     }
@@ -2615,7 +2560,8 @@ namespace ObjectOrientedPractics.View.Panels
         /// <summary>
         /// Возвращает и задаёт список покупателей
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         public BindingList<Customer> Customers
         {
             get
@@ -2638,21 +2584,9 @@ namespace ObjectOrientedPractics.View.Panels
         {
             InitializeComponent();
 
-            CustomersListBox.DataSource = _customers;
-            CustomersListBox.DisplayMember = "Fullname";
-
             try
             {
                 CustomerFactory.SetUpCustomerFactory();
-
-                BindingList<Customer> tempCustomer = ProjectSerializer.DeserializeJsonCustomersFile("\\Saved Data\\Customer Objects.json");
-
-                if (tempCustomer != null)
-                {
-                    _customers = tempCustomer;
-                }
-
-                RefreshCustomersListBox();
             }
             catch { }
 
@@ -2728,7 +2662,12 @@ namespace ObjectOrientedPractics.View.Panels
         /// <param name="e">Пргументы события.</param>
         private void FullnameTextBox_Leave(object sender, EventArgs e)
         {
-            RefreshCustomersListBox();
+            int selectedCustomerIndex = CustomersListBox.SelectedIndex;
+            
+            if (selectedCustomerIndex != -1)
+            {
+                Customers.ResetItem(selectedCustomerIndex);
+            }
         }
 
         /// <summary>
@@ -2782,14 +2721,6 @@ namespace ObjectOrientedPractics.View.Panels
             CustomersListBox.DataSource = null;
             CustomersListBox.DataSource = _customers;
             CustomersListBox.DisplayMember = "Fullname";
-        }
-
-        /// <summary>
-        /// Сериализует список покупателей
-        /// </summary>
-        public void SerializeCustomers()
-        {
-            ProjectSerializer.SerializeJsonCustomersFile(_customers, "\\Saved Data\\Customer Objects.json");
         }
     }
 }
@@ -3023,7 +2954,8 @@ namespace ObjectOrientedPractics.View.Panels
         /// <summary>
         /// Возвращает и задаёт список товаров
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         internal BindingList<Item> Items
         {
             get
@@ -3053,15 +2985,6 @@ namespace ObjectOrientedPractics.View.Panels
             try
             {
                 ItemFactory.SetUpItemFactory();
-
-                BindingList<Item> tempItems = ProjectSerializer.DeserializeJsonItemsFile("\\Saved Data\\Item Objects.json");
-
-                if (tempItems != null)
-                {
-                    Items = tempItems;
-                }
-
-                RefreshItemsListBox();
             }
             catch { }
         }
@@ -3117,9 +3040,11 @@ namespace ObjectOrientedPractics.View.Panels
         {
             if (ItemsListBox.SelectedIndex != -1)
             {
+                int selectedItemIndex = ItemsListBox.SelectedIndex;
+
                 try
                 {
-                    Items[ItemsListBox.SelectedIndex].Cost = double.Parse(CostTextBox.Text);
+                    Items[selectedItemIndex].Cost = double.Parse(CostTextBox.Text);
                     CostTextBox.BackColor = Color.White;
                 }
                 catch { CostTextBox.BackColor = Color.LightPink; }
@@ -3134,11 +3059,13 @@ namespace ObjectOrientedPractics.View.Panels
         /// <param name="e">Аргумент события.</param>
         private void NameTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (ItemsListBox.SelectedIndex != -1)
+            int selectedItemIndex = ItemsListBox.SelectedIndex;
+
+            if (selectedItemIndex != -1)
             {
                 try
                 {
-                    Items[ItemsListBox.SelectedIndex].Name = NameTextBox.Text;
+                    Items[selectedItemIndex].Name = NameTextBox.Text;
                     NameTextBox.BackColor = Color.White;
                 }
                 catch { NameTextBox.BackColor = Color.LightPink; }
@@ -3153,7 +3080,12 @@ namespace ObjectOrientedPractics.View.Panels
         /// <param name="e">Аргумент события.</param>
         private void NameTextBox_Leave(object sender, EventArgs e)
         {
-            RefreshItemsListBox();
+            int selectedItemIndex = ItemsListBox.SelectedIndex;
+
+            if (selectedItemIndex != -1)
+            { 
+                Items.ResetItem(selectedItemIndex);
+            }
         }
 
         /// <summary>
@@ -3164,11 +3096,13 @@ namespace ObjectOrientedPractics.View.Panels
         /// <param name="e">Аргумент события.</param>
         private void DescriptionTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (ItemsListBox.SelectedIndex != -1)
+            int selectedItemIndex = ItemsListBox.SelectedIndex;
+
+            if (selectedItemIndex != -1)
             {
                 try
                 {
-                    Items[ItemsListBox.SelectedIndex].Info = DescriptionTextBox.Text;
+                    Items[selectedItemIndex].Info = DescriptionTextBox.Text;
                     DescriptionTextBox.BackColor = Color.White;
                 }
                 catch { DescriptionTextBox.BackColor = Color.LightPink; }
@@ -3232,14 +3166,6 @@ namespace ObjectOrientedPractics.View.Panels
             ItemsListBox.DataSource = null;
             ItemsListBox.DataSource = Items;
             ItemsListBox.DisplayMember = "Name";
-        }
-
-        /// <summary>
-        /// Сериализует список товаров 
-        /// </summary>
-        public void SerializeItems()
-        {
-            ProjectSerializer.SerializeJsonItemsFile(Items, "\\Saved Data\\Item Objects.json");
         }
     }
 }
@@ -3516,7 +3442,8 @@ namespace ObjectOrientedPractics.View.Panels
         private BindingList<Customer> _customer = new();
         private BindingList<Order> _orders = new();
 
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         public BindingList<Customer> Customers
         {
             get { return _customer; }
@@ -3527,7 +3454,8 @@ namespace ObjectOrientedPractics.View.Panels
             }
         }
 
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         public BindingList<Order> Orders
         {
             get { return _orders; }

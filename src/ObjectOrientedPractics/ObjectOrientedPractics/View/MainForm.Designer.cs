@@ -85,7 +85,7 @@
             CustomersTab.Padding = new Padding(3);
             CustomersTab.Size = new Size(755, 448);
             CustomersTab.TabIndex = 1;
-            CustomersTab.Text = "Cusotmers";
+            CustomersTab.Text = "Customers";
             // 
             // customersTab1
             // 

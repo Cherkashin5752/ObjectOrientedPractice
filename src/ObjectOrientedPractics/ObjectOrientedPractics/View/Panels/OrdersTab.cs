@@ -15,7 +15,8 @@ namespace ObjectOrientedPractics.View.Panels
         private BindingList<Customer> _customer = new();
         private BindingList<Order> _orders = new();
 
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         public BindingList<Customer> Customers
         {
             get { return _customer; }
@@ -26,7 +27,8 @@ namespace ObjectOrientedPractics.View.Panels
             }
         }
 
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         public BindingList<Order> Orders
         {
             get { return _orders; }

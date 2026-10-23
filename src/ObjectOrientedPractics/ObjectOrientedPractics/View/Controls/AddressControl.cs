@@ -25,7 +25,8 @@ namespace ObjectOrientedPractics.View.Control
         /// <summary>
         /// Возвращает и задаёт значение текуще-выбранного покупателя
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         public Address CurrentAddress
         {
             get
@@ -34,13 +35,13 @@ namespace ObjectOrientedPractics.View.Control
             }
             set
             {
+                _currentAddress = value;
+
                 if (value == null)
                 {
                     ClearTextBoxAddress();
                     return;
                 }
-
-                _currentAddress = value;
 
                 RefreshAddressInfo();
             }
@@ -48,7 +49,8 @@ namespace ObjectOrientedPractics.View.Control
 
         [System.ComponentModel.Category("Behavior")]
         [System.ComponentModel.Description("Определяет, доступны ли поля адреса только для чтения.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         public bool ReadOnly
         {
             get => _readOnly;
@@ -78,6 +80,13 @@ namespace ObjectOrientedPractics.View.Control
             StreetTextBox.Text = "";
             BuildingTextBox.Text = "";
             ApartmentTextBox.Text = "";
+
+            PostIndexTextBox.BackColor = Color.White;
+            CountryTextBox.BackColor = Color.White;
+            CityTextBox.BackColor = Color.White;
+            StreetTextBox.BackColor = Color.White;
+            BuildingTextBox.BackColor = Color.White;
+            ApartmentTextBox.BackColor = Color.White;
         }
 
         /// <summary>

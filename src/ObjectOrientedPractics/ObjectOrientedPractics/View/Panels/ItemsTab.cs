@@ -24,7 +24,8 @@ namespace ObjectOrientedPractics.View.Panels
         /// <summary>
         /// Возвращает и задаёт список товаров
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         internal BindingList<Item> Items
         {
             get
@@ -150,7 +151,11 @@ namespace ObjectOrientedPractics.View.Panels
         private void NameTextBox_Leave(object sender, EventArgs e)
         {
             int selectedItemIndex = ItemsListBox.SelectedIndex;
-            Items.ResetItem(selectedItemIndex);
+
+            if (selectedItemIndex != -1)
+            { 
+                Items.ResetItem(selectedItemIndex);
+            }
         }
 
         /// <summary>
@@ -221,6 +226,10 @@ namespace ObjectOrientedPractics.View.Panels
             NameTextBox.Text = "";
             DescriptionTextBox.Text = "";
             CategoryComboBox.SelectedIndex = -1;
+
+            CostTextBox.BackColor = Color.White;
+            NameTextBox.BackColor = Color.White;
+            DescriptionTextBox.BackColor = Color.White;
         }
 
         /// <summary>
