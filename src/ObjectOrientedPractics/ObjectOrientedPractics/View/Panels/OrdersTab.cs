@@ -53,8 +53,6 @@ namespace ObjectOrientedPractics.View.Panels
         public OrdersTab()
         {
             InitializeComponent();
-
-            orderControl1.dataGridView1.DataSource = Orders;
         }
 
         /// <summary>
@@ -91,13 +89,8 @@ namespace ObjectOrientedPractics.View.Panels
         public void UpdateOrders()
         {
             Orders.Clear();
-            foreach (Customer customer in Customers)
-            {
-                foreach(Order order in customer.Orders)
-                {
-                    Orders.Add(order);
-                }
-            }
+            Orders = new BindingList<Order>(Customers.SelectMany(o => o.Orders).ToList());
+            orderControl1.dataGridView1.DataSource = Orders;
         }
     }
 }
