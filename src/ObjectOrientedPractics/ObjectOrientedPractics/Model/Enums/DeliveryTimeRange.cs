@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace ObjectOrientedPractics.Model.Enums
 {
-    internal enum DeliveryTimeRange
+    static internal class DeliveryTimeRange
     {
-        Range_9_11,
-        Range_11_13,
-        Range_13_15,
-        Range_15_17,
-        Range_17_19,
-        Range_19_21
+        static public readonly string[] DeliveryTimeRangeString = { "9:00 - 11:00", "11:00 - 13:00", "13:00 - 15:00", "15:00 - 17:00", "17:00 - 19:00", "19:00 - 21:00" };
     }
 }

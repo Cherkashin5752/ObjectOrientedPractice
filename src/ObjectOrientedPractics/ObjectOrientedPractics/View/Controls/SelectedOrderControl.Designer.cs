@@ -100,7 +100,7 @@
             ItemsOrderListBox.FormattingEnabled = true;
             ItemsOrderListBox.Location = new Point(3, 277);
             ItemsOrderListBox.Name = "ItemsOrderListBox";
-            ItemsOrderListBox.Size = new Size(472, 154);
+            ItemsOrderListBox.Size = new Size(472, 184);
             ItemsOrderListBox.TabIndex = 6;
             // 
             // IdLabel
@@ -134,7 +134,7 @@
             // 
             AmountLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             AmountLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            AmountLabel.Location = new Point(401, 434);
+            AmountLabel.Location = new Point(401, 468);
             AmountLabel.Name = "AmountLabel";
             AmountLabel.Size = new Size(74, 20);
             AmountLabel.TabIndex = 10;
@@ -145,7 +145,7 @@
             // 
             AmountOrderLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             AmountOrderLabel.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            AmountOrderLabel.Location = new Point(3, 454);
+            AmountOrderLabel.Location = new Point(3, 488);
             AmountOrderLabel.Name = "AmountOrderLabel";
             AmountOrderLabel.Size = new Size(472, 38);
             AmountOrderLabel.TabIndex = 11;
@@ -169,7 +169,7 @@
             Controls.Add(IdTextBox);
             Controls.Add(SelectedOrderLabel);
             Name = "SelectedOrderControl";
-            Size = new Size(478, 492);
+            Size = new Size(478, 526);
             ResumeLayout(false);
             PerformLayout();
         }

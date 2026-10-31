@@ -18,7 +18,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Время когда доставить заказ
         /// </summary>
-        private DeliveryTimeRange _deliveryTime;
+        private string _deliveryTime;
 
         /// <summary>
         /// Возвращает и задаёт дату когда доставить заказ
@@ -32,12 +32,17 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Возвращает и задаёт время когда доставить заказ
         /// </summary>
-        public DeliveryTimeRange DeliveryTime
+        public string DeliveryTime
         {
             get { return _deliveryTime; }
             set { _deliveryTime = value; }
         }
 
+        public PriorityOrder()
+        {
+
+        }
+        
         /// <summary>
         /// Инициализирует экземпляр класса <see cref="PriorityOrder">
         /// </summary>
@@ -45,7 +50,7 @@ namespace ObjectOrientedPractics.Model
         /// <param name="deliveryDate">Дата когда доставить заказ</param>
         /// <param name="deliveryTime">Время когда доставить заказ</param>
         public PriorityOrder(Customer customer, DateTime deliveryDate,
-            DeliveryTimeRange deliveryTime) :
+            string deliveryTime) :
             base(customer)
         {
             DeliveryDate = deliveryDate;
