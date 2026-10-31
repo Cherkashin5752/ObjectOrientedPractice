@@ -1,5 +1,6 @@
 ﻿using ObjectOrientedPractics.Service;
 using System.Diagnostics.Metrics;
+using System.Net;
 
 namespace ObjectOrientedPractics.Model
 {
@@ -152,6 +153,17 @@ namespace ObjectOrientedPractics.Model
             Street = address.Street;
             Building = address.Building;
             Apartment = address.Apartment;
+        }
+
+        public Address(int index, string country, string city,
+            string street, string building, string apartment)
+        {
+            Index = index;
+            Country = country;
+            City = city;
+            Street = street;
+            Building = building;
+            Apartment = apartment;
         }
 
         /// <summary>

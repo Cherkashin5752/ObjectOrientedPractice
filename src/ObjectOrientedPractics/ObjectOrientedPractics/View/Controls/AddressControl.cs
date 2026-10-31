@@ -63,6 +63,21 @@ namespace ObjectOrientedPractics.View.Control
             }
         }
 
+        public bool AllFieldsAreFilled
+        {
+            get
+            {
+                if (PostIndexTextBox.Text != "" && CountryTextBox.Text != "" &&
+                    CityTextBox.Text != "" && StreetTextBox.Text != "" &&
+                    StreetTextBox.Text != "" && BuildingTextBox.Text != "" &&
+                    ApartmentTextBox.Text != "")
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="AddressControl"/>.
         /// <summary>
@@ -237,7 +252,7 @@ namespace ObjectOrientedPractics.View.Control
         /// <summary>
         /// Очищает текстовые поля формы о адресе покупателя
         /// </summary>
-        private void ClearTextBoxAddress()
+        public void ClearTextBoxAddress()
         {
             PostIndexTextBox.Text = "";
             CountryTextBox.Text = "";

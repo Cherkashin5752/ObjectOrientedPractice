@@ -1,4 +1,5 @@
 ﻿using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -122,6 +123,18 @@ namespace ObjectOrientedPractics.Model
             Items = new BindingList<Item>(customer.Cart.Items.ToList());
             Amount = customer.Cart.Amount;
             CustomerFullname = customer.Fullname;
+            Status = OrderStatus.New;
+        }
+
+        public Order(Address address,
+            BindingList<Item> items, double amount)
+        {
+            Id = _idCounter++;
+            CreateTime = DateTime.Now;
+            Address = new Address(address);
+            Items = new BindingList<Item>(items);
+            Amount = amount;
+            CustomerFullname = CustomerFactory.GenerateCustomer().Fullname;
             Status = OrderStatus.New;
         }
 

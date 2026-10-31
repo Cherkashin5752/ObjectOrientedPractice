@@ -1,6 +1,7 @@
 ﻿using ObjectOrientedPractics.Model.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace ObjectOrientedPractics.Model
@@ -8,7 +9,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Приоритетный заказ
     /// </summary>
-    internal class PriorityOrder : Order
+    public class PriorityOrder : Order
     {
         /// <summary>
         /// Дата когда доставить заказ
@@ -52,6 +53,12 @@ namespace ObjectOrientedPractics.Model
         public PriorityOrder(Customer customer, DateTime deliveryDate,
             string deliveryTime) :
             base(customer)
+        {
+            DeliveryDate = deliveryDate;
+            DeliveryTime = deliveryTime;
+        }
+
+        public PriorityOrder(Address address, BindingList<Item> items, double amount, DateTime deliveryDate, string deliveryTime) : base(address, items, amount)
         {
             DeliveryDate = deliveryDate;
             DeliveryTime = deliveryTime;
