@@ -68,9 +68,8 @@ namespace ObjectOrientedPractics.View.Control
             get
             {
                 if (PostIndexTextBox.Text != "" && CountryTextBox.Text != "" &&
-                    CityTextBox.Text != "" && StreetTextBox.Text != "" &&
-                    StreetTextBox.Text != "" && BuildingTextBox.Text != "" &&
-                    ApartmentTextBox.Text != "")
+                    CityTextBox.Text != ""  && StreetTextBox.Text != "" &&
+                    BuildingTextBox.Text != "" && ApartmentTextBox.Text != "")
                 {
                     return true;
                 }

@@ -33,7 +33,7 @@ namespace ObjectOrientedPractics.View.Panels
             set
             {
                 _customers = value;
-                RefreshCustomersListBox();
+                CustomersListBox.DataSource = _customers;
             }
         }
 
@@ -175,15 +175,6 @@ namespace ObjectOrientedPractics.View.Panels
             addressControl1.CurrentAddress = null;
 
             FullnameTextBox.BackColor = Color.White;
-        }
-
-        /// <summary>
-        /// Обновляет отображение CustomersListBox
-        /// </summary>
-        private void RefreshCustomersListBox()
-        {
-            CustomersListBox.DataSource = _customers;
-            CustomersListBox.DisplayMember = "Fullname";
         }
     }
 }

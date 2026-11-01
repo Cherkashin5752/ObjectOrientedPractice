@@ -20,34 +20,14 @@ namespace ObjectOrientedPractics.Model
         static private int _idCounter;
 
         /// <summary>
-        /// Id покупателя
-        /// </summary>
-        private readonly int _id;
-
-        /// <summary>
         /// Полное имя покупателя
         /// </summary>
         private string _fullname;
 
         /// <summary>
-        /// Адрес покупателя
-        /// </summary>
-        private Address _address;
-
-        /// <summary>
-        /// Корзина покупателя
-        /// </summary>
-        private Cart _cart;
-
-        /// <summary>
-        /// Список заказов покупателя
-        /// </summary>
-        private List<Order> _orders;
-
-        /// <summary>
         /// Возвращает Id товара
         /// </summary>
-        public int Id { get { return _id; } init { _id = value; } }
+        public int Id { get; init; }
 
         /// <summary>
         /// Возвращает и задаёт полное имя покупателя
@@ -67,29 +47,17 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Возвращает и задаёт адрес покупателя
         /// </summary>
-        public Address Address
-        {
-            get { return _address; }
-            set { _address = value; }
-        }
+        public Address Address { get; set; }
 
         /// <summary>
         /// Возвращает и задаёт корзину покупателя
         /// </summary>
-        public Cart Cart
-        {
-            get { return _cart; }
-            set { _cart = value; }
-        }
+        public Cart Cart { get; set; }
 
         /// <summary>
         /// Возвращает и задаёт список заказов покупателя
         /// </summary>
-        public List<Order> Orders
-        {
-            get { return _orders; }
-            set { _orders = value; }
-        }
+        public List<Order> Orders { get; set; }
 
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Customer">

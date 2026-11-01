@@ -84,11 +84,6 @@
             ResumeLayout(false);
         }
 
-        private void DataGridView1_SelectionChanged(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
 
         private TableLayoutPanel tableLayoutPanel1;

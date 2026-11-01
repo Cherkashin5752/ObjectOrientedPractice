@@ -19,11 +19,6 @@ namespace ObjectOrientedPractics.View.Panels
         private BindingList<Customer> _customer = new();
         
         /// <summary>
-        /// Список заказов покупателей.
-        /// </summary>
-        private BindingList<Order> _orders = new();
-
-        /// <summary>
         /// Возвращает и задаёт список покупателей.
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -41,11 +36,7 @@ namespace ObjectOrientedPractics.View.Panels
         /// Возвращает и задаёт список заказов покупателей.
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public BindingList<Order> Orders
-        {
-            get { return _orders; }
-            set { _orders = value; }
-        }
+        public BindingList<Order> Orders { get; set; }
 
         /// <summary>
         /// Инициализирует экземпляр класса OrdersTab.

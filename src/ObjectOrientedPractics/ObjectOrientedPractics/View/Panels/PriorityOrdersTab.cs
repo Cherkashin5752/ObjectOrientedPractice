@@ -14,44 +14,20 @@ namespace ObjectOrientedPractics.View.Panels
 {
     public partial class PriorityOrdersTab : UserControl
     {
-        private bool isEditMode = false;
-
-        private BindingList<PriorityOrder> _priorityOrders = new();
+        private bool isEditMode = true;
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public BindingList<PriorityOrder> PriorityOrders
-        {
-            get { return _priorityOrders; }
-            set { _priorityOrders = value; }
-        }
+        public BindingList<PriorityOrder> PriorityOrders { get; set; } = new();
 
-        private BindingList<Item> _currentItemsList = new BindingList<Item>();
-        
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public BindingList<Item> CurrentItemsList
-        {
-            get { return _currentItemsList; }
-            set { _currentItemsList = value; }
-        }
+        public BindingList<Item> CurrentItemsList { get; set; } = new();
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public double Amount
         {
             get
             {
-                if (CurrentItemsList == null || CurrentItemsList.Count == 0)
-                {
-                    return 0.0;
-                }
-
-                double sum = 0;
-
-                for (int i = 0; i < CurrentItemsList.Count; i++)
-                {
-                    sum += CurrentItemsList[i].Cost;
-                }
-
-                return sum;
+                return CurrentItemsList?.Sum(item => item.Cost) ?? 0.0;
             }
         }
 
@@ -60,6 +36,7 @@ namespace ObjectOrientedPractics.View.Panels
             InitializeComponent();
 
             selectedPriorityOrdersControl1.ItemsPriorityOrderListBox.DataSource = CurrentItemsList;
+            selectedPriorityOrdersControl1.ItemsPriorityOrderListBox.DisplayMember = "Name";
             priorityOrderControl1.dataGridView2.DataSource = PriorityOrders;
         }
 
@@ -100,7 +77,7 @@ namespace ObjectOrientedPractics.View.Panels
                     selectedPriorityOrdersControl1.ClearPriorityOrderButton.Enabled = true;
                     selectedPriorityOrdersControl1.addressControl1.ReadOnly = false;
                     selectedPriorityOrdersControl1.DeliveryTimeComboBox.Enabled = true;
-                    selectedPriorityOrdersControl1.ChangeModeButton.Text = "Mode Mode";
+                    selectedPriorityOrdersControl1.ChangeModeButton.Text = "Edit Mode";
                     selectedPriorityOrdersControl1.addressControl1.CurrentAddress = new Address();
                     break;
                 case false:
@@ -135,7 +112,7 @@ namespace ObjectOrientedPractics.View.Panels
 
                 if (selectedIndex != -1)
                 {
-                    selectedPriorityOrdersControl1.CurrentPriorityOrder.Items.RemoveAt(selectedIndex);
+                    CurrentItemsList.RemoveAt(selectedIndex);
                     selectedPriorityOrdersControl1.AmountOrderLabel.Text = Amount.ToString();
                 }
             }
@@ -147,9 +124,15 @@ namespace ObjectOrientedPractics.View.Panels
             {
                 if (selectedPriorityOrdersControl1.addressControl1.AllFieldsAreFilled)
                 {
-                    PriorityOrder newPriorityOrder = new PriorityOrder(selectedPriorityOrdersControl1.addressControl1.CurrentAddress, CurrentItemsList, Amount, DateTime.Now, (string)selectedPriorityOrdersControl1.DeliveryTimeComboBox.SelectedItem);
-                    PriorityOrders.Add(newPriorityOrder);
-                    ClearAllFields();
+                    if (CurrentItemsList.Count > 0)
+                    {
+                        if (selectedPriorityOrdersControl1.DeliveryTimeComboBox.SelectedIndex != -1)
+                        {
+                            ClearAllFields();
+                            PriorityOrder newPriorityOrder = new PriorityOrder(selectedPriorityOrdersControl1.addressControl1.CurrentAddress, CurrentItemsList, Amount, DateTime.Now, (string)selectedPriorityOrdersControl1.DeliveryTimeComboBox.SelectedItem);
+                            PriorityOrders.Add(newPriorityOrder);
+                        }
+                    }
                 }
             }
         }

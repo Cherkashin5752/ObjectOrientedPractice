@@ -21,11 +21,6 @@ namespace ObjectOrientedPractics.Model
         static private int _idCounter;
 
         /// <summary>
-        /// Id товара
-        /// </summary>
-        private readonly int _id;
-
-        /// <summary>
         /// Именование товара
         /// </summary>>
         private string _name;
@@ -43,7 +38,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Возвращает Id товара
         /// </summary>
-        public int Id { get { return _id; } init { _id = value; } }
+        public int Id { get; init; }
 
         /// <summary>
         /// Возвращает и задаёт именование товара

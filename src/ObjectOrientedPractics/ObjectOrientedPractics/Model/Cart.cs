@@ -37,19 +37,7 @@ namespace ObjectOrientedPractics.Model
         {
             get
             {
-                if (Items == null || Items.Count == 0)
-                {
-                    return 0.0;
-                }
-
-                double sum = 0;
-
-                for (int i = 0; i < Items.Count; i++)
-                {
-                    sum += Items[i].Cost;
-                }
-
-                return sum;
+                return Items?.Sum(item => item.Cost) ?? 0.0;
             }
         }
 

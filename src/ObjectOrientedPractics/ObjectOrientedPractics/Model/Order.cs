@@ -16,76 +16,31 @@ namespace ObjectOrientedPractics.Model
         /// Счётчик для генерации уникальных Id
         /// </summary>
         static private int _idCounter;
-
-        /// <summary>
-        /// Id заказа
-        /// </summary>
-        private readonly int _id;
-        
-        /// <summary>
-        /// Время создание заказа
-        /// </summary>
-        private readonly DateTime _createTime;
-        
-        /// <summary>
-        /// Адрес заказа
-        /// </summary>
-        private Address _address;
-        
-        /// <summary>
-        /// Список товаров в заказе
-        /// </summary>
-        private BindingList<Item> _items;
-        
-        /// <summary>
-        /// Стоимость заказа
-        /// </summary>
-        private double _amount;
     
         /// <summary>
         /// Возвращает Id заказа
         /// </summary>
-        public int Id
-        {
-            get { return _id; }
-            init { _id = value; }
-        }
+        public int Id { get; init; }
 
         /// <summary>
         /// Возвращает время создание заказа
         /// </summary>
-        public DateTime CreateTime
-        {
-            get { return _createTime; }
-            init { _createTime = value; }
-        }
+        public DateTime CreateTime { get; set; }
 
         /// <summary>
         /// Возвращает и задаёт адрес заказа
         /// </summary>
-        public Address Address
-        {
-            get { return _address; }
-            init {_address = value; }
-        }
+        public Address Address { get; set; }
 
         /// <summary>
         /// Возвращает и задаёт список товаров в заказе
         /// </summary>
-        public BindingList<Item> Items
-        {
-            get { return _items; }
-            set { _items = value; }
-        }
+        public BindingList<Item> Items { get; set; }
 
         /// <summary>
         /// Возвращает и задаёт стоимость заказа
         /// </summary>
-        public double Amount
-        {
-            get { return _amount; }
-            set { _amount = value; }
-        }
+        public double Amount { get; set; }
 
         /// <summary>
         /// Возвращает полное имя покупателя заказа

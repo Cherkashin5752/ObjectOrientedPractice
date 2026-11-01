@@ -12,32 +12,14 @@ namespace ObjectOrientedPractics.Model
     public class PriorityOrder : Order
     {
         /// <summary>
-        /// Дата когда доставить заказ
-        /// </summary>
-        private DateTime _deliveryDate;
-        
-        /// <summary>
-        /// Время когда доставить заказ
-        /// </summary>
-        private string _deliveryTime;
-
-        /// <summary>
         /// Возвращает и задаёт дату когда доставить заказ
         /// </summary>
-        public DateTime DeliveryDate
-        {
-            get { return _deliveryDate; }
-            set { _deliveryDate = value; }
-        }
+        public DateTime DeliveryDate { get; set; }
 
         /// <summary>
         /// Возвращает и задаёт время когда доставить заказ
         /// </summary>
-        public string DeliveryTime
-        {
-            get { return _deliveryTime; }
-            set { _deliveryTime = value; }
-        }
+        public string DeliveryTime { get; set; }
 
         public PriorityOrder()
         {
