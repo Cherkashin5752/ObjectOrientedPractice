@@ -19,9 +19,14 @@ namespace ObjectOrientedPractics.Service
         static private List<string> _fullnames = new List<string>();
 
         /// <summary>
-        /// Список адрессов покупателей, загруженных из файла.
+        /// Список адресов покупателей, загруженных из файла.
         /// </summary>
         static private List<Address> _addresses = new List<Address>();
+
+        /// <summary>
+        /// Генератор случайных чисел.
+        /// </summary>
+        static private Random _random = new Random();
 
         /// <summary>
         /// Генерирует экземпляр класса <see cref="Customer"/> со случайным именем и адресом из загруженных данных.
@@ -29,9 +34,7 @@ namespace ObjectOrientedPractics.Service
         /// <returns>Возвращает новый экземпляр класса <see cref="Customer"/>.</returns>
         static public Customer GenerateCustomer()
         {
-            Random random = new Random();
-
-            int randomCustomer = random.Next(0, maxCustomersCount);
+            int randomCustomer = _random.Next(0, maxCustomersCount);
 
             string newFullname;
             Address newAddress;
@@ -65,29 +68,13 @@ namespace ObjectOrientedPractics.Service
         /// </summary>
         static public void SetUpCustomerFactory()
         {
-            StreamReader reader = new StreamReader(PathService.GetProjectRootDir() + "\\Preload Data\\Customers Fullnames.json");
-
-            if (reader != null)
-            {
-                _fullnames = JsonConvert.DeserializeObject<List<string>>(reader.ReadToEnd());
-            }
-
-            reader.Close();
-
-            reader = new StreamReader(PathService.GetProjectRootDir() + "\\Preload Data\\Customers Addresses.json");
-
-            if (reader != null)
-            {
-                _addresses = JsonConvert.DeserializeObject<List<Address>>(reader.ReadToEnd());
-            }
-
-            reader.Close();
+            _fullnames = ProjectSerializer.Deserialize<List<string>>("Preload Data\\Customers Fullnames.json");
+            _addresses = ProjectSerializer.Deserialize<List<Address>>("Preload Data\\Customers Addresses.json");
 
             if (_fullnames != null && _addresses != null)
             {
                 maxCustomersCount = int.Min(_fullnames.Count, _addresses.Count);
             }
         }
-
     }
 }

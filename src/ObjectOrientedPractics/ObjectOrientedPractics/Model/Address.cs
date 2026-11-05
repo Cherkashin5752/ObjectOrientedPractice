@@ -1,5 +1,6 @@
 ﻿using ObjectOrientedPractics.Service;
 using System.Diagnostics.Metrics;
+using System.Net;
 
 namespace ObjectOrientedPractics.Model
 {
@@ -46,7 +47,7 @@ namespace ObjectOrientedPractics.Model
             get { return _index; }
             set
             {
-                if (ValueValidator.ValueInRange(value, 99_999, 1_000_000, "Index"))
+                if (ValueValidator.ValueInRange(value, 100_000, 999_999, "Index"))
                 {
                     _index = value;
                 }
@@ -152,6 +153,26 @@ namespace ObjectOrientedPractics.Model
             Street = address.Street;
             Building = address.Building;
             Apartment = address.Apartment;
+        }
+
+        public Address(int index, string country, string city,
+            string street, string building, string apartment)
+        {
+            Index = index;
+            Country = country;
+            City = city;
+            Street = street;
+            Building = building;
+            Apartment = apartment;
+        }
+
+        /// <summary>
+        /// Возвращает строку, содержащюю все элементы экземпляра
+        /// </summary>
+        /// <returns>Строка состояния всех полей</returns>
+        public override string ToString()
+        {
+            return $"{Index}, {Country}, {City}, {Street}, {Building}, {Apartment}";
         }
     }
 }

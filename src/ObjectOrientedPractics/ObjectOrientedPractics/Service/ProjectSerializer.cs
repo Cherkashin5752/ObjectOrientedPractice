@@ -1,90 +1,46 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using ObjectOrientedPractics.Model;
-using System.ComponentModel;
 
 namespace ObjectOrientedPractics.Service
 {
-    static internal class ProjectSerializer
+    /// <summary>
+    /// Сервисный класс для сериализации и десереализации магазина.
+    /// </summary>
+    internal static class ProjectSerializer
     {
         /// <summary>
-        /// Выполняет десериализацию списка товаров из файла формат JSON.
+        /// Настройки для сериализации.
         /// </summary>
-        /// <param name="path">Путь к файлу, содержащему данные о списке товаров.</param>
-        /// <returns>Список товаров в виде <see cref="BindingList{T}"/></returns>
-        static public BindingList<Item> DeserializeJsonItemsFile(string path)
+        private static readonly JsonSerializerSettings _settings = new JsonSerializerSettings
         {
-            string itemsJsonText = File.ReadAllText(PathService.GetProjectRootDir() + path);
-
-            BindingList<Item> items = JsonConvert.DeserializeObject<BindingList<Item>>(itemsJsonText);
-
-            return items;
-        }
-
-        /// <summary>
-        /// Сериализует список товаров в формат JSON и сохраняет его в указанный файл.
-        /// </summary>
-        /// <param name="BindingList{T}">Список товаров <see cref="BindingList{T}"/> для сохранения.</param>
-        /// <param name="path">Путь к файлу, в который будут записаны данные.</param>
-        static public void SerializeJsonItemsFile(BindingList<Item> items, string path)
-        {
-            string jsonStore = JsonConvert.SerializeObject(items);
-
-            File.WriteAllText(PathService.GetProjectRootDir() + path, jsonStore);
-        }
+            TypeNameHandling = TypeNameHandling.All
+        };
 
         /// <summary>
         /// Выполняет десериализацию списка товаров из файла формат JSON.
         /// </summary>
-        /// <param name="path">Путь к файлу, содержащему данные о списке товаров.</param>
-        /// <returns>Список товаров в виде <see cref="BindingList{T}"/></returns>
-        static public BindingList<Customer> DeserializeJsonCustomersFile(string path)
+        /// <param name="relativePath">Путь к файлу, содержащему данные о списке товаров.</param>
+        /// <returns>Список</returns>
+        public static T? Deserialize<T>(string relativePath)
         {
-            string customersJsonText = File.ReadAllText(PathService.GetProjectRootDir() + path);
+            string fullPath = Path.Combine(PathService.GetProjectRootDir(), relativePath);
 
-            BindingList<Customer> customers = JsonConvert.DeserializeObject<BindingList<Customer>>(customersJsonText);
-
-            return customers;
+            return File.Exists(fullPath)
+                ? JsonConvert.DeserializeObject<T>(File.ReadAllText(fullPath), _settings)
+                : default;
         }
 
         /// <summary>
-        /// Сериализует список товаров в формат JSON и сохраняет его в указанный файл.
+        /// Сериализует список
         /// </summary>
-        /// <param name="BindingList{T}">Список товаров <see cref="BindingList{T}"/> для сохранения.</param>
-        /// <param name="path">Путь к файлу, в который будут записаны данные.</param>
-        static public void SerializeJsonCustomersFile(BindingList<Customer> customers, string path)
+        /// <param name="data">Список, который необходимо сериализовать</param>
+        /// <param name="relativePath">Путь к файлу, в который будут записаны данные</param>
+        public static void Serialize<T>(T data, string relativePath)
         {
-            string jsonCustomers = JsonConvert.SerializeObject(customers);
+            string fullPath = Path.Combine(PathService.GetProjectRootDir(), relativePath);
 
-            File.WriteAllText(PathService.GetProjectRootDir() + path, jsonCustomers);
-        }
+            PathService.CreateDirectoryExist(relativePath);
 
-        /// <summary>
-        /// Выполняет десериализацию списка товаров из файла формат JSON.
-        /// </summary>
-        /// <param name="path">Путь к файлу, содержащему данные о списке товаров.</param>
-        /// <returns>Список товаров в виде <see cref="Store"/></returns>
-        static public Store DeserializeJsonStoreFile(string path)
-        {
-            string storeJsonText = File.ReadAllText(PathService.GetProjectRootDir() + path);
-
-            Store store = JsonConvert.DeserializeObject<Store>(storeJsonText);
-
-            return store;
-        }
-
-        /// <summary>
-        /// Сериализует список товаров в формат JSON и сохраняет его в указанный файл.
-        /// </summary>
-        /// <param name="Store">Список товаров <see cref="Store"/> для сохранения.</param>
-        /// <param name="path">Путь к файлу, в который будут записаны данные.</param>
-        static public void SerializeJsonStoreFile(Store store, string path)
-        {
-            string jsonStore = JsonConvert.SerializeObject(store);
-
-            File.WriteAllText(PathService.GetProjectRootDir() + path, jsonStore);
+            File.WriteAllText(fullPath, JsonConvert.SerializeObject(data, Formatting.Indented, _settings));
         }
     }
 }

@@ -24,7 +24,7 @@ namespace ObjectOrientedPractics.View.Panels
         /// <summary>
         /// Возвращает и задаёт список товаров
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal BindingList<Item> Items
         {
             get
@@ -34,7 +34,7 @@ namespace ObjectOrientedPractics.View.Panels
             set
             {
                 _items = value;
-                RefreshItemsListBox();
+                ItemsListBox.DataSource = Items;
             }
         }
 
@@ -54,15 +54,6 @@ namespace ObjectOrientedPractics.View.Panels
             try
             {
                 ItemFactory.SetUpItemFactory();
-
-                BindingList<Item> tempItems = ProjectSerializer.DeserializeJsonItemsFile("\\Saved Data\\Item Objects.json");
-
-                if (tempItems != null)
-                {
-                    Items = tempItems;
-                }
-
-                RefreshItemsListBox();
             }
             catch { }
         }
@@ -118,9 +109,11 @@ namespace ObjectOrientedPractics.View.Panels
         {
             if (ItemsListBox.SelectedIndex != -1)
             {
+                int selectedItemIndex = ItemsListBox.SelectedIndex;
+
                 try
                 {
-                    Items[ItemsListBox.SelectedIndex].Cost = double.Parse(CostTextBox.Text);
+                    Items[selectedItemIndex].Cost = double.Parse(CostTextBox.Text);
                     CostTextBox.BackColor = Color.White;
                 }
                 catch { CostTextBox.BackColor = Color.LightPink; }
@@ -135,11 +128,13 @@ namespace ObjectOrientedPractics.View.Panels
         /// <param name="e">Аргумент события.</param>
         private void NameTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (ItemsListBox.SelectedIndex != -1)
+            int selectedItemIndex = ItemsListBox.SelectedIndex;
+
+            if (selectedItemIndex != -1)
             {
                 try
                 {
-                    Items[ItemsListBox.SelectedIndex].Name = NameTextBox.Text;
+                    Items[selectedItemIndex].Name = NameTextBox.Text;
                     NameTextBox.BackColor = Color.White;
                 }
                 catch { NameTextBox.BackColor = Color.LightPink; }
@@ -154,7 +149,12 @@ namespace ObjectOrientedPractics.View.Panels
         /// <param name="e">Аргумент события.</param>
         private void NameTextBox_Leave(object sender, EventArgs e)
         {
-            RefreshItemsListBox();
+            int selectedItemIndex = ItemsListBox.SelectedIndex;
+
+            if (selectedItemIndex != -1)
+            { 
+                Items.ResetItem(selectedItemIndex);
+            }
         }
 
         /// <summary>
@@ -165,11 +165,13 @@ namespace ObjectOrientedPractics.View.Panels
         /// <param name="e">Аргумент события.</param>
         private void DescriptionTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (ItemsListBox.SelectedIndex != -1)
+            int selectedItemIndex = ItemsListBox.SelectedIndex;
+
+            if (selectedItemIndex != -1)
             {
                 try
                 {
-                    Items[ItemsListBox.SelectedIndex].Info = DescriptionTextBox.Text;
+                    Items[selectedItemIndex].Info = DescriptionTextBox.Text;
                     DescriptionTextBox.BackColor = Color.White;
                 }
                 catch { DescriptionTextBox.BackColor = Color.LightPink; }
@@ -201,7 +203,7 @@ namespace ObjectOrientedPractics.View.Panels
         {
             if (ItemsListBox.SelectedIndex != -1)
             {
-                IDTextBox.Text = ((Item)ItemsListBox.SelectedItem).ID.ToString();
+                IDTextBox.Text = ((Item)ItemsListBox.SelectedItem).Id.ToString();
                 NameTextBox.Text = ((Item)ItemsListBox.SelectedItem).Name;
                 DescriptionTextBox.Text = ((Item)ItemsListBox.SelectedItem).Info;
                 CostTextBox.Text = ((Item)ItemsListBox.SelectedItem).Cost.ToString();
@@ -223,24 +225,10 @@ namespace ObjectOrientedPractics.View.Panels
             NameTextBox.Text = "";
             DescriptionTextBox.Text = "";
             CategoryComboBox.SelectedIndex = -1;
-        }
 
-        /// <summary>
-        /// Обновляет отображение ItemsListBox
-        /// </summary>
-        private void RefreshItemsListBox()
-        {
-            ItemsListBox.DataSource = null;
-            ItemsListBox.DataSource = Items;
-            ItemsListBox.DisplayMember = "Name";
-        }
-
-        /// <summary>
-        /// Сериализует список товаров 
-        /// </summary>
-        public void SerializeItems()
-        {
-            ProjectSerializer.SerializeJsonItemsFile(Items, "\\Saved Data\\Item Objects.json");
+            CostTextBox.BackColor = Color.White;
+            NameTextBox.BackColor = Color.White;
+            DescriptionTextBox.BackColor = Color.White;
         }
     }
 }

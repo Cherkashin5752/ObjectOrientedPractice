@@ -1,25 +1,19 @@
-﻿using ObjectOrientedPractics.Model.Enums;
-using ObjectOrientedPractics.Service;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Net;
-using System.Text;
+﻿using ObjectOrientedPractics.Service;
 
 namespace ObjectOrientedPractics.Model
 {
     /// <summary>
     /// Хранит ID, полное имя и адрес покупателя
     /// </summary>
-    internal class Customer
+    public class Customer
     {
         /// <summary>
         /// Счётчик для генерации уникальных Id
         /// </summary>
-        static private int _idCounter;
+        private static int _idCounter;
 
         /// <summary>
-        /// Id товара
+        /// Id покупателя
         /// </summary>
         private readonly int _id;
 
@@ -34,9 +28,19 @@ namespace ObjectOrientedPractics.Model
         private Address _address;
 
         /// <summary>
+        /// Корзина покупателя
+        /// </summary>
+        private Cart _cart;
+
+        /// <summary>
+        /// Список заказов покупателя
+        /// </summary>
+        private List<Order> _orders;
+
+        /// <summary>
         /// Возвращает Id товара
         /// </summary>
-        public int ID { get { return _id; } init { _id = value; } }
+        public int Id { get { return _id; } init { _id = value; } }
 
         /// <summary>
         /// Возвращает и задаёт полное имя покупателя
@@ -50,10 +54,6 @@ namespace ObjectOrientedPractics.Model
                 {
                     _fullname = value;
                 }
-                else
-                {
-                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
-                }
             }
         }
 
@@ -62,36 +62,66 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         public Address Address
         {
-            get
-            {
-                return _address;
-            }
-            set
-            {
-                _address = value;
-            }
+            get { return _address; }
+            set { _address = value; }
         }
 
         /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="Customer">
+        /// Возвращает и задаёт корзину покупателя
+        /// </summary>
+        public Cart Cart
+        {
+            get { return _cart; }
+            set { _cart = value; }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт список заказов покупателя.
+        /// </summary>
+        public List<Order> Orders
+        {
+            get { return _orders; }
+            set { _orders = value; }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт, приоритетный ли покупатель.
+        /// </summary>
+        public bool IsPriority { get; set; }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Customer"/>
         /// </summary>
         public Customer()
         {
-            ID = _idCounter++;
+            Id = _idCounter++;
             Fullname = "Default fullname";
             Address = new Address();
+            Cart = new Cart();
+            Orders = new List<Order>();
         }
 
         /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="Customer">
+        /// Инициализирует новый экземпляр класса <see cref="Customer"/>
         /// </summary>
         /// <param name="fullname">Имя покупателя</param>
         /// <param name="address">Адрес покупателя</param>
         public Customer(string fullname, Address address)
         {
-            ID = _idCounter++;
+            Id = _idCounter++;
             Fullname = fullname;
             Address = new Address(address);
+            Cart = new Cart();
+            Orders = new List<Order>();
+        }
+
+        /// <summary>
+        /// Устанавливает _idCounter
+        /// </summary>
+        /// <param name="maxId">Наибольший Id в сериализованных файлах</param>
+        public static void SetIdCounter(int maxId)
+        {
+            _idCounter = ++maxId;
         }
     }
 }

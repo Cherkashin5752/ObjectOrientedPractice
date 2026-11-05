@@ -1,7 +1,9 @@
 ﻿using ObjectOrientedPractics.Model;
 using System.ComponentModel;
+using WinControl = System.Windows.Forms.Control;
+using WinTextBox = System.Windows.Forms.TextBox;
 
-namespace ObjectOrientedPractics.View.Control
+namespace ObjectOrientedPractics.View.Controls
 {
     /// <summary>
     /// Пользовательский элемент, который осуществляет логику работы с адресами покупателей
@@ -9,9 +11,14 @@ namespace ObjectOrientedPractics.View.Control
     public partial class AddressControl : UserControl
     {
         /// <summary>
-        /// Сдрес текуще-выбранного покупателя
+        /// Адрес текущевыбранного покупателя
         /// </summary>
         private Address _currentAddress;
+
+        /// <summary>
+        /// должны ли все TextBox элементы в пользовательском элементе быть ReadOnly
+        /// </summary>
+        private bool _readOnly;
 
         /// <summary>
         /// Событие. Возникает при изменении любого поля класса
@@ -21,7 +28,7 @@ namespace ObjectOrientedPractics.View.Control
         /// <summary>
         /// Возвращает и задаёт значение текуще-выбранного покупателя
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Address CurrentAddress
         {
             get
@@ -30,37 +37,55 @@ namespace ObjectOrientedPractics.View.Control
             }
             set
             {
+                _currentAddress = value;
+
                 if (value == null)
                 {
                     ClearTextBoxAddress();
                     return;
                 }
 
-                _currentAddress = value;
-
                 RefreshAddressInfo();
             }
         }
 
         /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="AddressControl"/>.
-        /// <summary>
-        public AddressControl()
+        /// Возвращает и задаёт поле ReadOnly. Также переводит на пользовательском элементе все TextBox элементы в соответствующее состояние ReadOnly
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool ReadOnly
         {
-            InitializeComponent();
+            get => _readOnly;
+            set
+            {
+                _readOnly = value;
+                SetTextBoxesReadOnly(this, value);
+            }
         }
 
         /// <summary>
-        /// Очищает текстовые поля формы о адресе покупателя
+        /// Возвращает заполнены ли все поля адреса.
         /// </summary>
-        private void ClearTextBoxAddress()
+        public bool AllFieldsAreFilled
         {
-            PostIndexTextBox.Text = "";
-            CountryTextBox.Text = "";
-            CityTextBox.Text = "";
-            StreetTextBox.Text = "";
-            BuildingTextBox.Text = "";
-            ApartmentTextBox.Text = "";
+            get
+            {
+                if (PostIndexTextBox.Text != "" && CountryTextBox.Text != "" &&
+                    CityTextBox.Text != "" && StreetTextBox.Text != "" &&
+                    BuildingTextBox.Text != "" && ApartmentTextBox.Text != "")
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="AddressControl"/>.
+        /// </summary>
+        public AddressControl()
+        {
+            InitializeComponent();
         }
 
         /// <summary>
@@ -72,7 +97,7 @@ namespace ObjectOrientedPractics.View.Control
         }
 
         /// <summary>
-        /// Меняет значения текстовых полей Address в форме на значения текуще-выбранного покупателя
+        /// Меняет значения текстовых полей Address в форме на значения текущевыбранного покупателя
         /// </summary>
         private void RefreshAddressInfo()
         {
@@ -89,10 +114,10 @@ namespace ObjectOrientedPractics.View.Control
         /// Валидирует ввод и подсвечивает поле при ошибке.
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void PostIndexTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CurrentAddress != null)
+            if (CurrentAddress != null && !ReadOnly)
             {
                 try
                 {
@@ -109,10 +134,10 @@ namespace ObjectOrientedPractics.View.Control
         /// Валидирует ввод и подсвечивает поле при ошибке.
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void CountryTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CurrentAddress != null)
+            if (CurrentAddress != null && !ReadOnly)
             {
                 try
                 {
@@ -129,10 +154,10 @@ namespace ObjectOrientedPractics.View.Control
         /// Валидирует ввод и подсвечивает поле при ошибке.
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void CityTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CurrentAddress != null)
+            if (CurrentAddress != null && !ReadOnly)
             {
                 try
                 {
@@ -149,10 +174,10 @@ namespace ObjectOrientedPractics.View.Control
         /// Валидирует ввод и подсвечивает поле при ошибке.
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void StreetTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CurrentAddress != null)
+            if (CurrentAddress != null && !ReadOnly)
             {
                 try
                 {
@@ -169,10 +194,10 @@ namespace ObjectOrientedPractics.View.Control
         /// Валидирует ввод и подсвечивает поле при ошибке.
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void BuildingTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CurrentAddress != null)
+            if (CurrentAddress != null && !ReadOnly)
             {
                 try
                 {
@@ -189,10 +214,10 @@ namespace ObjectOrientedPractics.View.Control
         /// Валидирует ввод и подсвечивает поле при ошибке.
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void ApartmentTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CurrentAddress != null)
+            if (CurrentAddress != null && !ReadOnly)
             {
                 try
                 {
@@ -202,6 +227,48 @@ namespace ObjectOrientedPractics.View.Control
                 }
                 catch { ApartmentTextBox.BackColor = Color.LightPink; }
             }
+        }
+
+        /// <summary>
+        /// Переводит все TextBox элементы в соответствующее состояние ReadOnly.
+        /// </summary>
+        /// <param name="parent">Текущий пользовательский элемент.</param>
+        /// <param name="isReadOnly">В какой состояние ReadOnly перевести все TextBox элементы</param>
+        private void SetTextBoxesReadOnly(WinControl parent, bool isReadOnly)
+        {
+            foreach (WinControl control in parent.Controls)
+            {
+                if (control is WinTextBox textBox)
+                {
+                    textBox.ReadOnly = isReadOnly;
+                    textBox.BackColor = isReadOnly ? SystemColors.Control : Color.White;
+                }
+
+                if (control.HasChildren)
+                {
+                    SetTextBoxesReadOnly(control, isReadOnly);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Очищает текстовые поля формы о адресе покупателя
+        /// </summary>
+        public void ClearTextBoxAddress()
+        {
+            PostIndexTextBox.Text = "";
+            CountryTextBox.Text = "";
+            CityTextBox.Text = "";
+            StreetTextBox.Text = "";
+            BuildingTextBox.Text = "";
+            ApartmentTextBox.Text = "";
+
+            PostIndexTextBox.BackColor = Color.White;
+            CountryTextBox.BackColor = Color.White;
+            CityTextBox.BackColor = Color.White;
+            StreetTextBox.BackColor = Color.White;
+            BuildingTextBox.BackColor = Color.White;
+            ApartmentTextBox.BackColor = Color.White;
         }
     }
 }

@@ -11,27 +11,17 @@ namespace ObjectOrientedPractics.Model
     internal class Store
     {
         /// <summary>
-        /// Список товаров
+        /// Возвращает и задаёт список товаров.
         /// </summary>
-        private BindingList<Item> _items;
+        public BindingList<Item> Items { get; set; }
 
         /// <summary>
-        /// Список покупателей
+        /// Возвращает и задаёт список покупателей.
         /// </summary>
-        private BindingList<Customer> _customers;
+        public BindingList<Customer> Customers {  get; set; }
 
         /// <summary>
-        /// Возвращает и задаёт список товаров
-        /// </summary>
-        public BindingList<Item> Items { get { return _items; } set { _items = value; } }
-
-        /// <summary>
-        /// Возвращает и задаёт список покупателей
-        /// </summary>
-        public BindingList<Customer> Customers { get { return _customers; } set { _customers = value; } }
-
-        /// <summary>
-        /// Инициализирует новый экземплар класса <see cref="Store">
+        /// Инициализирует новый экземплар класса <see cref="Store">.
         /// </summary>
         public Store()
         {

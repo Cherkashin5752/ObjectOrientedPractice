@@ -1,4 +1,6 @@
-﻿namespace ObjectOrientedPractics.View.Panels
+﻿using ObjectOrientedPractics.View.Controls;
+
+namespace ObjectOrientedPractics.View.Panels
 {
     partial class CustomersTab
     {
@@ -34,12 +36,12 @@
             AddDefaultButton = new Button();
             CustomersListBox = new ListBox();
             SelectedCustomerGroupBox = new GroupBox();
-            addressControl1 = new ObjectOrientedPractics.View.Control.AddressControl();
+            IsPriorityCheckBox = new CheckBox();
+            AddressControl = new ObjectOrientedPractics.View.Controls.AddressControl();
             FullNameLabel = new Label();
             IDLabel = new Label();
             FullnameTextBox = new TextBox();
             IDTextBox = new TextBox();
-            Panel1 = new Panel();
             CustomersGroupBox.SuspendLayout();
             SelectedCustomerGroupBox.SuspendLayout();
             SuspendLayout();
@@ -104,26 +106,38 @@
             // SelectedCustomerGroupBox
             // 
             SelectedCustomerGroupBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            SelectedCustomerGroupBox.Controls.Add(addressControl1);
+            SelectedCustomerGroupBox.Controls.Add(IsPriorityCheckBox);
+            SelectedCustomerGroupBox.Controls.Add(AddressControl);
             SelectedCustomerGroupBox.Controls.Add(FullNameLabel);
             SelectedCustomerGroupBox.Controls.Add(IDLabel);
             SelectedCustomerGroupBox.Controls.Add(FullnameTextBox);
             SelectedCustomerGroupBox.Controls.Add(IDTextBox);
             SelectedCustomerGroupBox.Location = new Point(260, 3);
             SelectedCustomerGroupBox.Name = "SelectedCustomerGroupBox";
-            SelectedCustomerGroupBox.Size = new Size(403, 236);
+            SelectedCustomerGroupBox.Size = new Size(403, 259);
             SelectedCustomerGroupBox.TabIndex = 1;
             SelectedCustomerGroupBox.TabStop = false;
             SelectedCustomerGroupBox.Text = "Selected Customer";
             // 
-            // addressControl1
+            // IsPriorityCheckBox
             // 
-            addressControl1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            addressControl1.Location = new Point(6, 87);
-            addressControl1.Name = "addressControl1";
-            addressControl1.Size = new Size(391, 145);
-            addressControl1.TabIndex = 5;
-            addressControl1.AddressChanged += addressControl1_OnAddressChanged;
+            IsPriorityCheckBox.AutoSize = true;
+            IsPriorityCheckBox.Location = new Point(76, 87);
+            IsPriorityCheckBox.Name = "IsPriorityCheckBox";
+            IsPriorityCheckBox.Size = new Size(75, 19);
+            IsPriorityCheckBox.TabIndex = 6;
+            IsPriorityCheckBox.Text = "Is Priority";
+            IsPriorityCheckBox.UseVisualStyleBackColor = true;
+            IsPriorityCheckBox.CheckedChanged += IsPriorityCheckBox_CheckedChanged;
+            // 
+            // AddressControl
+            // 
+            AddressControl.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            AddressControl.Location = new Point(6, 112);
+            AddressControl.Name = "AddressControl";
+            AddressControl.Size = new Size(391, 145);
+            AddressControl.TabIndex = 5;
+            AddressControl.AddressChanged += AddressControl_OnAddressChanged;
             // 
             // FullNameLabel
             // 
@@ -161,19 +175,10 @@
             IDTextBox.Size = new Size(126, 23);
             IDTextBox.TabIndex = 0;
             // 
-            // Panel1
-            // 
-            Panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            Panel1.Location = new Point(260, 245);
-            Panel1.Name = "Panel1";
-            Panel1.Size = new Size(403, 256);
-            Panel1.TabIndex = 2;
-            // 
             // CustomersTab
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(Panel1);
             Controls.Add(SelectedCustomerGroupBox);
             Controls.Add(CustomersGroupBox);
             Name = "CustomersTab";
@@ -193,10 +198,10 @@
         private Button RemoveButton;
         private Button AddDefaultButton;
         private TextBox IDTextBox;
-        private Panel Panel1;
         private Label FullNameLabel;
         private Label IDLabel;
         private TextBox FullnameTextBox;
-        private Control.AddressControl addressControl1;
+        private AddressControl AddressControl;
+        private CheckBox IsPriorityCheckBox;
     }
 }

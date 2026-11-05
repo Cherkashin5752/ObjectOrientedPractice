@@ -1,0 +1,180 @@
+﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
+using System.ComponentModel;
+
+namespace ObjectOrientedPractics.View.Panels
+{
+    /// <summary>
+    /// Пользовательский элемент, который осуществляет логику создания заказов покупателей.
+    /// </summary>
+    public partial class CartsTab : UserControl
+    {
+        /// <summary>
+        /// Список товаров.
+        /// </summary>
+        private BindingList<Item> _items = new();
+
+        /// <summary>
+        /// Список покупателей.
+        /// </summary>
+        private BindingList<Customer> _customers = new();
+
+        /// <summary>
+        /// Возвращает и задаёт список товаров.
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public BindingList<Item> Items
+        {
+            get { return _items; }
+            set
+            {
+                _items = value;
+                ItemsCartsListBox.DataSource = Items;
+            }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт список покупателей.
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public BindingList<Customer> Customers
+        {
+            get { return _customers; }
+            set
+            {
+                _customers = value;
+                CustomerComboBox.DataSource = Customers;
+            }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт текуще выбранного покупателя.
+        /// </summary>
+        private Customer CurrentCustomer { get; set; }
+
+        /// <summary>
+        /// Инициализирует экземпляр класса <see cref="CartsTab"/>.
+        /// </summary>
+        public CartsTab()
+        {
+            InitializeComponent();
+
+            ItemsCartsListBox.DisplayMember = "Name";
+
+            CustomerComboBox.DisplayMember = "Fullname";
+        }
+
+        /// <summary>
+        /// Обработка события смены выбранного покупателя в CustomerComboBox.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void CustomerComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (CustomerComboBox.SelectedIndex != -1)
+            {
+                CurrentCustomer = (Customer)CustomerComboBox.SelectedItem;
+                CartContentListBox.DataSource = CurrentCustomer.Cart.Items;
+                CartContentListBox.DisplayMember = "Name";
+                CartContentListBox.Refresh();
+                RefreshCartAmount();
+            }
+            else
+            {
+                CurrentCustomer = null;
+                CartContentListBox.DataSource = null;
+            }
+        }
+
+        /// <summary>
+        /// Обработка события нажатия на кнопку добавления товара в корзину AddToCartButton.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void AddToCartButton_Click(object sender, EventArgs e)
+        {
+            if (ItemsCartsListBox.SelectedIndex != -1 && CurrentCustomer != null)
+            {
+                CurrentCustomer.Cart.Items.Add((Item)ItemsCartsListBox.SelectedItem);
+                RefreshCartAmount();
+            }
+        }
+
+        /// <summary>
+        /// Обработка события нажатия на кнопку убирания товара из корзины RemoveItemButton.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void RemoveItemButton_Click(object sender, EventArgs e)
+        {
+            if (CartContentListBox.SelectedIndex != -1 && CurrentCustomer != null)
+            {
+                var selectedItem = (Item)CartContentListBox.SelectedItem;
+
+                CurrentCustomer.Cart.Items.Remove(selectedItem);
+                RefreshCartAmount();
+            }
+        }
+
+        /// <summary>
+        /// Обработка события нажатия на кнопку создания заказа CreateOrderButton.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void CreateOrderButton_Click(object sender, EventArgs e)
+        {
+            if (CurrentCustomer != null && CurrentCustomer.Cart.Items.Count > 0)
+            {
+                if (CurrentCustomer.IsPriority)
+                {
+                    Order newPriorityOrder = new PriorityOrder(CurrentCustomer, DateTime.Today.AddDays(1), DeliveryTimeRange.Values[0]);
+                    CurrentCustomer.Orders.Add(newPriorityOrder);
+                    ClearCart();
+                }
+                else
+                {
+                    Order newOrder = new Order(CurrentCustomer);
+                    CurrentCustomer.Orders.Add(newOrder);
+                    ClearCart();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Обработка события нажатия на кнопку очищения корзины ClearCartButton.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void ClearCartButton_Click(object sender, EventArgs e)
+        {
+            if (CurrentCustomer != null)
+            {
+                ClearCart();
+            }
+        }
+
+        /// <summary>
+        /// Обновление отображения CartAmountLabel.
+        /// </summary>
+        private void RefreshCartAmount()
+        {
+            if (CurrentCustomer != null)
+            {
+                CartAmountLabel.Text = (CurrentCustomer.Cart.Amount).ToString();
+            }
+            else
+            {
+                CartAmountLabel.Text = "0,0";
+            }
+        }
+
+        /// <summary>
+        /// Полностью очищает корзину покупателя
+        /// </summary>
+        private void ClearCart()
+        {
+            CurrentCustomer.Cart.Items.Clear();
+            RefreshCartAmount();
+        }
+    }
+}

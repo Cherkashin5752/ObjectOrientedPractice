@@ -1,10 +1,14 @@
 using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Service;
+using System.ComponentModel;
 
 namespace ObjectOrientedPractics
 {
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// Магазин, содержащиё списки товаров и покупателей.
+        /// </summary>
         private Store _store = new Store();
 
         /// <summary>
@@ -16,9 +20,9 @@ namespace ObjectOrientedPractics
 
             try
             {
-                string jsonPath = "\\Saved Data\\Store Object.json";
+                string jsonPath = "Saved Data\\Store Object.json";
 
-                Store tempStore = ProjectSerializer.DeserializeJsonStoreFile(jsonPath);
+                Store tempStore = ProjectSerializer.Deserialize<Store>(jsonPath);
 
                 if (tempStore == null)
                 {
@@ -29,9 +33,31 @@ namespace ObjectOrientedPractics
             }
             catch { }
 
-
             itemsTab1.Items = _store.Items;
+            
             customersTab1.Customers = _store.Customers;
+            
+            cartsTab1.Items = _store.Items;
+            cartsTab1.Customers = _store.Customers;
+
+            ordersTab1.Customers = _store.Customers;
+            
+            if (_store.Items.Count > 0)
+            {
+                Item.SetIdCounter(_store.Items.Max(items => items.Id));
+            }
+
+            if (_store.Customers.Count > 0)
+            {
+                Customer.SetIdCounter(_store.Customers.Max(customer => customer.Id));
+
+                int maxOrderId = _store.Customers
+                    .Where(c => c.Orders != null)
+                    .SelectMany(c => c.Orders)
+                    .Select(o => (int?)o.Id)
+                    .Max() ?? 0;
+                Order.SetIdCounter(maxOrderId);
+            }
         }
 
         /// <summary>
@@ -42,7 +68,26 @@ namespace ObjectOrientedPractics
         /// <param name="e">Аргумент события.</param>
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            ProjectSerializer.SerializeJsonStoreFile(_store, "\\Saved Data\\Store Object.json");
+            ProjectSerializer.Serialize<Store>(_store, "Saved Data\\Store Object.json");
+        }
+
+        /// <summary>
+        /// Обработка события переключения вкладки tabControl1.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+                
+            if (tabControl1.SelectedTab == CartsTab)
+            {
+                cartsTab1.CustomerComboBox.Refresh();
+                cartsTab1.ItemsCartsListBox.Refresh();
+            }
+            else if (tabControl1.SelectedTab == OrdersTab)
+            {
+                ordersTab1.UpdateOrders();
+            }
         }
     }
 }

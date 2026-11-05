@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.ComponentModel;
 using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Service;
 
@@ -18,21 +12,21 @@ namespace ObjectOrientedPractics.View.Panels
         /// <summary>
         /// Список покупателей, привязанный к графическому интерфейсу.
         /// </summary>
-        private BindingList<Customer> _customers = new();
+        private BindingList<Customer> _customerss = new();
 
         /// <summary>
         /// Возвращает и задаёт список покупателей
         /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        internal BindingList<Customer> Customers
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public BindingList<Customer> Customers
         {
             get
             {
-                return _customers;
+                return _customerss;
             }
             set
             {
-                _customers = value;
+                _customerss = value;
                 RefreshCustomersListBox();
             }
         }
@@ -46,23 +40,13 @@ namespace ObjectOrientedPractics.View.Panels
         {
             InitializeComponent();
 
-            CustomersListBox.DataSource = _customers;
-            CustomersListBox.DisplayMember = "Fullname";
-
             try
             {
                 CustomerFactory.SetUpCustomerFactory();
-
-                BindingList<Customer> tempCustomer = ProjectSerializer.DeserializeJsonCustomersFile("\\Saved Data\\Customer Objects.json");
-
-                if (tempCustomer != null)
-                {
-                    _customers = tempCustomer;
-                }
-
-                RefreshCustomersListBox();
             }
             catch { }
+
+            AddressControl.ReadOnly = false;
         }
 
         /// <summary>
@@ -73,7 +57,7 @@ namespace ObjectOrientedPractics.View.Panels
         private void AddDefaultButton_Click(object sender, EventArgs e)
         {
             Customer newCustomer = new Customer();
-            _customers.Add(newCustomer);
+            _customerss.Add(newCustomer);
         }
 
         /// <summary>
@@ -84,7 +68,7 @@ namespace ObjectOrientedPractics.View.Panels
         private void AddRandomButton_Click(object sender, EventArgs e)
         {
             Customer newCustomer = CustomerFactory.GenerateCustomer();
-            _customers.Add(newCustomer);
+            _customerss.Add(newCustomer);
         }
 
         /// <summary>
@@ -98,7 +82,7 @@ namespace ObjectOrientedPractics.View.Panels
             {
                 int selectedIndex = CustomersListBox.SelectedIndex;
 
-                _customers.RemoveAt(selectedIndex);
+                _customerss.RemoveAt(selectedIndex);
 
                 CustomersListBox.SelectedIndex = -1;
 
@@ -112,14 +96,14 @@ namespace ObjectOrientedPractics.View.Panels
         /// Валидирует ввод и подсвечивает поле при ошибке.
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void FullnameTextBox_TextChanged(object sender, EventArgs e)
         {
             if (CustomersListBox.SelectedIndex != -1)
             {
                 try
                 {
-                    _customers[CustomersListBox.SelectedIndex].Fullname = FullnameTextBox.Text;
+                    _customerss[CustomersListBox.SelectedIndex].Fullname = FullnameTextBox.Text;
                     FullnameTextBox.BackColor = Color.White;
                 }
                 catch { FullnameTextBox.BackColor = Color.LightPink; }
@@ -131,22 +115,27 @@ namespace ObjectOrientedPractics.View.Panels
         /// Обновления отображаемого имени покупателя в <see cref="CustomersListBox"/>
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void FullnameTextBox_Leave(object sender, EventArgs e)
         {
-            RefreshCustomersListBox();
+            int selectedCustomerIndex = CustomersListBox.SelectedIndex;
+
+            if (selectedCustomerIndex != -1)
+            {
+                Customers.ResetItem(selectedCustomerIndex);
+            }
         }
 
         /// <summary>
-        /// ОБработчик события изменения поля адреса покупателя
+        /// Обработчик события изменения поля адреса покупателя
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
-        private void addressControl1_OnAddressChanged(object sender, EventArgs e)
+        /// <param name="e">Аргументы события.</param>
+        private void AddressControl_OnAddressChanged(object sender, EventArgs e)
         {
             if (CustomersListBox.SelectedIndex != -1)
             {
-                _customers[CustomersListBox.SelectedIndex].Address = addressControl1.CurrentAddress;
+                _customerss[CustomersListBox.SelectedIndex].Address = AddressControl.CurrentAddress;
             }
         }
 
@@ -155,18 +144,34 @@ namespace ObjectOrientedPractics.View.Panels
         /// Заполняет текстовые поля информацией о выбранном покупателе.
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void CustomersListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (CustomersListBox.SelectedIndex != -1)
             {
-                IDTextBox.Text = ((Customer)CustomersListBox.SelectedItem).ID.ToString();
+                IDTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Id.ToString();
                 FullnameTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Fullname;
-                addressControl1.CurrentAddress = ((Customer)CustomersListBox.SelectedItem).Address;
+                AddressControl.CurrentAddress = ((Customer)CustomersListBox.SelectedItem).Address;
+                IsPriorityCheckBox.Checked = ((Customer)CustomersListBox.SelectedItem).IsPriority;
             }
             else
             {
                 ClearCustomersInfo();
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события изменения состояния IsPriorityCheckBox.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void IsPriorityCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            int selectedIndex = CustomersListBox.SelectedIndex;
+
+            if (selectedIndex != -1)
+            {
+                Customers[selectedIndex].IsPriority = IsPriorityCheckBox.Checked;
             }
         }
 
@@ -177,7 +182,10 @@ namespace ObjectOrientedPractics.View.Panels
         {
             IDTextBox.Text = "";
             FullnameTextBox.Text = "";
-            addressControl1.CurrentAddress = null;
+            AddressControl.CurrentAddress = null;
+            IsPriorityCheckBox.Checked = false;
+
+            FullnameTextBox.BackColor = Color.White;
         }
 
         /// <summary>
@@ -185,15 +193,8 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         private void RefreshCustomersListBox()
         {
-            CustomersListBox.DataSource = _customers;
-        }
-
-        /// <summary>
-        /// Сериализует список покупателей
-        /// </summary>
-        public void SerializeCustomers()
-        {
-            ProjectSerializer.SerializeJsonCustomersFile(_customers, "\\Saved Data\\Customer Objects.json");
+            CustomersListBox.DataSource = _customerss;
+            CustomersListBox.DisplayMember = "Fullname";
         }
     }
 }

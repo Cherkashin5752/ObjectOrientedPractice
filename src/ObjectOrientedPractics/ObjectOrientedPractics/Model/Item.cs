@@ -3,6 +3,7 @@ using ObjectOrientedPractics.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Security.Policy;
 using System.Text;
 using System.Xml.Linq;
@@ -12,17 +13,12 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Хранит Id, именование, информацию и стоимость товара
     /// </summary>
-    internal class Item
+    public class Item
     {
         /// <summary>
         /// Счётчик для генерации уникальных Id
         /// </summary>
         static private int _idCounter;
-
-        /// <summary>
-        /// Id товара
-        /// </summary>
-        private readonly int _id;
 
         /// <summary>
         /// Именование товара
@@ -42,7 +38,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Возвращает Id товара
         /// </summary>
-        public int ID { get { return _id; } init { _id = value; } }
+        public int Id { get; init; }
 
         /// <summary>
         /// Возвращает и задаёт именование товара
@@ -55,10 +51,6 @@ namespace ObjectOrientedPractics.Model
                 if (ValueValidator.AssertStringOnLength(value, 200, "Name"))
                 {
                     _name = value;
-                }
-                else
-                {
-                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
                 }
             }
         }
@@ -75,10 +67,6 @@ namespace ObjectOrientedPractics.Model
                 {
                     _info = value;
                 }
-                else
-                {
-                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
-                }
             }
         }
 
@@ -90,17 +78,16 @@ namespace ObjectOrientedPractics.Model
             get { return _cost; }
             set
             {
-                if (value >= 0.0 && value <= 100000.0)
+                if (ValueValidator.ValueInRange(value, 0.0, 100000.0, "Cost"))
                 {
                     _cost = value;
-                }
-                else
-                {
-                    throw new ArgumentException($"Вышло за границу допустимого значения {value}", nameof(value));
                 }
             }
         }
 
+        /// <summary>
+        /// Возвращает и задаёт категорию товара
+        /// </summary>
         public ProductCategory Category { get; set; }
 
         /// <summary>
@@ -108,7 +95,7 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         public Item()
         {
-            ID = _idCounter++;
+            Id = _idCounter++;
             Name = "Default";
             Info = "Default";
             Cost = 0;
@@ -124,11 +111,20 @@ namespace ObjectOrientedPractics.Model
         /// <param name="category">Категория товара</param>
         public Item(string name, string info, double cost, ProductCategory category)
         {
-            ID = _idCounter++;
+            Id = _idCounter++;
             Name = name;
             Info = info;
             Cost = cost;
             Category = category;
+        }
+
+        /// <summary>
+        /// Устанавливает _idCounter
+        /// </summary>
+        /// <param name="maxId"></param>
+        static public void SetIdCounter(int maxId)
+        {
+            _idCounter = ++maxId;
         }
     }
 }
