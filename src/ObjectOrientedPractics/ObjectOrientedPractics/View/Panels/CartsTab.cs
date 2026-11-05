@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using ObjectOrientedPractics.Model;
 
 namespace ObjectOrientedPractics.View.Panels
 {
     /// <summary>
-    /// Пользовательский элемент, который осуществляет логику работы с заказами покупателей.
+    /// Пользовательский элемент, который осуществляет логику создания заказов покупателей.
     /// </summary>
     public partial class CartsTab : UserControl
     {
@@ -18,11 +13,11 @@ namespace ObjectOrientedPractics.View.Panels
         /// Список товаров.
         /// </summary>
         private BindingList<Item> _items = new();
-        
+
         /// <summary>
         /// Список покупателей.
         /// </summary>
-        private BindingList<Customer> _customer = new();
+        private BindingList<Customer> _customers = new();
 
         /// <summary>
         /// Возвращает и задаёт список товаров.
@@ -44,10 +39,10 @@ namespace ObjectOrientedPractics.View.Panels
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public BindingList<Customer> Customers
         {
-            get { return _customer; }
+            get { return _customers; }
             set
             {
-                _customer = value;
+                _customers = value;
                 CustomerComboBox.DataSource = Customers;
             }
         }
@@ -58,7 +53,7 @@ namespace ObjectOrientedPractics.View.Panels
         private Customer CurrentCustomer { get; set; }
 
         /// <summary>
-        /// Инициализирует экземпляр класса <see cref="CartsTab">.
+        /// Инициализирует экземпляр класса <see cref="CartsTab"/>.
         /// </summary>
         public CartsTab()
         {
@@ -67,8 +62,6 @@ namespace ObjectOrientedPractics.View.Panels
             ItemsCartsListBox.DisplayMember = "Name";
 
             CustomerComboBox.DisplayMember = "Fullname";
-
-            CartContentListBox.DisplayMember = "Name";
         }
 
         /// <summary>
@@ -82,6 +75,7 @@ namespace ObjectOrientedPractics.View.Panels
             {
                 CurrentCustomer = (Customer)CustomerComboBox.SelectedItem;
                 CartContentListBox.DataSource = CurrentCustomer.Cart.Items;
+                CartContentListBox.DisplayMember = "Name";
                 CartContentListBox.Refresh();
                 RefreshCartAmount();
             }
@@ -131,9 +125,18 @@ namespace ObjectOrientedPractics.View.Panels
         {
             if (CurrentCustomer != null && CurrentCustomer.Cart.Items.Count > 0)
             {
-                Order newOrder = new Order(CurrentCustomer);
-                CurrentCustomer.Orders.Add(newOrder);
-                ClearCart();
+                if (CurrentCustomer.IsPriority)
+                {
+                    Order newPriorityOrder = new PriorityOrder(CurrentCustomer, DateTime.Today.AddDays(1), DeliveryTimeRange.Values[0]);
+                    CurrentCustomer.Orders.Add(newPriorityOrder);
+                    ClearCart();
+                }
+                else
+                {
+                    Order newOrder = new Order(CurrentCustomer);
+                    CurrentCustomer.Orders.Add(newOrder);
+                    ClearCart();
+                }
             }
         }
 

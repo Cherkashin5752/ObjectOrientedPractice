@@ -1,33 +1,35 @@
 ﻿using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Model.Enums;
-using ObjectOrientedPractics.View.Control;
-using System;
-using System.Collections.Generic;
+using ObjectOrientedPractics.View.Controls;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.View.Panels
 {
+    /// <summary>
+    /// Пользовательский элемент, который осуществляет логику работы с заказами покупателей.
+    /// </summary>
     public partial class OrdersTab : UserControl
     {
         /// <summary>
         /// Список покупателей.
         /// </summary>
-        private BindingList<Customer> _customer = new();
-        
+        private BindingList<Customer> _customers = new();
+
+        /// <summary>
+        /// Список заказов покупателей.
+        /// </summary>
+        private BindingList<Order> _orders = new();
+
         /// <summary>
         /// Возвращает и задаёт список покупателей.
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public BindingList<Customer> Customers
         {
-            get { return _customer; }
+            get { return _customers; }
             set
             {
-                _customer = value;
+                _customers = value;
                 UpdateOrders();
             }
         }
@@ -36,7 +38,11 @@ namespace ObjectOrientedPractics.View.Panels
         /// Возвращает и задаёт список заказов покупателей.
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public BindingList<Order> Orders { get; set; }
+        public BindingList<Order> Orders
+        {
+            get { return _orders; }
+            set { _orders = value; }
+        }
 
         /// <summary>
         /// Инициализирует экземпляр класса OrdersTab.
@@ -44,6 +50,8 @@ namespace ObjectOrientedPractics.View.Panels
         public OrdersTab()
         {
             InitializeComponent();
+
+            OrderControl.OrdersDataGridView.DataSource = Orders;
         }
 
         /// <summary>
@@ -53,10 +61,10 @@ namespace ObjectOrientedPractics.View.Panels
         /// <param name="e">Аргументы события.</param>
         private void DataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            if (orderControl1.dataGridView1.SelectedRows.Count > 0)
+            if (OrderControl.OrdersDataGridView.SelectedRows.Count > 0)
             {
-                Order selectedOrder = (Order)orderControl1.dataGridView1.SelectedRows[0].DataBoundItem;
-                selectedOrderControl1.CurrentOrder = selectedOrder;
+                Order selectedOrder = (Order)OrderControl.OrdersDataGridView.SelectedRows[0].DataBoundItem;
+                SelectedOrderControl.CurrentOrder = selectedOrder;
             }
         }
 
@@ -67,11 +75,32 @@ namespace ObjectOrientedPractics.View.Panels
         /// <param name="e">Аргументы события.</param>
         private void StatusOrder_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (selectedOrderControl1.CurrentOrder != null)
+            if (SelectedOrderControl.CurrentOrder != null)
             {
-                selectedOrderControl1.CurrentOrder.Status = (OrderStatus)selectedOrderControl1.StatusComboBox.SelectedItem;
-                orderControl1.dataGridView1.Refresh();
+                SelectedOrderControl.CurrentOrder.Status = (OrderStatus)SelectedOrderControl.StatusComboBox.SelectedItem;
+                OrderControl.OrdersDataGridView.Refresh();
             }
+        }
+
+        /// <summary>
+        /// Обработка события изменения времени доставки заказа DeliveryTimeComboBox.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void DeliveryTimeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PriorityOrder priorityOrder = SelectedOrderControl.CurrentPriorityOrder;
+
+            if (priorityOrder != null &&
+                SelectedOrderControl.DeliveryTimeComboBox.SelectedItem is string time)
+            {
+                priorityOrder.DeliveryTime = time;
+            }
+        }
+
+        private void OnlyPriorityOrders_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateOrders();
         }
 
         /// <summary>
@@ -79,9 +108,35 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         public void UpdateOrders()
         {
-            Orders.Clear();
-            Orders = new BindingList<Order>(Customers.SelectMany(o => o.Orders).ToList());
-            orderControl1.dataGridView1.DataSource = Orders;
+            bool onlyPriority = OrderControl.OnlyPriorityOrders.Checked;
+
+            if (onlyPriority)
+            {
+                Orders.Clear();
+                foreach (Customer customer in Customers)
+                {
+                    foreach (Order order in customer.Orders)
+                    {
+                        var orderType = order.GetType();
+                        if (orderType == typeof(PriorityOrder))
+                        {
+                            PriorityOrder priorityOrder = (PriorityOrder)order;
+                            Orders.Add(priorityOrder);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Orders.Clear();
+                foreach (Customer customer in Customers)
+                {
+                    foreach (Order order in customer.Orders)
+                    {
+                        Orders.Add(order);
+                    }
+                }
+            }
         }
     }
 }

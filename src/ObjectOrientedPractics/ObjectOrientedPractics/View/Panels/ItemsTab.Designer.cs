@@ -38,7 +38,7 @@
             CategoryComboBox = new ComboBox();
             DescriptionLabel = new Label();
             NameLabel = new Label();
-            label2 = new Label();
+            CostLabel = new Label();
             IdLabel = new Label();
             DescriptionTextBox = new TextBox();
             NameTextBox = new TextBox();
@@ -112,7 +112,7 @@
             SelectedItemGroupBox.Controls.Add(CategoryComboBox);
             SelectedItemGroupBox.Controls.Add(DescriptionLabel);
             SelectedItemGroupBox.Controls.Add(NameLabel);
-            SelectedItemGroupBox.Controls.Add(label2);
+            SelectedItemGroupBox.Controls.Add(CostLabel);
             SelectedItemGroupBox.Controls.Add(IdLabel);
             SelectedItemGroupBox.Controls.Add(DescriptionTextBox);
             SelectedItemGroupBox.Controls.Add(NameTextBox);
@@ -163,14 +163,14 @@
             NameLabel.TabIndex = 6;
             NameLabel.Text = "Name:";
             // 
-            // label2
+            // CostLabel
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(6, 61);
-            label2.Name = "label2";
-            label2.Size = new Size(34, 15);
-            label2.TabIndex = 5;
-            label2.Text = "Cost:";
+            CostLabel.AutoSize = true;
+            CostLabel.Location = new Point(6, 61);
+            CostLabel.Name = "CostLabel";
+            CostLabel.Size = new Size(34, 15);
+            CostLabel.TabIndex = 5;
+            CostLabel.Text = "Cost:";
             // 
             // IdLabel
             // 
@@ -242,7 +242,7 @@
         private GroupBox SelectedItemGroupBox;
         private Label DescriptionLabel;
         private Label NameLabel;
-        private Label label2;
+        private Label CostLabel;
         private Label IdLabel;
         private TextBox DescriptionTextBox;
         private TextBox NameTextBox;

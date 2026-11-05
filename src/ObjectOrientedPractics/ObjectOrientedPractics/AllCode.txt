@@ -1771,27 +1771,27 @@ namespace ObjectOrientedPractics.View.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
+            DataGridView = new DataGridView();
             OrdersLabel = new Label();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DataGridView).BeginInit();
             SuspendLayout();
             // 
-            // dataGridView1
+            // DataGridView
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.AllowUserToResizeRows = false;
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(0, 18);
-            dataGridView1.MultiSelect = false;
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(398, 487);
-            dataGridView1.TabIndex = 0;
+            DataGridView.AllowUserToAddRows = false;
+            DataGridView.AllowUserToDeleteRows = false;
+            DataGridView.AllowUserToResizeRows = false;
+            DataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            DataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DataGridView.Location = new Point(0, 18);
+            DataGridView.MultiSelect = false;
+            DataGridView.Name = "DataGridView";
+            DataGridView.ReadOnly = true;
+            DataGridView.RowHeadersVisible = false;
+            DataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            DataGridView.Size = new Size(398, 487);
+            DataGridView.TabIndex = 0;
             // 
             // OrdersLabel
             // 
@@ -1808,17 +1808,17 @@ namespace ObjectOrientedPractics.View.Controls
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(OrdersLabel);
-            Controls.Add(dataGridView1);
+            Controls.Add(DataGridView);
             Name = "OrderControl";
             Size = new Size(401, 508);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)DataGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        public DataGridView dataGridView1;
+        public DataGridView DataGridView;
         private Label OrdersLabel;
     }
 }
@@ -1854,7 +1854,7 @@ namespace ObjectOrientedPractics.View.Controls
         {
             InitializeComponent();
 
-            addressControl1.ReadOnly = true;
+            AddressControl.ReadOnly = true;
         }
 
         private void RefreshCurrentOrderInfo()
@@ -1862,7 +1862,7 @@ namespace ObjectOrientedPractics.View.Controls
             IdTextBox.Text = CurrentOrder.Id.ToString();
             CreatedTextBox.Text = CurrentOrder.CreateTime.ToString();
             StatusComboBox.SelectedItem = CurrentOrder.Status;
-            addressControl1.CurrentAddress = CurrentOrder.Address;
+            AddressControl.CurrentAddress = CurrentOrder.Address;
             ItemsOrderListBox.DataSource = CurrentOrder.Items;
             ItemsOrderListBox.DisplayMember = "Name";
         }
@@ -1903,7 +1903,7 @@ namespace ObjectOrientedPractics.View.Controls
             IdTextBox = new TextBox();
             CreatedTextBox = new TextBox();
             StatusComboBox = new ComboBox();
-            addressControl1 = new ObjectOrientedPractics.View.Control.AddressControl();
+            AddressControl = new ObjectOrientedPractics.View.Control.AddressControl();
             OrderItemsLabel = new Label();
             ItemsOrderListBox = new ListBox();
             IdLabel = new Label();
@@ -1950,13 +1950,13 @@ namespace ObjectOrientedPractics.View.Controls
             StatusComboBox.Size = new Size(275, 23);
             StatusComboBox.TabIndex = 3;
             // 
-            // addressControl1
+            // AddressControl
             // 
-            addressControl1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            addressControl1.Location = new Point(3, 111);
-            addressControl1.Name = "addressControl1";
-            addressControl1.Size = new Size(472, 145);
-            addressControl1.TabIndex = 4;
+            AddressControl.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            AddressControl.Location = new Point(3, 111);
+            AddressControl.Name = "AddressControl";
+            AddressControl.Size = new Size(472, 145);
+            AddressControl.TabIndex = 4;
             // 
             // OrderItemsLabel
             // 
@@ -2037,7 +2037,7 @@ namespace ObjectOrientedPractics.View.Controls
             Controls.Add(IdLabel);
             Controls.Add(ItemsOrderListBox);
             Controls.Add(OrderItemsLabel);
-            Controls.Add(addressControl1);
+            Controls.Add(AddressControl);
             Controls.Add(StatusComboBox);
             Controls.Add(CreatedTextBox);
             Controls.Add(IdTextBox);
@@ -2054,7 +2054,7 @@ namespace ObjectOrientedPractics.View.Controls
         private TextBox IdTextBox;
         private TextBox CreatedTextBox;
         private ComboBox StatusComboBox;
-        private Control.AddressControl addressControl1;
+        private Control.AddressControl AddressControl;
         private Label OrderItemsLabel;
         private ListBox ItemsOrderListBox;
         private Label IdLabel;
@@ -2537,7 +2537,7 @@ namespace ObjectOrientedPractics.View.Panels
             }
             catch { }
 
-            addressControl1.ReadOnly = false;
+            AddressControl.ReadOnly = false;
         }
 
         /// <summary>
@@ -2622,11 +2622,11 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         /// <param name="sender">Источник события.</param>
         /// <param name="e">Пргументы события.</param>
-        private void addressControl1_OnAddressChanged(object sender, EventArgs e)
+        private void AddressControl_OnAddressChanged(object sender, EventArgs e)
         {
             if (CustomersListBox.SelectedIndex != -1)
             {
-                _customers[CustomersListBox.SelectedIndex].Address = addressControl1.CurrentAddress;
+                _customers[CustomersListBox.SelectedIndex].Address = AddressControl.CurrentAddress;
             }
         }
 
@@ -2642,7 +2642,7 @@ namespace ObjectOrientedPractics.View.Panels
             {
                 IDTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Id.ToString();
                 FullnameTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Fullname;
-                addressControl1.CurrentAddress = ((Customer)CustomersListBox.SelectedItem).Address;
+                AddressControl.CurrentAddress = ((Customer)CustomersListBox.SelectedItem).Address;
             }
             else
             {
@@ -2657,7 +2657,7 @@ namespace ObjectOrientedPractics.View.Panels
         {
             IDTextBox.Text = "";
             FullnameTextBox.Text = "";
-            addressControl1.CurrentAddress = null;
+            AddressControl.CurrentAddress = null;
 
             FullnameTextBox.BackColor = Color.White;
         }
@@ -2710,7 +2710,7 @@ namespace ObjectOrientedPractics.View.Panels
             AddDefaultButton = new Button();
             CustomersListBox = new ListBox();
             SelectedCustomerGroupBox = new GroupBox();
-            addressControl1 = new ObjectOrientedPractics.View.Control.AddressControl();
+            AddressControl = new ObjectOrientedPractics.View.Control.AddressControl();
             FullNameLabel = new Label();
             IDLabel = new Label();
             FullnameTextBox = new TextBox();
@@ -2780,7 +2780,7 @@ namespace ObjectOrientedPractics.View.Panels
             // SelectedCustomerGroupBox
             // 
             SelectedCustomerGroupBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            SelectedCustomerGroupBox.Controls.Add(addressControl1);
+            SelectedCustomerGroupBox.Controls.Add(AddressControl);
             SelectedCustomerGroupBox.Controls.Add(FullNameLabel);
             SelectedCustomerGroupBox.Controls.Add(IDLabel);
             SelectedCustomerGroupBox.Controls.Add(FullnameTextBox);
@@ -2792,14 +2792,14 @@ namespace ObjectOrientedPractics.View.Panels
             SelectedCustomerGroupBox.TabStop = false;
             SelectedCustomerGroupBox.Text = "Selected Customer";
             // 
-            // addressControl1
+            // AddressControl
             // 
-            addressControl1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            addressControl1.Location = new Point(6, 87);
-            addressControl1.Name = "addressControl1";
-            addressControl1.Size = new Size(391, 145);
-            addressControl1.TabIndex = 5;
-            addressControl1.AddressChanged += addressControl1_OnAddressChanged;
+            AddressControl.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            AddressControl.Location = new Point(6, 87);
+            AddressControl.Name = "AddressControl";
+            AddressControl.Size = new Size(391, 145);
+            AddressControl.TabIndex = 5;
+            AddressControl.AddressChanged += AddressControl_OnAddressChanged;
             // 
             // FullNameLabel
             // 
@@ -2873,7 +2873,7 @@ namespace ObjectOrientedPractics.View.Panels
         private Label FullNameLabel;
         private Label IDLabel;
         private TextBox FullnameTextBox;
-        private Control.AddressControl addressControl1;
+        private Control.AddressControl AddressControl;
     }
 }
 === FILE: C:\Users\greft\source\repos\ObjectOrientedPractice\src\ObjectOrientedPractics\ObjectOrientedPractics\View\Panels\ItemsTab.cs ===
@@ -3163,7 +3163,7 @@ namespace ObjectOrientedPractics.View.Panels
             CategoryComboBox = new ComboBox();
             DescriptionLabel = new Label();
             NameLabel = new Label();
-            label2 = new Label();
+            CostLabel = new Label();
             IdLabel = new Label();
             DescriptionTextBox = new TextBox();
             NameTextBox = new TextBox();
@@ -3237,7 +3237,7 @@ namespace ObjectOrientedPractics.View.Panels
             SelectedItemGroupBox.Controls.Add(CategoryComboBox);
             SelectedItemGroupBox.Controls.Add(DescriptionLabel);
             SelectedItemGroupBox.Controls.Add(NameLabel);
-            SelectedItemGroupBox.Controls.Add(label2);
+            SelectedItemGroupBox.Controls.Add(CostLabel);
             SelectedItemGroupBox.Controls.Add(IdLabel);
             SelectedItemGroupBox.Controls.Add(DescriptionTextBox);
             SelectedItemGroupBox.Controls.Add(NameTextBox);
@@ -3288,14 +3288,14 @@ namespace ObjectOrientedPractics.View.Panels
             NameLabel.TabIndex = 6;
             NameLabel.Text = "Name:";
             // 
-            // label2
+            // CostLabel
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(6, 61);
-            label2.Name = "label2";
-            label2.Size = new Size(34, 15);
-            label2.TabIndex = 5;
-            label2.Text = "Cost:";
+            CostLabel.AutoSize = true;
+            CostLabel.Location = new Point(6, 61);
+            CostLabel.Name = "CostLabel";
+            CostLabel.Size = new Size(34, 15);
+            CostLabel.TabIndex = 5;
+            CostLabel.Text = "Cost:";
             // 
             // IdLabel
             // 
@@ -3367,7 +3367,7 @@ namespace ObjectOrientedPractics.View.Panels
         private GroupBox SelectedItemGroupBox;
         private Label DescriptionLabel;
         private Label NameLabel;
-        private Label label2;
+        private Label CostLabel;
         private Label IdLabel;
         private TextBox DescriptionTextBox;
         private TextBox NameTextBox;
@@ -3419,15 +3419,15 @@ namespace ObjectOrientedPractics.View.Panels
         {
             InitializeComponent();
 
-            orderControl1.dataGridView1.DataSource = Orders;
+            orderControl1.DataGridView.DataSource = Orders;
         }
 
         private void DataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            if (orderControl1.dataGridView1.SelectedRows.Count > 0)
+            if (orderControl1.DataGridView.SelectedRows.Count > 0)
             {
-                Order selectedOrder = (Order)orderControl1.dataGridView1.SelectedRows[0].DataBoundItem;
-                selectedOrderControl1.CurrentOrder = selectedOrder;
+                Order selectedOrder = (Order)orderControl1.DataGridView.SelectedRows[0].DataBoundItem;
+                SelectedOrderControl.CurrentOrder = selectedOrder;
             }
         }
 
@@ -3475,19 +3475,19 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         private void InitializeComponent()
         {
-            selectedOrderControl1 = new ObjectOrientedPractics.View.Controls.SelectedOrderControl();
+            SelectedOrderControl = new ObjectOrientedPractics.View.Controls.SelectedOrderControl();
             orderControl1 = new ObjectOrientedPractics.View.Controls.OrderControl();
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
-            // selectedOrderControl1
+            // SelectedOrderControl
             // 
-            selectedOrderControl1.Dock = DockStyle.Fill;
-            selectedOrderControl1.Location = new Point(409, 3);
-            selectedOrderControl1.Name = "selectedOrderControl1";
-            selectedOrderControl1.Size = new Size(401, 504);
-            selectedOrderControl1.TabIndex = 1;
+            SelectedOrderControl.Dock = DockStyle.Fill;
+            SelectedOrderControl.Location = new Point(409, 3);
+            SelectedOrderControl.Name = "SelectedOrderControl";
+            SelectedOrderControl.Size = new Size(401, 504);
+            SelectedOrderControl.TabIndex = 1;
             // 
             // orderControl1
             // 
@@ -3496,7 +3496,7 @@ namespace ObjectOrientedPractics.View.Panels
             orderControl1.Name = "orderControl1";
             orderControl1.Size = new Size(400, 504);
             orderControl1.TabIndex = 0;
-            orderControl1.dataGridView1.SelectionChanged += DataGridView_SelectionChanged;
+            orderControl1.DataGridView.SelectionChanged += DataGridView_SelectionChanged;
             // 
             // tableLayoutPanel1
             // 
@@ -3504,7 +3504,7 @@ namespace ObjectOrientedPractics.View.Panels
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.Controls.Add(orderControl1, 0, 0);
-            tableLayoutPanel1.Controls.Add(selectedOrderControl1, 1, 0);
+            tableLayoutPanel1.Controls.Add(SelectedOrderControl, 1, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -3532,7 +3532,7 @@ namespace ObjectOrientedPractics.View.Panels
 
         #endregion
 
-        private Controls.SelectedOrderControl selectedOrderControl1;
+        private Controls.SelectedOrderControl SelectedOrderControl;
         private Controls.OrderControl orderControl1;
         private TableLayoutPanel tableLayoutPanel1;
     }

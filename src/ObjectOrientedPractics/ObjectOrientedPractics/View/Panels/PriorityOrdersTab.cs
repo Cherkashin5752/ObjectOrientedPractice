@@ -35,19 +35,19 @@ namespace ObjectOrientedPractics.View.Panels
         {
             InitializeComponent();
 
-            selectedPriorityOrdersControl1.ItemsPriorityOrderListBox.DataSource = CurrentItemsList;
-            selectedPriorityOrdersControl1.ItemsPriorityOrderListBox.DisplayMember = "Name";
-            priorityOrderControl1.dataGridView2.DataSource = PriorityOrders;
+            SelectedPriorityOrdersControl.ItemsPriorityOrderListBox.DataSource = CurrentItemsList;
+            SelectedPriorityOrdersControl.ItemsPriorityOrderListBox.DisplayMember = "Name";
+            PriorityOrderControl.DataGridView.DataSource = PriorityOrders;
         }
 
         private void DataGridView_SelectionChanged(object sender, EventArgs e)
         {
             if (isEditMode)
             {
-                if (priorityOrderControl1.dataGridView2.SelectedRows.Count > 0)
+                if (PriorityOrderControl.DataGridView.SelectedRows.Count > 0)
                 {
-                    PriorityOrder selecterPriorityOrder = (PriorityOrder)priorityOrderControl1.dataGridView2.SelectedRows[0].DataBoundItem;
-                    selectedPriorityOrdersControl1.CurrentPriorityOrder = selecterPriorityOrder;
+                    PriorityOrder selecterPriorityOrder = (PriorityOrder)PriorityOrderControl.DataGridView.SelectedRows[0].DataBoundItem;
+                    SelectedPriorityOrdersControl.CurrentPriorityOrder = selecterPriorityOrder;
                 }
             }
         }
@@ -56,10 +56,10 @@ namespace ObjectOrientedPractics.View.Panels
         {
             if (isEditMode)
             {
-                if (selectedPriorityOrdersControl1.CurrentPriorityOrder != null)
+                if (SelectedPriorityOrdersControl.CurrentPriorityOrder != null)
                 {
-                    selectedPriorityOrdersControl1.CurrentPriorityOrder.Status = (OrderStatus)selectedPriorityOrdersControl1.StatusComboBox.SelectedItem;
-                    priorityOrderControl1.dataGridView2.Refresh();
+                    SelectedPriorityOrdersControl.CurrentPriorityOrder.Status = (OrderStatus)SelectedPriorityOrdersControl.StatusComboBox.SelectedItem;
+                    PriorityOrderControl.DataGridView.Refresh();
                 }
             }
         }
@@ -70,26 +70,26 @@ namespace ObjectOrientedPractics.View.Panels
             {
                 case true:
                     isEditMode = false;
-                    selectedPriorityOrdersControl1.AddItemButton.Enabled = true;
-                    selectedPriorityOrdersControl1.RemoveItemButton.Enabled = true;
-                    selectedPriorityOrdersControl1.CreatePriorityOrderButton.Enabled = true;
-                    selectedPriorityOrdersControl1.RemovePriorityOrderButton.Enabled = false;
-                    selectedPriorityOrdersControl1.ClearPriorityOrderButton.Enabled = true;
-                    selectedPriorityOrdersControl1.addressControl1.ReadOnly = false;
-                    selectedPriorityOrdersControl1.DeliveryTimeComboBox.Enabled = true;
-                    selectedPriorityOrdersControl1.ChangeModeButton.Text = "Edit Mode";
-                    selectedPriorityOrdersControl1.addressControl1.CurrentAddress = new Address();
+                    SelectedPriorityOrdersControl.AddItemButton.Enabled = true;
+                    SelectedPriorityOrdersControl.RemoveItemButton.Enabled = true;
+                    SelectedPriorityOrdersControl.CreatePriorityOrderButton.Enabled = true;
+                    SelectedPriorityOrdersControl.RemovePriorityOrderButton.Enabled = false;
+                    SelectedPriorityOrdersControl.ClearPriorityOrderButton.Enabled = true;
+                    SelectedPriorityOrdersControl.AddressControl.ReadOnly = false;
+                    SelectedPriorityOrdersControl.DeliveryTimeComboBox.Enabled = true;
+                    SelectedPriorityOrdersControl.ChangeModeButton.Text = "Edit Mode";
+                    SelectedPriorityOrdersControl.AddressControl.CurrentAddress = new Address();
                     break;
                 case false:
                     isEditMode = true;
-                    selectedPriorityOrdersControl1.AddItemButton.Enabled = false;
-                    selectedPriorityOrdersControl1.RemoveItemButton.Enabled = false;
-                    selectedPriorityOrdersControl1.CreatePriorityOrderButton.Enabled = false;
-                    selectedPriorityOrdersControl1.RemovePriorityOrderButton.Enabled = true;
-                    selectedPriorityOrdersControl1.ClearPriorityOrderButton.Enabled = false;
-                    selectedPriorityOrdersControl1.addressControl1.ReadOnly = true;
-                    selectedPriorityOrdersControl1.DeliveryTimeComboBox.Enabled = false;
-                    selectedPriorityOrdersControl1.ChangeModeButton.Text = "Create Mode";
+                    SelectedPriorityOrdersControl.AddItemButton.Enabled = false;
+                    SelectedPriorityOrdersControl.RemoveItemButton.Enabled = false;
+                    SelectedPriorityOrdersControl.CreatePriorityOrderButton.Enabled = false;
+                    SelectedPriorityOrdersControl.RemovePriorityOrderButton.Enabled = true;
+                    SelectedPriorityOrdersControl.ClearPriorityOrderButton.Enabled = false;
+                    SelectedPriorityOrdersControl.AddressControl.ReadOnly = true;
+                    SelectedPriorityOrdersControl.DeliveryTimeComboBox.Enabled = false;
+                    SelectedPriorityOrdersControl.ChangeModeButton.Text = "Create Mode";
                     break;
             }
         }
@@ -100,7 +100,7 @@ namespace ObjectOrientedPractics.View.Panels
             {
                 Item newItem = ItemFactory.GenerateItem();
                 CurrentItemsList.Add(newItem);
-                selectedPriorityOrdersControl1.AmountOrderLabel.Text = Amount.ToString();
+                SelectedPriorityOrdersControl.AmountOrderLabel.Text = Amount.ToString();
             }
         }
 
@@ -108,12 +108,12 @@ namespace ObjectOrientedPractics.View.Panels
         {
             if (!isEditMode)
             {
-                int selectedIndex = selectedPriorityOrdersControl1.ItemsPriorityOrderListBox.SelectedIndex;
+                int selectedIndex = SelectedPriorityOrdersControl.ItemsPriorityOrderListBox.SelectedIndex;
 
                 if (selectedIndex != -1)
                 {
                     CurrentItemsList.RemoveAt(selectedIndex);
-                    selectedPriorityOrdersControl1.AmountOrderLabel.Text = Amount.ToString();
+                    SelectedPriorityOrdersControl.AmountOrderLabel.Text = Amount.ToString();
                 }
             }
         }
@@ -122,14 +122,14 @@ namespace ObjectOrientedPractics.View.Panels
         {
             if (!isEditMode)
             {
-                if (selectedPriorityOrdersControl1.addressControl1.AllFieldsAreFilled)
+                if (SelectedPriorityOrdersControl.AddressControl.AllFieldsAreFilled)
                 {
                     if (CurrentItemsList.Count > 0)
                     {
-                        if (selectedPriorityOrdersControl1.DeliveryTimeComboBox.SelectedIndex != -1)
+                        if (SelectedPriorityOrdersControl.DeliveryTimeComboBox.SelectedIndex != -1)
                         {
                             ClearAllFields();
-                            PriorityOrder newPriorityOrder = new PriorityOrder(selectedPriorityOrdersControl1.addressControl1.CurrentAddress, CurrentItemsList, Amount, DateTime.Now, (string)selectedPriorityOrdersControl1.DeliveryTimeComboBox.SelectedItem);
+                            PriorityOrder newPriorityOrder = new PriorityOrder(SelectedPriorityOrdersControl.AddressControl.CurrentAddress, CurrentItemsList, Amount, DateTime.Now, (string)SelectedPriorityOrdersControl.DeliveryTimeComboBox.SelectedItem);
                             PriorityOrders.Add(newPriorityOrder);
                         }
                     }
@@ -141,9 +141,9 @@ namespace ObjectOrientedPractics.View.Panels
         {
             if (isEditMode)
             {
-                if (priorityOrderControl1.dataGridView2.SelectedRows.Count > 0)
+                if (PriorityOrderControl.DataGridView.SelectedRows.Count > 0)
                 {
-                    PriorityOrders.Remove((PriorityOrder)priorityOrderControl1.dataGridView2.SelectedRows[0].DataBoundItem);
+                    PriorityOrders.Remove((PriorityOrder)PriorityOrderControl.DataGridView.SelectedRows[0].DataBoundItem);
                 }
             }
         }
@@ -158,9 +158,9 @@ namespace ObjectOrientedPractics.View.Panels
 
         private void ClearAllFields()
         {
-            selectedPriorityOrdersControl1.ClearAllFields();
+            SelectedPriorityOrdersControl.ClearAllFields();
             CurrentItemsList.Clear();
-            selectedPriorityOrdersControl1.AmountOrderLabel.Text = Amount.ToString();
+            SelectedPriorityOrdersControl.AmountOrderLabel.Text = Amount.ToString();
         }
 
     }

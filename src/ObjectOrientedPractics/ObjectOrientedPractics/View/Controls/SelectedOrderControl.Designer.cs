@@ -32,7 +32,6 @@
             IdTextBox = new TextBox();
             CreatedTextBox = new TextBox();
             StatusComboBox = new ComboBox();
-            addressControl1 = new ObjectOrientedPractics.View.Control.AddressControl();
             OrderItemsLabel = new Label();
             ItemsOrderListBox = new ListBox();
             IdLabel = new Label();
@@ -40,6 +39,12 @@
             StatusLabel = new Label();
             AmountLabel = new Label();
             AmountOrderLabel = new Label();
+            DeliveryTimeComboBox = new ComboBox();
+            DeliveryTimeLabel = new Label();
+            PriorityOptionsLabel = new Label();
+            PriorityOrderPanel = new Panel();
+            AddressControl = new AddressControl();
+            PriorityOrderPanel.SuspendLayout();
             SuspendLayout();
             // 
             // SelectedOrderLabel
@@ -70,19 +75,12 @@
             // 
             // StatusComboBox
             // 
+            StatusComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             StatusComboBox.FormattingEnabled = true;
             StatusComboBox.Location = new Point(73, 82);
             StatusComboBox.Name = "StatusComboBox";
             StatusComboBox.Size = new Size(110, 23);
             StatusComboBox.TabIndex = 3;
-            // 
-            // addressControl1
-            // 
-            addressControl1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            addressControl1.Location = new Point(3, 111);
-            addressControl1.Name = "addressControl1";
-            addressControl1.Size = new Size(472, 145);
-            addressControl1.TabIndex = 4;
             // 
             // OrderItemsLabel
             // 
@@ -100,7 +98,7 @@
             ItemsOrderListBox.FormattingEnabled = true;
             ItemsOrderListBox.Location = new Point(3, 277);
             ItemsOrderListBox.Name = "ItemsOrderListBox";
-            ItemsOrderListBox.Size = new Size(472, 184);
+            ItemsOrderListBox.Size = new Size(472, 154);
             ItemsOrderListBox.TabIndex = 6;
             // 
             // IdLabel
@@ -134,7 +132,7 @@
             // 
             AmountLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             AmountLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            AmountLabel.Location = new Point(401, 468);
+            AmountLabel.Location = new Point(401, 434);
             AmountLabel.Name = "AmountLabel";
             AmountLabel.Size = new Size(74, 20);
             AmountLabel.TabIndex = 10;
@@ -145,17 +143,66 @@
             // 
             AmountOrderLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             AmountOrderLabel.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            AmountOrderLabel.Location = new Point(3, 488);
+            AmountOrderLabel.Location = new Point(3, 454);
             AmountOrderLabel.Name = "AmountOrderLabel";
             AmountOrderLabel.Size = new Size(472, 38);
             AmountOrderLabel.TabIndex = 11;
             AmountOrderLabel.Text = "0,0";
             AmountOrderLabel.TextAlign = ContentAlignment.TopRight;
             // 
+            // DeliveryTimeComboBox
+            // 
+            DeliveryTimeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            DeliveryTimeComboBox.FormattingEnabled = true;
+            DeliveryTimeComboBox.Location = new Point(94, 26);
+            DeliveryTimeComboBox.Name = "DeliveryTimeComboBox";
+            DeliveryTimeComboBox.Size = new Size(121, 23);
+            DeliveryTimeComboBox.TabIndex = 12;
+            // 
+            // DeliveryTimeLabel
+            // 
+            DeliveryTimeLabel.AutoSize = true;
+            DeliveryTimeLabel.Location = new Point(6, 29);
+            DeliveryTimeLabel.Name = "DeliveryTimeLabel";
+            DeliveryTimeLabel.Size = new Size(82, 15);
+            DeliveryTimeLabel.TabIndex = 13;
+            DeliveryTimeLabel.Text = "Delivery Time:";
+            // 
+            // PriorityOptionsLabel
+            // 
+            PriorityOptionsLabel.AutoSize = true;
+            PriorityOptionsLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            PriorityOptionsLabel.Location = new Point(6, 2);
+            PriorityOptionsLabel.Name = "PriorityOptionsLabel";
+            PriorityOptionsLabel.Size = new Size(94, 15);
+            PriorityOptionsLabel.TabIndex = 14;
+            PriorityOptionsLabel.Text = "Priority Oprions";
+            // 
+            // PriorityOrderPanel
+            // 
+            PriorityOrderPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            PriorityOrderPanel.Controls.Add(DeliveryTimeComboBox);
+            PriorityOrderPanel.Controls.Add(PriorityOptionsLabel);
+            PriorityOrderPanel.Controls.Add(DeliveryTimeLabel);
+            PriorityOrderPanel.Location = new Point(211, 0);
+            PriorityOrderPanel.Name = "PriorityOrderPanel";
+            PriorityOrderPanel.Size = new Size(264, 105);
+            PriorityOrderPanel.TabIndex = 15;
+            // 
+            // AddressControl
+            // 
+            AddressControl.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            AddressControl.Location = new Point(3, 111);
+            AddressControl.Name = "AddressControl";
+            AddressControl.Size = new Size(472, 145);
+            AddressControl.TabIndex = 16;
+            // 
             // SelectedOrderControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(AddressControl);
+            Controls.Add(PriorityOrderPanel);
             Controls.Add(AmountOrderLabel);
             Controls.Add(AmountLabel);
             Controls.Add(StatusLabel);
@@ -163,13 +210,14 @@
             Controls.Add(IdLabel);
             Controls.Add(ItemsOrderListBox);
             Controls.Add(OrderItemsLabel);
-            Controls.Add(addressControl1);
             Controls.Add(StatusComboBox);
             Controls.Add(CreatedTextBox);
             Controls.Add(IdTextBox);
             Controls.Add(SelectedOrderLabel);
             Name = "SelectedOrderControl";
-            Size = new Size(478, 526);
+            Size = new Size(478, 492);
+            PriorityOrderPanel.ResumeLayout(false);
+            PriorityOrderPanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -180,7 +228,6 @@
         private TextBox IdTextBox;
         private TextBox CreatedTextBox;
         public ComboBox StatusComboBox;
-        private Control.AddressControl addressControl1;
         private Label OrderItemsLabel;
         private ListBox ItemsOrderListBox;
         private Label IdLabel;
@@ -188,5 +235,10 @@
         private Label StatusLabel;
         private Label AmountLabel;
         private Label AmountOrderLabel;
+        public ComboBox DeliveryTimeComboBox;
+        private Label DeliveryTimeLabel;
+        private Label PriorityOptionsLabel;
+        private Panel PriorityOrderPanel;
+        private AddressControl AddressControl;
     }
 }

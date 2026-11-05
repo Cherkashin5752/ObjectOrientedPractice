@@ -1,4 +1,4 @@
-﻿namespace ObjectOrientedPractics.View.Panels
+﻿namespace ObjectOrientedPractics.View.Controls
 {
     partial class SelectedPriorityOrdersControl
     {
@@ -35,7 +35,7 @@
             IdLabel = new Label();
             ItemsPriorityOrderListBox = new ListBox();
             OrderItemsLabel = new Label();
-            addressControl1 = new ObjectOrientedPractics.View.Control.AddressControl();
+            AddressControl = new AddressControl();
             StatusComboBox = new ComboBox();
             CreatedTextBox = new TextBox();
             IdTextBox = new TextBox();
@@ -119,13 +119,13 @@
             OrderItemsLabel.TabIndex = 17;
             OrderItemsLabel.Text = "Order Items";
             // 
-            // addressControl1
+            // AddressControl
             // 
-            addressControl1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            addressControl1.Location = new Point(3, 111);
-            addressControl1.Name = "addressControl1";
-            addressControl1.Size = new Size(460, 145);
-            addressControl1.TabIndex = 16;
+            AddressControl.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            AddressControl.Location = new Point(3, 111);
+            AddressControl.Name = "AddressControl";
+            AddressControl.Size = new Size(460, 145);
+            AddressControl.TabIndex = 16;
             // 
             // StatusComboBox
             // 
@@ -271,7 +271,7 @@
             Controls.Add(IdLabel);
             Controls.Add(ItemsPriorityOrderListBox);
             Controls.Add(OrderItemsLabel);
-            Controls.Add(addressControl1);
+            Controls.Add(AddressControl);
             Controls.Add(StatusComboBox);
             Controls.Add(CreatedTextBox);
             Controls.Add(IdTextBox);
@@ -291,7 +291,7 @@
         private Label IdLabel;
         public ListBox ItemsPriorityOrderListBox;
         private Label OrderItemsLabel;
-        public Control.AddressControl addressControl1;
+        public AddressControl AddressControl;
         public ComboBox StatusComboBox;
         private TextBox CreatedTextBox;
         private TextBox IdTextBox;

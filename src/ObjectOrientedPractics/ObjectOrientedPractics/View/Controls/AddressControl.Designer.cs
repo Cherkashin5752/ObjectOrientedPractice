@@ -1,4 +1,4 @@
-﻿namespace ObjectOrientedPractics.View.Control
+﻿namespace ObjectOrientedPractics.View.Controls
 {
     partial class AddressControl
     {

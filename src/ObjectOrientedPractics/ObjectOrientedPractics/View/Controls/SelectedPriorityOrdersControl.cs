@@ -9,7 +9,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ObjectOrientedPractics.View.Panels
+namespace ObjectOrientedPractics.View.Controls
 {
     public partial class SelectedPriorityOrdersControl : UserControl
     {
@@ -39,9 +39,9 @@ namespace ObjectOrientedPractics.View.Panels
         {
             InitializeComponent();
 
-            addressControl1.ReadOnly = true;
+            AddressControl.ReadOnly = true;
 
-            DeliveryTimeComboBox.DataSource = DeliveryTimeRange.DeliveryTimeRangeString;
+            DeliveryTimeComboBox.DataSource = DeliveryTimeRange.Values;
 
             StatusComboBox.DataSource = Enum.GetValues<OrderStatus>();
         }
@@ -55,7 +55,7 @@ namespace ObjectOrientedPractics.View.Panels
             CreatedTextBox.Text = CurrentPriorityOrder.CreateTime.ToString();
             StatusComboBox.SelectedItem = CurrentPriorityOrder.Status;
             DeliveryTimeComboBox.SelectedItem = CurrentPriorityOrder.DeliveryTime;
-            addressControl1.CurrentAddress = CurrentPriorityOrder.Address;
+            AddressControl.CurrentAddress = CurrentPriorityOrder.Address;
             ItemsPriorityOrderListBox.DataSource = CurrentPriorityOrder.Items;
             ItemsPriorityOrderListBox.DisplayMember = "Name";
             AmountOrderLabel.Text = CurrentPriorityOrder.Amount.ToString();
@@ -68,7 +68,7 @@ namespace ObjectOrientedPractics.View.Panels
             StatusComboBox.SelectedIndex = -1;
             DeliveryTimeComboBox.SelectedIndex = -1;
 
-            addressControl1.ClearTextBoxAddress();
+            AddressControl.ClearTextBoxAddress();
         }
     }
 }
