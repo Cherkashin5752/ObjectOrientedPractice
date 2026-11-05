@@ -1,4 +1,6 @@
-﻿namespace ObjectOrientedPractics.View.Panels
+﻿using System.Xml.Linq;
+
+namespace ObjectOrientedPractics.View.Panels
 {
     partial class PriorityOrdersTab
     {
@@ -82,11 +84,6 @@
             Size = new Size(813, 510);
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
-        }
-
-        private void DataGridView1_SelectionChanged(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

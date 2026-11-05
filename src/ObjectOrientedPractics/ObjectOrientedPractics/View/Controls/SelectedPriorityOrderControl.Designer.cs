@@ -1,4 +1,6 @@
-﻿namespace ObjectOrientedPractics.View.Panels
+﻿using System.Xml.Linq;
+
+namespace ObjectOrientedPractics.View.Panels
 {
     partial class SelectedPriorityOrdersControl
     {
@@ -129,6 +131,7 @@
             // 
             // StatusComboBox
             // 
+            StatusComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             StatusComboBox.FormattingEnabled = true;
             StatusComboBox.Location = new Point(73, 82);
             StatusComboBox.Name = "StatusComboBox";
@@ -137,6 +140,7 @@
             // 
             // CreatedTextBox
             // 
+            CreatedTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             CreatedTextBox.Location = new Point(73, 53);
             CreatedTextBox.Name = "CreatedTextBox";
             CreatedTextBox.ReadOnly = true;
@@ -145,6 +149,7 @@
             // 
             // IdTextBox
             // 
+            IdTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             IdTextBox.Location = new Point(73, 24);
             IdTextBox.Name = "IdTextBox";
             IdTextBox.ReadOnly = true;
