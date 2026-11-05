@@ -46,14 +46,14 @@ namespace ObjectOrientedPractics.Service
         }
 
         /// <summary>
-        /// Проверяет, что целочисленное число назодится в диапазоне от min до max
+        /// Проверяет, что целочисленное число находится в диапазоне от min до max
         /// </summary>
         /// <param name="value">Проверяемое число</param>
         /// <param name="min">Минимальное значение</param>
         /// <param name="max">Максимальное значение</param>
         /// <param name="propetryName">Вызываемое свойство</param>
         /// <returns>Возвращает true, если число находится в диапазоне</returns>
-        /// <exception cref="ArgumentException">Ошибка, если число не назодится в диапазоне</exception>
+        /// <exception cref="ArgumentException">Ошибка, если число не нахлдится в диапазоне</exception>
         static public bool ValueInRange(double value, double min, double max, string propetryName)
         {
             if (value >= min && value <= max)
