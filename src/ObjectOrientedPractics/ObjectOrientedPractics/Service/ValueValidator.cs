@@ -7,7 +7,7 @@ namespace ObjectOrientedPractics.Service
     static internal class ValueValidator
     {
         /// <summary>
-        /// Проверяет на то, не больше ли строка некторого количества символов
+        /// Проверяет на то, не больше ли строка некоторого количества символов
         /// </summary>
         /// <param name="value">Проверяемая строка</param>
         /// <param name="maxLength">Вверхняя границы</param>
