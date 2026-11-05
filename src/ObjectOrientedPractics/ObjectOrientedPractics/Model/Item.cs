@@ -1,12 +1,5 @@
 ﻿using ObjectOrientedPractics.Model.Enums;
 using ObjectOrientedPractics.Service;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Security.Policy;
-using System.Text;
-using System.Xml.Linq;
 
 namespace ObjectOrientedPractics.Model
 {
@@ -18,7 +11,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Счётчик для генерации уникальных Id
         /// </summary>
-        static private int _idCounter;
+        private static int _idCounter;
 
         /// <summary>
         /// Id товара
@@ -27,7 +20,7 @@ namespace ObjectOrientedPractics.Model
 
         /// <summary>
         /// Именование товара
-        /// </summary>>
+        /// </summary>
         private string _name;
 
         /// <summary>
@@ -96,7 +89,7 @@ namespace ObjectOrientedPractics.Model
         public ProductCategory Category { get; set; }
 
         /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="Item"> с дефолтными значениям
+        /// Инициализирует новый экземпляр класса <see cref="Item"/> с дефолтными значениям
         /// </summary>
         public Item()
         {
@@ -108,7 +101,7 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="Item">
+        /// Инициализирует новый экземпляр класса <see cref="Item"/>
         /// </summary>
         /// <param name="name">Название товара</param>
         /// <param name="info">Информация о товаре</param>
@@ -126,8 +119,8 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Устанавливает _idCounter
         /// </summary>
-        /// <param name="maxId"></param>
-        static public void SetIdCounter(int maxId)
+        /// <param name="maxId">Наибольший Id в сериализованных файлах</param>
+        public static void SetIdCounter(int maxId)
         {
             _idCounter = ++maxId;
         }

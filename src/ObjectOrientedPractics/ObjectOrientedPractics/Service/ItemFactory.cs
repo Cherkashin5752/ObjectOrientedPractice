@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json;
-using ObjectOrientedPractics.Model;
+﻿using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Model.Enums;
 
 namespace ObjectOrientedPractics.Service
@@ -12,40 +6,40 @@ namespace ObjectOrientedPractics.Service
     /// <summary>
     /// Сервисный класс для создания товаров со случайными состояниями.
     /// </summary>
-    static internal class ItemFactory
+    internal static class ItemFactory
     {
         /// <summary>
         /// Количество товаров, лежащее в прочтённых файлах.
         /// </summary>
-        static private int maxItemsCount;
+        private static int _maxItemsCount;
         
         /// <summary>
         /// Список наименований товаров, прочтённых из файла.
         /// </summary>
-        static private List<string> _names = new List<string>();
+        private static List<string> _names = new List<string>();
 
         /// <summary>
         /// Список описаний для товаров, прочтённых из файла.
         /// </summary>
-        static private List<string> _info = new List<string>();
+        private static List<string> _info = new List<string>();
         
         /// <summary>
         /// Список категорий продуктов, прочтённых из файлов.
         /// </summary>
-        static private List<ProductCategory> _caregories = new List<ProductCategory>();
+        private static List<ProductCategory> _categories = new List<ProductCategory>();
 
         /// <summary>
         /// Генератор случайных чисел.
         /// </summary>
-        static private Random _random = new Random();
+        private static Random _random = new Random();
 
         /// <summary>
         /// Генерирует и возвращает товар со случайным состоянием.
         /// </summary>
         /// <returns>Возвращает новый экземпляр класса <see cref="Item"/>.</returns>
-        static public Item GenerateItem()
+        public static Item GenerateItem()
         {
-            int randomItem = _random.Next(maxItemsCount);
+            int randomItem = _random.Next(_maxItemsCount);
 
             string newName, newInfo;
 
@@ -69,7 +63,7 @@ namespace ObjectOrientedPractics.Service
 
             int newCost = _random.Next(100_000);
 
-            ProductCategory newCategory = _caregories[_random.Next(_caregories.Count)];
+            ProductCategory newCategory = _categories[_random.Next(_categories.Count)];
 
             Item newItem = new Item(newName, newInfo, newCost, newCategory);
 
@@ -79,16 +73,16 @@ namespace ObjectOrientedPractics.Service
         /// <summary>
         /// Настраивает класс ItemsFactory, считывает файлы с заранее записанными данными/
         /// </summary>
-        static public void SetUpItemFactory()
+        public static void SetUpItemFactory()
         {
             _names = ProjectSerializer.Deserialize<List<string>>("Preload Data\\Items Names.json");
             _info = ProjectSerializer.Deserialize<List<string>>("Preload Data\\Items Info.json");
 
-            _caregories = Enum.GetValues<ProductCategory>().ToList();
+            _categories = Enum.GetValues<ProductCategory>().ToList();
 
             if (_names != null && _info != null)
             {
-                maxItemsCount = int.Min(_names.Count, _info.Count);
+                _maxItemsCount = int.Min(_names.Count, _info.Count);
             }
         }
     }

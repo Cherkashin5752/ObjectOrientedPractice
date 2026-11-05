@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-
-namespace ObjectOrientedPractics.View.Controls
+﻿namespace ObjectOrientedPractics.View.Controls
 {
+    /// <summary>
+    /// Пользовательский элемент управления для работы со списком товаров покупателей.
+    /// </summary>
     public partial class OrderControl : UserControl
     {
+        /// <summary>
+        /// Инициализирует экземпляр класса <see cref="OrderControl"/>
+        /// </summary>
         public OrderControl()
         {
             InitializeComponent();

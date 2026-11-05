@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ObjectOrientedPractics.Model.Enums
+﻿namespace ObjectOrientedPractics.Model.Enums
 {
     /// <summary>
     /// Перечисление статуса заказа

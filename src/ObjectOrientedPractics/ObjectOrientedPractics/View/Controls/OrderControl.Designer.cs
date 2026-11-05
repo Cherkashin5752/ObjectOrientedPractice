@@ -28,27 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
+            OrdersDataGridView = new DataGridView();
             OrdersLabel = new Label();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            OnlyPriorityOrders = new CheckBox();
+            ((System.ComponentModel.ISupportInitialize)OrdersDataGridView).BeginInit();
             SuspendLayout();
             // 
-            // dataGridView1
+            // OrdersDataGridView
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.AllowUserToResizeRows = false;
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(0, 18);
-            dataGridView1.MultiSelect = false;
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(398, 487);
-            dataGridView1.TabIndex = 0;
+            OrdersDataGridView.AllowUserToAddRows = false;
+            OrdersDataGridView.AllowUserToDeleteRows = false;
+            OrdersDataGridView.AllowUserToResizeRows = false;
+            OrdersDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            OrdersDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            OrdersDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            OrdersDataGridView.Location = new Point(0, 18);
+            OrdersDataGridView.MultiSelect = false;
+            OrdersDataGridView.Name = "OrdersDataGridView";
+            OrdersDataGridView.ReadOnly = true;
+            OrdersDataGridView.RowHeadersVisible = false;
+            OrdersDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            OrdersDataGridView.Size = new Size(398, 462);
+            OrdersDataGridView.TabIndex = 0;
             // 
             // OrdersLabel
             // 
@@ -60,22 +61,35 @@
             OrdersLabel.TabIndex = 1;
             OrdersLabel.Text = "Orders";
             // 
+            // OnlyPriorityOrders
+            // 
+            OnlyPriorityOrders.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            OnlyPriorityOrders.AutoSize = true;
+            OnlyPriorityOrders.Location = new Point(3, 486);
+            OnlyPriorityOrders.Name = "OnlyPriorityOrders";
+            OnlyPriorityOrders.Size = new Size(162, 19);
+            OnlyPriorityOrders.TabIndex = 2;
+            OnlyPriorityOrders.Text = "Show Only Priority Orders";
+            OnlyPriorityOrders.UseVisualStyleBackColor = true;
+            // 
             // OrderControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(OnlyPriorityOrders);
             Controls.Add(OrdersLabel);
-            Controls.Add(dataGridView1);
+            Controls.Add(OrdersDataGridView);
             Name = "OrderControl";
             Size = new Size(401, 508);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)OrdersDataGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        public DataGridView dataGridView1;
+        public DataGridView OrdersDataGridView;
         private Label OrdersLabel;
+        public CheckBox OnlyPriorityOrders;
     }
 }

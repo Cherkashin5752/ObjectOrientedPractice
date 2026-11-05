@@ -1,11 +1,4 @@
-﻿using ObjectOrientedPractics.Model.Enums;
-using ObjectOrientedPractics.Service;
-using ObjectOrientedPractics.View.Panels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Net;
-using System.Text;
+﻿using ObjectOrientedPractics.Service;
 
 namespace ObjectOrientedPractics.Model
 {
@@ -17,7 +10,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Счётчик для генерации уникальных Id
         /// </summary>
-        static private int _idCounter;
+        private static int _idCounter;
 
         /// <summary>
         /// Id покупателя
@@ -83,7 +76,7 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Возвращает и задаёт список заказов покупателя
+        /// Возвращает и задаёт список заказов покупателя.
         /// </summary>
         public List<Order> Orders
         {
@@ -92,7 +85,12 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="Customer">
+        /// Возвращает и задаёт, приоритетный ли покупатель.
+        /// </summary>
+        public bool IsPriority { get; set; }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Customer"/>
         /// </summary>
         public Customer()
         {
@@ -104,7 +102,7 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="Customer">
+        /// Инициализирует новый экземпляр класса <see cref="Customer"/>
         /// </summary>
         /// <param name="fullname">Имя покупателя</param>
         /// <param name="address">Адрес покупателя</param>
@@ -120,8 +118,8 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Устанавливает _idCounter
         /// </summary>
-        /// <param name="maxId"></param>
-        static public void SetIdCounter(int maxId)
+        /// <param name="maxId">Наибольший Id в сериализованных файлах</param>
+        public static void SetIdCounter(int maxId)
         {
             _idCounter = ++maxId;
         }

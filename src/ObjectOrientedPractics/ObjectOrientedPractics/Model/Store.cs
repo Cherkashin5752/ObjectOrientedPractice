@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
 
 namespace ObjectOrientedPractics.Model
 {
@@ -18,7 +15,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Список покупателей.
         /// </summary>
-        private BindingList<Customer> _customers;
+        private BindingList<Customer> _customerss;
 
         /// <summary>
         /// Возвращает и задаёт список товаров.
@@ -34,12 +31,12 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         public BindingList<Customer> Customers
         {
-            get { return _customers; }
-            set { _customers = value; }
+            get { return _customerss; }
+            set { _customerss = value; }
         }
 
         /// <summary>
-        /// Инициализирует новый экземплар класса <see cref="Store">.
+        /// Инициализирует новый экземпляр класса <see cref="Store"/>.
         /// </summary>
         public Store()
         {

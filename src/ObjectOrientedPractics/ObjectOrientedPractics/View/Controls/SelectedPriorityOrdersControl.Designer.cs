@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace ObjectOrientedPractics.View.Panels
+namespace ObjectOrientedPractics.View.Controls
 {
     partial class SelectedPriorityOrdersControl
     {
@@ -37,7 +37,7 @@ namespace ObjectOrientedPractics.View.Panels
             IdLabel = new Label();
             ItemsPriorityOrderListBox = new ListBox();
             OrderItemsLabel = new Label();
-            addressControl1 = new ObjectOrientedPractics.View.Control.AddressControl();
+            AddressControl = new ObjectOrientedPractics.View.Controls.AddressControl();
             StatusComboBox = new ComboBox();
             CreatedTextBox = new TextBox();
             IdTextBox = new TextBox();
@@ -121,17 +121,18 @@ namespace ObjectOrientedPractics.View.Panels
             OrderItemsLabel.TabIndex = 17;
             OrderItemsLabel.Text = "Order Items";
             // 
-            // addressControl1
+            // AddressControl
             // 
-            addressControl1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            addressControl1.Location = new Point(3, 111);
-            addressControl1.Name = "addressControl1";
-            addressControl1.Size = new Size(460, 145);
-            addressControl1.TabIndex = 16;
+            AddressControl.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            AddressControl.Location = new Point(3, 111);
+            AddressControl.Name = "AddressControl";
+            AddressControl.Size = new Size(460, 145);
+            AddressControl.TabIndex = 16;
             // 
             // StatusComboBox
             // 
             StatusComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            StatusComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             StatusComboBox.FormattingEnabled = true;
             StatusComboBox.Location = new Point(73, 82);
             StatusComboBox.Name = "StatusComboBox";
@@ -190,6 +191,7 @@ namespace ObjectOrientedPractics.View.Panels
             // DeliveryTimeComboBox
             // 
             DeliveryTimeComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            DeliveryTimeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             DeliveryTimeComboBox.FormattingEnabled = true;
             DeliveryTimeComboBox.Location = new Point(342, 24);
             DeliveryTimeComboBox.Name = "DeliveryTimeComboBox";
@@ -276,7 +278,7 @@ namespace ObjectOrientedPractics.View.Panels
             Controls.Add(IdLabel);
             Controls.Add(ItemsPriorityOrderListBox);
             Controls.Add(OrderItemsLabel);
-            Controls.Add(addressControl1);
+            Controls.Add(AddressControl);
             Controls.Add(StatusComboBox);
             Controls.Add(CreatedTextBox);
             Controls.Add(IdTextBox);
@@ -296,7 +298,7 @@ namespace ObjectOrientedPractics.View.Panels
         private Label IdLabel;
         public ListBox ItemsPriorityOrderListBox;
         private Label OrderItemsLabel;
-        public Control.AddressControl addressControl1;
+        public AddressControl AddressControl;
         public ComboBox StatusComboBox;
         private TextBox CreatedTextBox;
         private TextBox IdTextBox;

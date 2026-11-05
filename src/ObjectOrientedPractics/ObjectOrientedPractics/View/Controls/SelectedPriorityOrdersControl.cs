@@ -1,22 +1,18 @@
 ﻿using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Model.Enums;
-using ObjectOrientedPractics.Service;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 
-namespace ObjectOrientedPractics.View.Panels
+namespace ObjectOrientedPractics.View.Controls
 {
+    /// <summary>
+    /// Пользовательский элемент, который осуществляет логику работы с текущи выбранным заказом приоритетного покупателя.
+    /// </summary>
     public partial class SelectedPriorityOrdersControl : UserControl
     {
         /// <summary>
         /// Приоритетный заказ.
         /// </summary>
-        private PriorityOrder _currentPriorityOrder = new PriorityOrder();
+        private PriorityOrder _currentPriorityOrder;
 
         /// <summary>
         /// Возвращает и задаёт текущевыбранный заказ.
@@ -33,17 +29,19 @@ namespace ObjectOrientedPractics.View.Panels
         }
 
         /// <summary>
-        /// Инициализирует экземпляр класса <see cref="SelectedPriorityOrdersControl">.
+        /// Инициализирует экземпляр класса <see cref="SelectedPriorityOrdersControl"/>.
         /// </summary>
         public SelectedPriorityOrdersControl()
         {
             InitializeComponent();
 
-            addressControl1.ReadOnly = true;
+            AddressControl.ReadOnly = true;
 
-            DeliveryTimeComboBox.DataSource = DeliveryTimeRange.DeliveryTimeRangeString;
+            DeliveryTimeComboBox.DataSource = DeliveryTimeRange.Values;
 
             StatusComboBox.DataSource = Enum.GetValues<OrderStatus>();
+
+            _currentPriorityOrder = new PriorityOrder();
         }
 
         /// <summary>
@@ -55,12 +53,15 @@ namespace ObjectOrientedPractics.View.Panels
             CreatedTextBox.Text = CurrentPriorityOrder.CreateTime.ToString();
             StatusComboBox.SelectedItem = CurrentPriorityOrder.Status;
             DeliveryTimeComboBox.SelectedItem = CurrentPriorityOrder.DeliveryTime;
-            addressControl1.CurrentAddress = CurrentPriorityOrder.Address;
+            AddressControl.CurrentAddress = CurrentPriorityOrder.Address;
             ItemsPriorityOrderListBox.DataSource = CurrentPriorityOrder.Items;
             ItemsPriorityOrderListBox.DisplayMember = "Name";
-            AmountOrderLabel.Text = CurrentPriorityOrder.Amount.ToString();
+            AmountOrderLabel.Text = CurrentPriorityOrder.Amount.ToString("N2");
         }
 
+        /// <summary>
+        /// Очищает все поля.
+        /// </summary>
         public void ClearAllFields()
         {
             IdTextBox.Text = "";
@@ -68,7 +69,7 @@ namespace ObjectOrientedPractics.View.Panels
             StatusComboBox.SelectedIndex = -1;
             DeliveryTimeComboBox.SelectedIndex = -1;
 
-            addressControl1.ClearTextBoxAddress();
+            AddressControl.ClearTextBoxAddress();
         }
     }
 }

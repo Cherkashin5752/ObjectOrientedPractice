@@ -1,3 +1,5 @@
+using ObjectOrientedPractics.View;
+
 namespace ObjectOrientedPractics
 {
     internal static class Program

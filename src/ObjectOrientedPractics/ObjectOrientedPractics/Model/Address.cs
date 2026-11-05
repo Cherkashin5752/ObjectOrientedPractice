@@ -1,5 +1,4 @@
 ﻿using ObjectOrientedPractics.Service;
-using System.Diagnostics.Metrics;
 
 namespace ObjectOrientedPractics.Model
 {
@@ -128,7 +127,7 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Конструктор по умолчанию. Инициализирует новый экземпляр класса <see cref="Address"> с дефолтными значениями
+        /// Конструктор по умолчанию. Инициализирует новый экземпляр класса <see cref="Address"/> с дефолтными значениями
         /// </summary>
         public Address()
         {
@@ -141,9 +140,9 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Конструктор копирования. Инициализирует новый экземпляр класса <see cref="Address">
+        /// Конструктор копирования. Инициализирует новый экземпляр класса <see cref="Address"/>
         /// </summary>
-        /// <param name="address"></param>
+        /// <param name="address">Адрес</param>
         public Address(Address address)
         {
             Index = address.Index;

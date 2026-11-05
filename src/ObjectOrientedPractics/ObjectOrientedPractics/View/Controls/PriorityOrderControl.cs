@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-
-namespace ObjectOrientedPractics.View.Controls
+﻿namespace ObjectOrientedPractics.View.Controls
 {
+    /// <summary>
+    /// Пользовательский элемент управления для работы со списком товаров приоритетных покупателей покупателей.
+    /// </summary>
     public partial class PriorityOrderControl : UserControl
     {
+        /// <summary>
+        /// Инициализирует экземпляр класса <see cref="PriorityOrderControl"/>
+        /// </summary>
         public PriorityOrderControl()
         {
             InitializeComponent();

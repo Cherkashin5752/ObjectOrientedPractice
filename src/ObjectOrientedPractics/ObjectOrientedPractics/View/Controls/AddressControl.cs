@@ -3,7 +3,7 @@ using System.ComponentModel;
 using WinControl = System.Windows.Forms.Control;
 using WinTextBox = System.Windows.Forms.TextBox;
 
-namespace ObjectOrientedPractics.View.Control
+namespace ObjectOrientedPractics.View.Controls
 {
     /// <summary>
     /// Пользовательский элемент, который осуществляет логику работы с адресами покупателей
@@ -11,7 +11,7 @@ namespace ObjectOrientedPractics.View.Control
     public partial class AddressControl : UserControl
     {
         /// <summary>
-        /// Адрес текуще-выбранного покупателя
+        /// Адрес текущевыбранного покупателя
         /// </summary>
         private Address _currentAddress;
 
@@ -63,6 +63,9 @@ namespace ObjectOrientedPractics.View.Control
             }
         }
 
+        /// <summary>
+        /// Возвращает заполнены ли все поля адреса.
+        /// </summary>
         public bool AllFieldsAreFilled
         {
             get
@@ -79,7 +82,7 @@ namespace ObjectOrientedPractics.View.Control
 
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="AddressControl"/>.
-        /// <summary>
+        /// </summary>
         public AddressControl()
         {
             InitializeComponent();
@@ -94,7 +97,7 @@ namespace ObjectOrientedPractics.View.Control
         }
 
         /// <summary>
-        /// Меняет значения текстовых полей Address в форме на значения текуще-выбранного покупателя
+        /// Меняет значения текстовых полей Address в форме на значения текущевыбранного покупателя
         /// </summary>
         private void RefreshAddressInfo()
         {
@@ -111,7 +114,7 @@ namespace ObjectOrientedPractics.View.Control
         /// Валидирует ввод и подсвечивает поле при ошибке.
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void PostIndexTextBox_TextChanged(object sender, EventArgs e)
         {
             if (CurrentAddress != null && !ReadOnly)
@@ -131,7 +134,7 @@ namespace ObjectOrientedPractics.View.Control
         /// Валидирует ввод и подсвечивает поле при ошибке.
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void CountryTextBox_TextChanged(object sender, EventArgs e)
         {
             if (CurrentAddress != null && !ReadOnly)
@@ -151,7 +154,7 @@ namespace ObjectOrientedPractics.View.Control
         /// Валидирует ввод и подсвечивает поле при ошибке.
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void CityTextBox_TextChanged(object sender, EventArgs e)
         {
             if (CurrentAddress != null && !ReadOnly)
@@ -171,7 +174,7 @@ namespace ObjectOrientedPractics.View.Control
         /// Валидирует ввод и подсвечивает поле при ошибке.
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void StreetTextBox_TextChanged(object sender, EventArgs e)
         {
             if (CurrentAddress != null && !ReadOnly)
@@ -191,7 +194,7 @@ namespace ObjectOrientedPractics.View.Control
         /// Валидирует ввод и подсвечивает поле при ошибке.
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void BuildingTextBox_TextChanged(object sender, EventArgs e)
         {
             if (CurrentAddress != null && !ReadOnly)
@@ -211,7 +214,7 @@ namespace ObjectOrientedPractics.View.Control
         /// Валидирует ввод и подсвечивает поле при ошибке.
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Пргументы события.</param>
+        /// <param name="e">Аргументы события.</param>
         private void ApartmentTextBox_TextChanged(object sender, EventArgs e)
         {
             if (CurrentAddress != null && !ReadOnly)

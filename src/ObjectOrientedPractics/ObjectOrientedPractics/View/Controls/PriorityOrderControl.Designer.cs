@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             PriorityOrdersLabel = new Label();
-            dataGridView2 = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
+            PriorityOrdersDataGridView = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)PriorityOrdersDataGridView).BeginInit();
             SuspendLayout();
             // 
             // PriorityOrdersLabel
@@ -43,32 +43,32 @@
             PriorityOrdersLabel.TabIndex = 0;
             PriorityOrdersLabel.Text = "PriorityOrders";
             // 
-            // dataGridView2
+            // PriorityOrdersDataGridView
             // 
-            dataGridView2.AllowUserToAddRows = false;
-            dataGridView2.AllowUserToDeleteRows = false;
-            dataGridView2.AllowUserToResizeRows = false;
-            dataGridView2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(0, 18);
-            dataGridView2.MultiSelect = false;
-            dataGridView2.Name = "dataGridView2";
-            dataGridView2.ReadOnly = true;
-            dataGridView2.RowHeadersVisible = false;
-            dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView2.Size = new Size(398, 487);
-            dataGridView2.TabIndex = 0;
+            PriorityOrdersDataGridView.AllowUserToAddRows = false;
+            PriorityOrdersDataGridView.AllowUserToDeleteRows = false;
+            PriorityOrdersDataGridView.AllowUserToResizeRows = false;
+            PriorityOrdersDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            PriorityOrdersDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            PriorityOrdersDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            PriorityOrdersDataGridView.Location = new Point(0, 18);
+            PriorityOrdersDataGridView.MultiSelect = false;
+            PriorityOrdersDataGridView.Name = "PriorityOrdersDataGridView";
+            PriorityOrdersDataGridView.ReadOnly = true;
+            PriorityOrdersDataGridView.RowHeadersVisible = false;
+            PriorityOrdersDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            PriorityOrdersDataGridView.Size = new Size(398, 487);
+            PriorityOrdersDataGridView.TabIndex = 0;
             // 
             // PriorityOrderControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(dataGridView2);
+            Controls.Add(PriorityOrdersDataGridView);
             Controls.Add(PriorityOrdersLabel);
             Name = "PriorityOrderControl";
             Size = new Size(401, 508);
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)PriorityOrdersDataGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -76,6 +76,6 @@
         #endregion
 
         private Label PriorityOrdersLabel;
-        public DataGridView dataGridView2;
+        public DataGridView PriorityOrdersDataGridView;
     }
 }

@@ -1,28 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ObjectOrientedPractics.Service
+﻿namespace ObjectOrientedPractics.Service
 {
-    static internal class ValueValidator
+    /// <summary>
+    /// Сервисный класс для осуществления валидации.
+    /// </summary>
+    internal static class ValueValidator
     {
         /// <summary>
-        /// Проверяет на то, не больше ли строка некторого количества символов
+        /// Проверяет на то, не больше ли строка некоторого количества символов
         /// </summary>
         /// <param name="value">Проверяемая строка</param>
-        /// <param name="maxLength">Вверхняя границы</param>
+        /// <param name="maxLength">Вверхняя граница</param>
         /// <param name="propertyName">Вызываемое свойство</param>
         /// <returns>Возвращает true, если строка короче maxLength</returns>
         /// <exception cref="ArgumentException">Ошибка, если строка длинее maxLength</exception>
-        static public bool AssertStringOnLength(string value, int maxLength, string propertyName)
+        public static bool AssertStringOnLength(string value, int maxLength, string propertyName)
         {
-            if (value.Length != 0 && value.Length <= maxLength)
+            if (!string.IsNullOrEmpty(value))
             {
-                return true;
+                if (value.Length != 0 && value.Length <= maxLength)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new ArgumentException($"{propertyName} должен быть не больше {maxLength} символов");
+                }
             }
             else
             {
-                throw new ArgumentException($"{propertyName} должен быть не больше {maxLength} символов");
+                throw new NullReferenceException($"{propertyName} не должен быть пустым");
             }
         }
 
@@ -33,7 +39,7 @@ namespace ObjectOrientedPractics.Service
         /// <param name="propetryName">Вызываемое свойство</param>
         /// <returns>Возвращает true, если число положительное</returns>
         /// <exception cref="ArgumentException">Ошибка, если число не положительное</exception>
-        static public bool ValueIsPositive(int value, string propetryName)
+        public static bool ValueIsPositive(int value, string propertyName)
         {
             if (value > 0)
             {
@@ -41,20 +47,20 @@ namespace ObjectOrientedPractics.Service
             }
             else
             {
-                throw new ArgumentException($"{propetryName} должен быть положительным");
+                throw new ArgumentException($"{propertyName} должен быть положительным");
             }
         }
 
         /// <summary>
-        /// Проверяет, что целочисленное число назодится в диапазоне от min до max
+        /// Проверяет, что целочисленное число находится в диапазоне от min до max
         /// </summary>
         /// <param name="value">Проверяемое число</param>
         /// <param name="min">Минимальное значение</param>
         /// <param name="max">Максимальное значение</param>
         /// <param name="propetryName">Вызываемое свойство</param>
         /// <returns>Возвращает true, если число находится в диапазоне</returns>
-        /// <exception cref="ArgumentException">Ошибка, если число не назодится в диапазоне</exception>
-        static public bool ValueInRange(double value, double min, double max, string propetryName)
+        /// <exception cref="ArgumentException">Ошибка, если число не находится в диапазоне</exception>
+        public static bool ValueInRange(double value, double min, double max, string propertyName)
         {
             if (value >= min && value <= max)
             {
@@ -62,7 +68,7 @@ namespace ObjectOrientedPractics.Service
             }
             else
             {
-                throw new ArgumentException($"{propetryName} должен быть не меньше {min} и не больше {max}");
+                throw new ArgumentException($"{propertyName} должен быть не меньше {min} и не больше {max}");
             }
         }
     }

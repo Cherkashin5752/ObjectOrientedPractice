@@ -1,13 +1,15 @@
 using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Service;
-using System.ComponentModel;
 
-namespace ObjectOrientedPractics
+namespace ObjectOrientedPractics.View
 {
+    /// <summary>
+    /// Класс главного окна.
+    /// </summary>
     public partial class MainForm : Form
     {
         /// <summary>
-        /// Магазин, содержащиё списки товаров и покупателей.
+        /// Магазин, содержащий списки товаров и покупателей.
         /// </summary>
         private Store _store = new Store();
 
@@ -61,7 +63,7 @@ namespace ObjectOrientedPractics
         }
 
         /// <summary>
-        /// Отбработчик события закрытия окна
+        /// Обработчик события закрытия окна
         /// Сериализует экземпляр класса <see cref="Store">
         /// </summary>
         /// <param name="sender">Источник события.</param>
@@ -74,8 +76,8 @@ namespace ObjectOrientedPractics
         /// <summary>
         /// Обработка события переключения вкладки tabControl1.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргумент события.</param>
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
                 

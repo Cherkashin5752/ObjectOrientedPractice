@@ -1,4 +1,4 @@
-﻿namespace ObjectOrientedPractics
+﻿namespace ObjectOrientedPractics.View
 {
     partial class MainForm
     {
@@ -37,14 +37,11 @@
             cartsTab1 = new ObjectOrientedPractics.View.Panels.CartsTab();
             OrdersTab = new TabPage();
             ordersTab1 = new ObjectOrientedPractics.View.Panels.OrdersTab();
-            PriorityOrderTab = new TabPage();
-            priorityOrdersTab1 = new ObjectOrientedPractics.View.Panels.PriorityOrdersTab();
             tabControl1.SuspendLayout();
             ItemsTab.SuspendLayout();
             CustomersTab.SuspendLayout();
             CartsTab.SuspendLayout();
             OrdersTab.SuspendLayout();
-            PriorityOrderTab.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -53,7 +50,6 @@
             tabControl1.Controls.Add(CustomersTab);
             tabControl1.Controls.Add(CartsTab);
             tabControl1.Controls.Add(OrdersTab);
-            tabControl1.Controls.Add(PriorityOrderTab);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
@@ -136,24 +132,6 @@
             ordersTab1.Size = new Size(749, 442);
             ordersTab1.TabIndex = 0;
             // 
-            // PriorityOrderTab
-            // 
-            PriorityOrderTab.Controls.Add(priorityOrdersTab1);
-            PriorityOrderTab.Location = new Point(4, 24);
-            PriorityOrderTab.Name = "PriorityOrderTab";
-            PriorityOrderTab.Size = new Size(934, 448);
-            PriorityOrderTab.TabIndex = 4;
-            PriorityOrderTab.Text = "Priority Order";
-            PriorityOrderTab.UseVisualStyleBackColor = true;
-            // 
-            // priorityOrdersTab1
-            // 
-            priorityOrdersTab1.Dock = DockStyle.Fill;
-            priorityOrdersTab1.Location = new Point(0, 0);
-            priorityOrdersTab1.Name = "priorityOrdersTab1";
-            priorityOrdersTab1.Size = new Size(934, 448);
-            priorityOrdersTab1.TabIndex = 0;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -169,7 +147,6 @@
             CustomersTab.ResumeLayout(false);
             CartsTab.ResumeLayout(false);
             OrdersTab.ResumeLayout(false);
-            PriorityOrderTab.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -184,7 +161,5 @@
         private View.Panels.CartsTab cartsTab1;
         private TabPage OrdersTab;
         private View.Panels.OrdersTab ordersTab1;
-        private TabPage PriorityOrderTab;
-        private View.Panels.PriorityOrdersTab priorityOrdersTab1;
     }
 }

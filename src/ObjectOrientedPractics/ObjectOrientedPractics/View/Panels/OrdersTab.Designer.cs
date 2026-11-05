@@ -28,37 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
-            selectedOrderControl1 = new ObjectOrientedPractics.View.Controls.SelectedOrderControl();
-            orderControl1 = new ObjectOrientedPractics.View.Controls.OrderControl();
+            SelectedOrderControl = new ObjectOrientedPractics.View.Controls.SelectedOrderControl();
+            OrderControl = new ObjectOrientedPractics.View.Controls.OrderControl();
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
-            // selectedOrderControl1
+            // SelectedOrderControl
             // 
-            selectedOrderControl1.Dock = DockStyle.Fill;
-            selectedOrderControl1.Location = new Point(409, 3);
-            selectedOrderControl1.Name = "selectedOrderControl1";
-            selectedOrderControl1.Size = new Size(401, 504);
-            selectedOrderControl1.TabIndex = 1;
-            selectedOrderControl1.StatusComboBox.SelectedIndexChanged += StatusOrder_SelectedIndexChanged;
+            SelectedOrderControl.Dock = DockStyle.Fill;
+            SelectedOrderControl.Location = new Point(409, 3);
+            SelectedOrderControl.Name = "SelectedOrderControl";
+            SelectedOrderControl.Size = new Size(401, 504);
+            SelectedOrderControl.TabIndex = 1;
+            SelectedOrderControl.StatusComboBox.SelectedIndexChanged += StatusOrder_SelectedIndexChanged;
+            SelectedOrderControl.DeliveryTimeComboBox.SelectedIndexChanged += DeliveryTimeComboBox_SelectedIndexChanged;
             // 
-            // orderControl1
+            // OrderControl
             // 
-            orderControl1.Dock = DockStyle.Fill;
-            orderControl1.Location = new Point(3, 3);
-            orderControl1.Name = "orderControl1";
-            orderControl1.Size = new Size(400, 504);
-            orderControl1.TabIndex = 0;
-            orderControl1.dataGridView1.SelectionChanged += DataGridView_SelectionChanged;
+            OrderControl.Dock = DockStyle.Fill;
+            OrderControl.Location = new Point(3, 3);
+            OrderControl.Name = "OrderControl";
+            OrderControl.Size = new Size(400, 504);
+            OrderControl.TabIndex = 0;
+            OrderControl.OrdersDataGridView.SelectionChanged += DataGridView_SelectionChanged;
+            OrderControl.OnlyPriorityOrders.CheckedChanged += OnlyPriorityOrders_CheckedChanged;
             // 
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Controls.Add(orderControl1, 0, 0);
-            tableLayoutPanel1.Controls.Add(selectedOrderControl1, 1, 0);
+            tableLayoutPanel1.Controls.Add(OrderControl, 0, 0);
+            tableLayoutPanel1.Controls.Add(SelectedOrderControl, 1, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -86,8 +88,8 @@
 
         #endregion
 
-        private Controls.SelectedOrderControl selectedOrderControl1;
-        private Controls.OrderControl orderControl1;
+        private Controls.SelectedOrderControl SelectedOrderControl;
+        private Controls.OrderControl OrderControl;
         private TableLayoutPanel tableLayoutPanel1;
     }
 }

@@ -1,8 +1,5 @@
 ﻿using ObjectOrientedPractics.Model.Enums;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 
 namespace ObjectOrientedPractics.Model
 {
@@ -14,7 +11,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Счётчик для генерации уникальных Id
         /// </summary>
-        static private int _idCounter;
+        private static int _idCounter;
 
         /// <summary>
         /// Id заказа
@@ -22,7 +19,7 @@ namespace ObjectOrientedPractics.Model
         private readonly int _id;
         
         /// <summary>
-        /// Время создание заказа
+        /// Время создания заказа
         /// </summary>
         private readonly DateTime _createTime;
         
@@ -36,10 +33,6 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         private BindingList<Item> _items;
         
-        /// <summary>
-        /// Стоимость заказа
-        /// </summary>
-        private double _amount;
     
         /// <summary>
         /// Возвращает Id заказа
@@ -51,7 +44,7 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Возвращает время создание заказа
+        /// Возвращает время создания заказа
         /// </summary>
         public DateTime CreateTime
         {
@@ -82,8 +75,7 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         public double Amount
         {
-            get { return _amount; }
-            set { _amount = value; }
+            get { return Items?.Sum(item => item.Cost) ?? 0.0; }
         }
 
         /// <summary>
@@ -97,7 +89,7 @@ namespace ObjectOrientedPractics.Model
         public OrderStatus Status { get; set; }
 
         /// <summary>
-        /// Инициализирует экземпляр класса <see cref="Order">
+        /// Инициализирует экземпляр класса <see cref="Order"/>
         /// </summary>
         public Order()
         {
@@ -105,13 +97,12 @@ namespace ObjectOrientedPractics.Model
             CreateTime = DateTime.Now;
             Address = new Address();
             Items = new();
-            Amount = 0.0;
             CustomerFullname = "Default";
             Status = OrderStatus.New;
         }
 
         /// <summary>
-        /// Инициализирует экземпляр класса <see cref="Order">
+        /// Инициализирует экземпляр класса <see cref="Order"/>
         /// </summary>
         /// <param name="customer">Покупатель, оформляющий заказ</param>
         public Order(Customer customer)
@@ -120,16 +111,31 @@ namespace ObjectOrientedPractics.Model
             CreateTime = DateTime.Now;
             Address = new Address(customer.Address);
             Items = new BindingList<Item>(customer.Cart.Items.ToList());
-            Amount = customer.Cart.Amount;
             CustomerFullname = customer.Fullname;
+            Status = OrderStatus.New;
+        }
+
+        /// <summary>
+        /// Инициализирует экземпляр класса <see cref="Order"/>.
+        /// </summary>
+        /// <param name="address">Адрес заказа.</param>
+        /// <param name="items">Товары заказа.</param>
+        /// <param name="customerFullName">Полное имя покупателя заказа.</param>
+        public Order(Address address, BindingList<Item> items, string customerFullName)
+        {
+            Id = _idCounter++;
+            CreateTime = DateTime.Now;
+            Address = new Address(address);
+            Items = new BindingList<Item>(items.ToList());
+            CustomerFullname = customerFullName;
             Status = OrderStatus.New;
         }
 
         /// <summary>
         /// Устанавливает _idCounter
         /// </summary>
-        /// <param name="maxId"></param>
-        static public void SetIdCounter(int maxId)
+        /// <param name="maxId">Наибольший Id в сериализованных файлах</param>
+        public static void SetIdCounter(int maxId)
         {
             _idCounter = ++maxId;
         }
