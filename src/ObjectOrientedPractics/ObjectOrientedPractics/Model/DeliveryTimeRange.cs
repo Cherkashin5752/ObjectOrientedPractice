@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace ObjectOrientedPractics.Model.Enums
+namespace ObjectOrientedPractics.Model
 {
     static internal class DeliveryTimeRange
     {

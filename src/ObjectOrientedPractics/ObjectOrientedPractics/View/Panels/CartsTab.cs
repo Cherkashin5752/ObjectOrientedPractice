@@ -1,5 +1,4 @@
 ﻿using ObjectOrientedPractics.Model;
-using ObjectOrientedPractics.Model.Enums;
 using System.ComponentModel;
 
 namespace ObjectOrientedPractics.View.Panels
