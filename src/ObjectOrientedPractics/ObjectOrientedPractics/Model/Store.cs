@@ -15,7 +15,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Возвращает и задаёт список покупателей.
         /// </summary>
-        public BindingList<Customer> Customers {  get; set; }
+        public BindingList<Customer> Customers { get; set; }
 
         /// <summary>
         /// Инициализирует новый экземплар класса <see cref="Store"/>.

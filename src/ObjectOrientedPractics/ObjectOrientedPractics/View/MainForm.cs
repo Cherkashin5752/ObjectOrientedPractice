@@ -78,13 +78,7 @@ namespace ObjectOrientedPractics
         /// <param name="e"></param>
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-                
-            if (tabControl1.SelectedTab == CartsTab)
-            {
-                cartsTab1.CustomerComboBox.Refresh();
-                cartsTab1.ItemsCartsListBox.Refresh();
-            }
-            else if (tabControl1.SelectedTab == OrdersTab)
+            if (tabControl1.SelectedTab == OrdersTab)
             {
                 ordersTab1.UpdateOrders();
             }

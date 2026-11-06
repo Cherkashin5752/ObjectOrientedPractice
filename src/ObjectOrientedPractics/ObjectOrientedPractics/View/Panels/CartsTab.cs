@@ -75,13 +75,13 @@ namespace ObjectOrientedPractics.View.Panels
                 CurrentCustomer = (Customer)CustomerComboBox.SelectedItem;
                 CartContentListBox.DataSource = CurrentCustomer.Cart.Items;
                 CartContentListBox.DisplayMember = "Name";
-                CartContentListBox.Refresh();
                 RefreshCartAmount();
             }
             else
             {
                 CurrentCustomer = null;
                 CartContentListBox.DataSource = null;
+                RefreshCartAmount();
             }
         }
 

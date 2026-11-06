@@ -94,7 +94,7 @@ namespace ObjectOrientedPractics.Model
             CreateTime = DateTime.Now;
             Address = new Address(address);
             Items = new BindingList<Item>(items);
-            CustomerFullname = CustomerFactory.GenerateCustomer().Fullname;
+            CustomerFullname = CustomerFactory.GenerateCustomerFullname();
             Status = OrderStatus.New;
         }
 
