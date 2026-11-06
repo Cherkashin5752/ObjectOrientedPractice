@@ -1,12 +1,5 @@
 ﻿using ObjectOrientedPractics.Model.Enums;
 using ObjectOrientedPractics.Service;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Security.Policy;
-using System.Text;
-using System.Xml.Linq;
 
 namespace ObjectOrientedPractics.Model
 {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json;
-using ObjectOrientedPractics.Model;
+﻿using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Model.Enums;
 
 namespace ObjectOrientedPractics.Service

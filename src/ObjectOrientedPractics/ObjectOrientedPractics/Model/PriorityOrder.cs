@@ -1,8 +1,4 @@
-﻿using ObjectOrientedPractics.Model.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
 
 namespace ObjectOrientedPractics.Model
 {

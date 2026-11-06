@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-
-namespace ObjectOrientedPractics.Service
+﻿namespace ObjectOrientedPractics.Service
 {
     /// <summary>
     /// Сервисный класс для работы с директориями.

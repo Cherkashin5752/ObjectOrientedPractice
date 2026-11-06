@@ -1,9 +1,6 @@
 ﻿using ObjectOrientedPractics.Model.Enums;
 using ObjectOrientedPractics.Service;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 
 namespace ObjectOrientedPractics.Model
 {

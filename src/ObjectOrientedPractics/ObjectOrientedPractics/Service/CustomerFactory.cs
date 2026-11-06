@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using ObjectOrientedPractics.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ObjectOrientedPractics.Model;
 
 namespace ObjectOrientedPractics.Service
 {

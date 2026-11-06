@@ -1,6 +1,4 @@
 ﻿using ObjectOrientedPractics.Service;
-using System.Diagnostics.Metrics;
-using System.Net;
 
 namespace ObjectOrientedPractics.Model
 {
