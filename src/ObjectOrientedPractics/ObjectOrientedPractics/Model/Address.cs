@@ -154,26 +154,6 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="Address"/>.
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="country"></param>
-        /// <param name="city"></param>
-        /// <param name="street"></param>
-        /// <param name="building"></param>
-        /// <param name="apartment"></param>
-        public Address(int index, string country, string city,
-            string street, string building, string apartment)
-        {
-            Index = index;
-            Country = country;
-            City = city;
-            Street = street;
-            Building = building;
-            Apartment = apartment;
-        }
-
-        /// <summary>
         /// Возвращает строку, содержащюю все элементы экземпляра.
         /// </summary>
         /// <returns>Строка состояния всех полей</returns>
