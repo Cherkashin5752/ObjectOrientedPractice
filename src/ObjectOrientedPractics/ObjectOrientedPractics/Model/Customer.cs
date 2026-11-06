@@ -3,47 +3,47 @@
 namespace ObjectOrientedPractics.Model
 {
     /// <summary>
-    /// Хранит ID, полное имя и адрес покупателя
+    /// Хранит ID, полное имя и адрес покупателя.
     /// </summary>
     public class Customer
     {
         /// <summary>
-        /// Счётчик для генерации уникальных Id
+        /// Счётчик для генерации уникальных Id.
         /// </summary>
         private static int _idCounter;
 
         /// <summary>
-        /// Id покупателя
+        /// Id покупателя.
         /// </summary>
         private readonly int _id;
 
         /// <summary>
-        /// Полное имя покупателя
+        /// Полное имя покупателя.
         /// </summary>
         private string _fullname;
 
         /// <summary>
-        /// Адрес покупателя
+        /// Адрес покупателя.
         /// </summary>
         private Address _address;
 
         /// <summary>
-        /// Корзина покупателя
+        /// Корзина покупателя.
         /// </summary>
         private Cart _cart;
 
         /// <summary>
-        /// Список заказов покупателя
+        /// Список заказов покупателя.
         /// </summary>
         private List<Order> _orders;
 
         /// <summary>
-        /// Возвращает Id товара
+        /// Возвращает Id товара.
         /// </summary>
         public int Id { get { return _id; } init { _id = value; } }
 
         /// <summary>
-        /// Возвращает и задаёт полное имя покупателя
+        /// Возвращает и задаёт полное имя покупателя.
         /// </summary>
         public string Fullname
         {
@@ -58,7 +58,7 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Возвращает и задаёт адрес покупателя
+        /// Возвращает и задаёт адрес покупателя.
         /// </summary>
         public Address Address
         {
@@ -67,7 +67,7 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Возвращает и задаёт корзину покупателя
+        /// Возвращает и задаёт корзину покупателя.
         /// </summary>
         public Cart Cart
         {
@@ -116,7 +116,7 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Устанавливает _idCounter
+        /// Устанавливает _idCounter.
         /// </summary>
         /// <param name="maxId">Наибольший Id в сериализованных файлах</param>
         public static void SetIdCounter(int maxId)

@@ -5,10 +5,13 @@ using System.Text;
 
 namespace ObjectOrientedPractics.Service
 {
+    /// <summary>
+    /// Сервисный класс для работы с директориями.
+    /// </summary>
     static internal class PathService
     {
         /// <summary>
-        /// Возвращает относительный путь к дериктории исполняемого файла программы
+        /// Возвращает относительный путь к дериктории исполняемого файла программы.
         /// </summary>
         /// <returns>Путь к исполняемому файлу проекта</returns>
         static public string GetProjectRootDir()
@@ -17,7 +20,7 @@ namespace ObjectOrientedPractics.Service
         }
 
         /// <summary>
-        /// Проверяет, существует ли дериктория, в которой ищется файл по пути <see cref="{path}">. Если нет - создаёт её
+        /// Проверяет, существует ли дериктория, в которой ищется файл по пути <see cref="{path}">. Если нет - создаёт её.
         /// </summary>
         /// <param name="path">Путь, в котором ищёт файлю</param>
         static public void CreateDirectoryExist(string path)

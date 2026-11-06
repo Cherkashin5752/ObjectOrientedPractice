@@ -129,7 +129,7 @@ namespace ObjectOrientedPractics.View.Panels
                         if (SelectedPriorityOrdersControl.DeliveryTimeComboBox.SelectedIndex != -1)
                         {
                             ClearAllFields();
-                            PriorityOrder newPriorityOrder = new PriorityOrder(SelectedPriorityOrdersControl.AddressControl.CurrentAddress, CurrentItemsList, Amount, DateTime.Now, (string)SelectedPriorityOrdersControl.DeliveryTimeComboBox.SelectedItem);
+                            PriorityOrder newPriorityOrder = new PriorityOrder(SelectedPriorityOrdersControl.AddressControl.CurrentAddress, CurrentItemsList, DateTime.Now, (string)SelectedPriorityOrdersControl.DeliveryTimeComboBox.SelectedItem);
                             PriorityOrders.Add(newPriorityOrder);
                         }
                     }

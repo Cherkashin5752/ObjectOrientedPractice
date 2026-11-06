@@ -8,52 +8,58 @@ using System.Text;
 namespace ObjectOrientedPractics.Model
 {
     /// <summary>
-    /// Класс заказов
+    /// Класс заказов.
     /// </summary>
     public class Order
     {
         /// <summary>
-        /// Счётчик для генерации уникальных Id
+        /// Счётчик для генерации уникальных Id.
         /// </summary>
         static private int _idCounter;
     
         /// <summary>
-        /// Возвращает Id заказа
+        /// Возвращает Id заказа.
         /// </summary>
         public int Id { get; init; }
 
         /// <summary>
-        /// Возвращает время создание заказа
+        /// Возвращает время создание заказа.
         /// </summary>
         public DateTime CreateTime { get; set; }
 
         /// <summary>
-        /// Возвращает и задаёт адрес заказа
+        /// Возвращает и задаёт адрес заказа.
         /// </summary>
         public Address Address { get; set; }
 
         /// <summary>
-        /// Возвращает и задаёт список товаров в заказе
+        /// Возвращает и задаёт список товаров в заказе.
         /// </summary>
         public BindingList<Item> Items { get; set; }
 
         /// <summary>
-        /// Возвращает и задаёт стоимость заказа
+        /// Возвращает и задаёт стоимость заказа.
         /// </summary>
-        public double Amount { get; set; }
+        public double Amount
+        {
+            get
+            {
+                return Items.Sum(item => item.Cost);
+            }
+        }
 
         /// <summary>
-        /// Возвращает полное имя покупателя заказа
+        /// Возвращает полное имя покупателя заказа.
         /// </summary>
         public string CustomerFullname { get; init; }
 
         /// <summary>
-        /// Возвращает и задаёт статус заказа
+        /// Возвращает и задаёт статус заказа.
         /// </summary>
         public OrderStatus Status { get; set; }
 
         /// <summary>
-        /// Инициализирует экземпляр класса <see cref="Order">
+        /// Инициализирует экземпляр класса <see cref="Order"/>.
         /// </summary>
         public Order()
         {
@@ -61,42 +67,44 @@ namespace ObjectOrientedPractics.Model
             CreateTime = DateTime.Now;
             Address = new Address();
             Items = new();
-            Amount = 0.0;
             CustomerFullname = "Default";
             Status = OrderStatus.New;
         }
 
         /// <summary>
-        /// Инициализирует экземпляр класса <see cref="Order">
+        /// Инициализирует экземпляр класса <see cref="Order"/>.
         /// </summary>
-        /// <param name="customer">Покупатель, оформляющий заказ</param>
+        /// <param name="customer">Покупатель, оформляющий заказ.</param>
         public Order(Customer customer)
         {
             Id = _idCounter++;
             CreateTime = DateTime.Now;
             Address = new Address(customer.Address);
             Items = new BindingList<Item>(customer.Cart.Items.ToList());
-            Amount = customer.Cart.Amount;
             CustomerFullname = customer.Fullname;
             Status = OrderStatus.New;
         }
 
+        /// <summary>
+        /// Инициализирует экземпляр класса <see cref="Order"/>.
+        /// </summary>
+        /// <param name="address">Адрес.</param>
+        /// <param name="items">Список товаров.</param>
         public Order(Address address,
-            BindingList<Item> items, double amount)
+            BindingList<Item> items)
         {
             Id = _idCounter++;
             CreateTime = DateTime.Now;
             Address = new Address(address);
             Items = new BindingList<Item>(items);
-            Amount = amount;
             CustomerFullname = CustomerFactory.GenerateCustomer().Fullname;
             Status = OrderStatus.New;
         }
 
         /// <summary>
-        /// Устанавливает _idCounter
+        /// Устанавливает _idCounter.
         /// </summary>
-        /// <param name="maxId"></param>
+        /// <param name="maxId">Наибольший Id в сериализованных файлах.</param>
         static public void SetIdCounter(int maxId)
         {
             _idCounter = ++maxId;

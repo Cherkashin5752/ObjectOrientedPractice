@@ -5,7 +5,7 @@ using ObjectOrientedPractics.Service;
 namespace ObjectOrientedPractics.View.Panels
 {
     /// <summary>
-    /// Пользовательский элемент, который осуществляет логику работы с покупателями
+    /// Пользовательский элемент, который осуществляет логику работы с покупателями.
     /// </summary>
     public partial class CustomersTab : UserControl
     {
@@ -15,7 +15,7 @@ namespace ObjectOrientedPractics.View.Panels
         private BindingList<Customer> _customerss = new();
 
         /// <summary>
-        /// Возвращает и задаёт список покупателей
+        /// Возвращает и задаёт список покупателей.
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public BindingList<Customer> Customers
@@ -112,7 +112,7 @@ namespace ObjectOrientedPractics.View.Panels
 
         /// <summary>
         /// Обработчик события потери фокуса поля полного имени покупателя.
-        /// Обновления отображаемого имени покупателя в <see cref="CustomersListBox"/>
+        /// Обновления отображаемого имени покупателя в <see cref="CustomersListBox"/>.
         /// </summary>
         /// <param name="sender">Источник события.</param>
         /// <param name="e">Аргументы события.</param>
@@ -127,7 +127,7 @@ namespace ObjectOrientedPractics.View.Panels
         }
 
         /// <summary>
-        /// Обработчик события изменения поля адреса покупателя
+        /// Обработчик события изменения поля адреса покупателя.
         /// </summary>
         /// <param name="sender">Источник события.</param>
         /// <param name="e">Аргументы события.</param>
@@ -189,7 +189,7 @@ namespace ObjectOrientedPractics.View.Panels
         }
 
         /// <summary>
-        /// Обновляет отображение CustomersListBox
+        /// Обновляет отображение CustomersListBox.
         /// </summary>
         private void RefreshCustomersListBox()
         {

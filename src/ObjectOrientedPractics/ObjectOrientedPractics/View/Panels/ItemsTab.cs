@@ -12,7 +12,7 @@ using System.Windows.Forms;
 namespace ObjectOrientedPractics.View.Panels
 {
     /// <summary>
-    /// Пользовательский элемент, который осуществляет логику работы с товарами
+    /// Пользовательский элемент, который осуществляет логику работы с товарами.
     /// </summary>
     public partial class ItemsTab : UserControl
     {
@@ -22,7 +22,7 @@ namespace ObjectOrientedPractics.View.Panels
         private BindingList<Item> _items = new();
 
         /// <summary>
-        /// Возвращает и задаёт список товаров
+        /// Возвращает и задаёт список товаров.
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal BindingList<Item> Items
@@ -143,7 +143,7 @@ namespace ObjectOrientedPractics.View.Panels
 
         /// <summary>
         /// Обработчик события потери фокуса поля названия товара.
-        /// Обновляет отображаемое название товара в <see cref="ItemsListBox"/>
+        /// Обновляет отображаемое название товара в <see cref="ItemsListBox"/>.
         /// </summary>
         /// <param name="sender">Источник события.</param>
         /// <param name="e">Аргумент события.</param>

@@ -10,14 +10,14 @@ using ObjectOrientedPractics.Model.Enums;
 namespace ObjectOrientedPractics.Service
 {
     /// <summary>
-    /// Сервисный класс для создания товаров со случайными состояниями.
+    /// Сервисный класс для создания экземпляров класса <see cref="Items"/> со случайными состояниями.
     /// </summary>
     static internal class ItemFactory
     {
         /// <summary>
         /// Количество товаров, лежащее в прочтённых файлах.
         /// </summary>
-        static private int maxItemsCount;
+        static private int _maxItemsCount;
         
         /// <summary>
         /// Список наименований товаров, прочтённых из файла.
@@ -45,7 +45,7 @@ namespace ObjectOrientedPractics.Service
         /// <returns>Возвращает новый экземпляр класса <see cref="Item"/>.</returns>
         static public Item GenerateItem()
         {
-            int randomItem = _random.Next(maxItemsCount);
+            int randomItem = _random.Next(_maxItemsCount);
 
             string newName, newInfo;
 
@@ -88,7 +88,7 @@ namespace ObjectOrientedPractics.Service
 
             if (_names != null && _info != null)
             {
-                maxItemsCount = int.Min(_names.Count, _info.Count);
+                _maxItemsCount = int.Min(_names.Count, _info.Count);
             }
         }
     }

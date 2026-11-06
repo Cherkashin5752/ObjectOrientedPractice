@@ -31,7 +31,7 @@ namespace ObjectOrientedPractics.Model
         }
     
         /// <summary>
-        /// Возвращает общую стоимость всех товаров в корзине
+        /// Возвращает общую стоимость всех товаров в корзине.
         /// </summary>
         public double Amount
         {
@@ -41,6 +41,9 @@ namespace ObjectOrientedPractics.Model
             }
         }
 
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Cart"/>.
+        /// </summary>
         public Cart()
         {
             Items = new BindingList<Item>();

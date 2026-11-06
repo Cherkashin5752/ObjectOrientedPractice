@@ -6,7 +6,7 @@ using System.Text;
 namespace ObjectOrientedPractics.Model
 {
     /// <summary>
-    /// Хранит списки товаров и покупателей
+    /// Хранит списки товаров и покупателей.
     /// </summary>
     internal class Store
     {
@@ -21,7 +21,7 @@ namespace ObjectOrientedPractics.Model
         public BindingList<Customer> Customers {  get; set; }
 
         /// <summary>
-        /// Инициализирует новый экземплар класса <see cref="Store">.
+        /// Инициализирует новый экземплар класса <see cref="Store"/>.
         /// </summary>
         public Store()
         {

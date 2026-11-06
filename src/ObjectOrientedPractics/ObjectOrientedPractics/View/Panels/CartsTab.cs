@@ -169,7 +169,7 @@ namespace ObjectOrientedPractics.View.Panels
         }
 
         /// <summary>
-        /// Полностью очищает корзину покупателя
+        /// Полностью очищает корзину покупателя.
         /// </summary>
         private void ClearCart()
         {

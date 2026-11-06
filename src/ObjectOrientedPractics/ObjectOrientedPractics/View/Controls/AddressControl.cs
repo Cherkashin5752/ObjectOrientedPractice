@@ -50,7 +50,8 @@ namespace ObjectOrientedPractics.View.Controls
         }
 
         /// <summary>
-        /// Возвращает и задаёт поле ReadOnly. Также переводит на пользовательском элементе все TextBox элементы в соответствующее состояние ReadOnly
+        /// Возвращает и задаёт поле ReadOnly. Также переводит на пользовательском
+        /// элементе все TextBox элементы в соответствующее состояние ReadOnly.
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ReadOnly
@@ -89,7 +90,7 @@ namespace ObjectOrientedPractics.View.Controls
         }
 
         /// <summary>
-        /// Вызывает событие <see cref="AddressChanged">
+        /// Вызывает событие <see cref="AddressChanged"/>.
         /// </summary>
         public void OnAddressChanged()
         {
@@ -97,7 +98,7 @@ namespace ObjectOrientedPractics.View.Controls
         }
 
         /// <summary>
-        /// Меняет значения текстовых полей Address в форме на значения текущевыбранного покупателя
+        /// Меняет значения текстовых полей Address в форме на значения текущевыбранного покупателя.
         /// </summary>
         private void RefreshAddressInfo()
         {
@@ -233,7 +234,7 @@ namespace ObjectOrientedPractics.View.Controls
         /// Переводит все TextBox элементы в соответствующее состояние ReadOnly.
         /// </summary>
         /// <param name="parent">Текущий пользовательский элемент.</param>
-        /// <param name="isReadOnly">В какой состояние ReadOnly перевести все TextBox элементы</param>
+        /// <param name="isReadOnly">В какой состояние ReadOnly перевести все TextBox элементы.</param>
         private void SetTextBoxesReadOnly(WinControl parent, bool isReadOnly)
         {
             foreach (WinControl control in parent.Controls)
@@ -252,7 +253,7 @@ namespace ObjectOrientedPractics.View.Controls
         }
 
         /// <summary>
-        /// Очищает текстовые поля формы о адресе покупателя
+        /// Очищает текстовые поля формы о адресе покупателя.
         /// </summary>
         public void ClearTextBoxAddress()
         {

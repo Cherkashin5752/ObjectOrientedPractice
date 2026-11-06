@@ -5,42 +5,42 @@ using System.Net;
 namespace ObjectOrientedPractics.Model
 {
     /// <summary>
-    /// Хранит адрес покупателя
+    /// Хранит адрес покупателя.
     /// </summary>
     public class Address
     {
         /// <summary>
-        /// Индекс покупателя
+        /// Индекс покупателя.
         /// </summary>
         private int _index;
 
         /// <summary>
-        /// Страна (регион) покупателя
+        /// Страна (регион) покупателя.
         /// </summary>
         private string _country;
 
         /// <summary>
-        /// Город покупателя
+        /// Город покупателя.
         /// </summary>
         private string _city;
 
         /// <summary>
-        /// Улица покупателя
+        /// Улица покупателя.
         /// </summary>
         private string _street;
 
         /// <summary>
-        /// номер дома покупателя
+        /// номер дома покупателя.
         /// </summary>
         private string _building;
 
         /// <summary>
-        /// Номер квартиры/помещения покупателя
+        /// Номер квартиры/помещения покупателя.
         /// </summary>
         private string _apartment;
 
         /// <summary>
-        /// Возвращает и задаёт индекс покупателя 
+        /// Возвращает и задаёт индекс покупателя.
         /// </summary>
         public int Index
         {
@@ -55,7 +55,7 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Возвращает и задаёт страну/регион покупателя
+        /// Возвращает и задаёт страну/регион покупателя.
         /// </summary>
         public string Country
         {
@@ -70,7 +70,7 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Возвращает и задаёт город покупателя
+        /// Возвращает и задаёт город покупателя.
         /// </summary>
         public string City
         {
@@ -84,7 +84,7 @@ namespace ObjectOrientedPractics.Model
             }
         }
         /// <summary>
-        /// Возвращает и задаёт улицу покупателя
+        /// Возвращает и задаёт улицу покупателя.
         /// </summary>
         public string Street
         {
@@ -99,7 +99,7 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Возвращает и задаёт номер дома покупателя
+        /// Возвращает и задаёт номер дома покупателя.
         /// </summary>
         public string Building
         {
@@ -114,7 +114,7 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Возвращает и задаёт номер квартиры/помещения покупателя
+        /// Возвращает и задаёт номер квартиры/помещения покупателя.
         /// </summary>
         public string Apartment
         {
@@ -129,7 +129,7 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Конструктор по умолчанию. Инициализирует новый экземпляр класса <see cref="Address"> с дефолтными значениями
+        /// Конструктор по умолчанию. Инициализирует новый экземпляр класса <see cref="Address"/> с дефолтными значениями.
         /// </summary>
         public Address()
         {
@@ -142,9 +142,9 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Конструктор копирования. Инициализирует новый экземпляр класса <see cref="Address">
+        /// Конструктор копирования. Инициализирует новый экземпляр класса <see cref="Address"/>.
         /// </summary>
-        /// <param name="address"></param>
+        /// <param name="address">Адрес</param>
         public Address(Address address)
         {
             Index = address.Index;
@@ -155,6 +155,15 @@ namespace ObjectOrientedPractics.Model
             Apartment = address.Apartment;
         }
 
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Address"/>.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="country"></param>
+        /// <param name="city"></param>
+        /// <param name="street"></param>
+        /// <param name="building"></param>
+        /// <param name="apartment"></param>
         public Address(int index, string country, string city,
             string street, string building, string apartment)
         {
@@ -167,7 +176,7 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Возвращает строку, содержащюю все элементы экземпляра
+        /// Возвращает строку, содержащюю все элементы экземпляра.
         /// </summary>
         /// <returns>Строка состояния всех полей</returns>
         public override string ToString()

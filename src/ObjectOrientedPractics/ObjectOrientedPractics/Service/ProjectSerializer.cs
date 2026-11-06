@@ -19,7 +19,7 @@ namespace ObjectOrientedPractics.Service
         /// Выполняет десериализацию списка товаров из файла формат JSON.
         /// </summary>
         /// <param name="relativePath">Путь к файлу, содержащему данные о списке товаров.</param>
-        /// <returns>Список</returns>
+        /// <returns>Список.</returns>
         public static T? Deserialize<T>(string relativePath)
         {
             string fullPath = Path.Combine(PathService.GetProjectRootDir(), relativePath);

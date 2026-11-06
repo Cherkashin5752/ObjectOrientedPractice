@@ -6,12 +6,15 @@ using System.Text;
 
 namespace ObjectOrientedPractics.Service
 {
+    /// <summary>
+    /// Сервисный класс для создания экземпляров класса <see cref="Customer"/> со случайными состояниями.
+    /// </summary>
     internal class CustomerFactory
     {
         /// <summary>
         /// Максимальное количество покупателей, доступных для генерации (определяется наименьшим размером из списка имён и адресов).
         /// </summary>
-        static private int maxCustomersCount;
+        static private int _maxCustomersCount;
 
         /// <summary>
         /// Список полных имён покупателей, загруженных из файла.
@@ -34,7 +37,7 @@ namespace ObjectOrientedPractics.Service
         /// <returns>Возвращает новый экземпляр класса <see cref="Customer"/>.</returns>
         static public Customer GenerateCustomer()
         {
-            int randomCustomer = _random.Next(0, maxCustomersCount);
+            int randomCustomer = _random.Next(0, _maxCustomersCount);
 
             string newFullname;
             Address newAddress;
@@ -62,9 +65,13 @@ namespace ObjectOrientedPractics.Service
             return newCustomer;
         }
 
+        public static string GenerateCustomerFullname()
+        {
+            return _fullnames[_random.Next(_maxCustomersCount)];
+        }
 
         /// <summary>
-        /// Выполняет первичную настройку фабрики покупателей: считает списки имён и адресов из текстовых файлов и рассчитывает <see cref="maxCustomersCount">.
+        /// Выполняет первичную настройку фабрики покупателей: считает списки имён и адресов из текстовых файлов и рассчитывает <see cref="_maxCustomersCount">.
         /// </summary>
         static public void SetUpCustomerFactory()
         {
@@ -73,7 +80,7 @@ namespace ObjectOrientedPractics.Service
 
             if (_fullnames != null && _addresses != null)
             {
-                maxCustomersCount = int.Min(_fullnames.Count, _addresses.Count);
+                _maxCustomersCount = int.Min(_fullnames.Count, _addresses.Count);
             }
         }
     }

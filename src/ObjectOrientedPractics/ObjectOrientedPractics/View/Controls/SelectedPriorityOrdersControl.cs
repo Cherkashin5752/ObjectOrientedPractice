@@ -11,6 +11,9 @@ using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.View.Controls
 {
+    /// <summary>
+    /// Пользовательский элемент, который осуществляет логику работы с текущи выбранным заказом приоритетного покупателя.
+    /// </summary>
     public partial class SelectedPriorityOrdersControl : UserControl
     {
         /// <summary>
