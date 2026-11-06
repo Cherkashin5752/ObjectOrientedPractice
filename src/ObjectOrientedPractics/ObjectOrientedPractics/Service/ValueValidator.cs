@@ -34,7 +34,7 @@ namespace ObjectOrientedPractics.Service
         /// <returns>Возвращает true, если число положительное</returns>
         /// <exception cref="ArgumentException">Ошибка, если число не положительное</exception>
         static public bool ValueIsPositive(int value, string propetryName)
-        {
+        { 
             if (value > 0)
             {
                 return true;
