@@ -137,7 +137,6 @@ namespace ObjectOrientedPractics.View.Panels
             AddressControl.Name = "AddressControl";
             AddressControl.Size = new Size(391, 145);
             AddressControl.TabIndex = 5;
-            AddressControl.AddressChanged += AddressControl_OnAddressChanged;
             // 
             // FullNameLabel
             // 

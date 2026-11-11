@@ -127,19 +127,6 @@ namespace ObjectOrientedPractics.View.Panels
         }
 
         /// <summary>
-        /// Обработчик события изменения поля адреса покупателя.
-        /// </summary>
-        /// <param name="sender">Источник события.</param>
-        /// <param name="e">Аргументы события.</param>
-        private void AddressControl_OnAddressChanged(object sender, EventArgs e)
-        {
-            if (CustomersListBox.SelectedIndex != -1)
-            {
-                _customerss[CustomersListBox.SelectedIndex].Address = AddressControl.CurrentAddress;
-            }
-        }
-
-        /// <summary>
         /// Обработчик события изменения выбранного элемента в списке покупателей.
         /// Заполняет текстовые поля информацией о выбранном покупателе.
         /// </summary>

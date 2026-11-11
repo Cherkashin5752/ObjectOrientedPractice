@@ -21,11 +21,6 @@ namespace ObjectOrientedPractics.View.Controls
         private bool _readOnly;
 
         /// <summary>
-        /// Событие. Возникает при изменении любого поля класса
-        /// </summary>
-        public event EventHandler AddressChanged;
-
-        /// <summary>
         /// Возвращает и задаёт значение текуще-выбранного покупателя
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -90,14 +85,6 @@ namespace ObjectOrientedPractics.View.Controls
         }
 
         /// <summary>
-        /// Вызывает событие <see cref="AddressChanged"/>.
-        /// </summary>
-        public void OnAddressChanged()
-        {
-            AddressChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        /// <summary>
         /// Меняет значения текстовых полей Address в форме на значения текущевыбранного покупателя.
         /// </summary>
         private void RefreshAddressInfo()
@@ -123,7 +110,6 @@ namespace ObjectOrientedPractics.View.Controls
                 try
                 {
                     CurrentAddress.Index = int.Parse(PostIndexTextBox.Text);
-                    OnAddressChanged();
                     PostIndexTextBox.BackColor = Color.White;
                 }
                 catch { PostIndexTextBox.BackColor = Color.LightPink; }
@@ -143,7 +129,6 @@ namespace ObjectOrientedPractics.View.Controls
                 try
                 {
                     CurrentAddress.Country = CountryTextBox.Text;
-                    OnAddressChanged();
                     CountryTextBox.BackColor = Color.White;
                 }
                 catch { CountryTextBox.BackColor = Color.LightPink; }
@@ -163,7 +148,6 @@ namespace ObjectOrientedPractics.View.Controls
                 try
                 {
                     CurrentAddress.City = CityTextBox.Text;
-                    OnAddressChanged();
                     CityTextBox.BackColor = Color.White;
                 }
                 catch { CityTextBox.BackColor = Color.LightPink; }
@@ -183,7 +167,6 @@ namespace ObjectOrientedPractics.View.Controls
                 try
                 {
                     CurrentAddress.Street = StreetTextBox.Text;
-                    OnAddressChanged();
                     StreetTextBox.BackColor = Color.White;
                 }
                 catch { StreetTextBox.BackColor = Color.LightPink; }
@@ -203,7 +186,6 @@ namespace ObjectOrientedPractics.View.Controls
                 try
                 {
                     CurrentAddress.Building = BuildingTextBox.Text;
-                    OnAddressChanged();
                     BuildingTextBox.BackColor = Color.White;
                 }
                 catch { BuildingTextBox.BackColor = Color.LightPink; }
@@ -223,7 +205,6 @@ namespace ObjectOrientedPractics.View.Controls
                 try
                 {
                     CurrentAddress.Apartment = ApartmentTextBox.Text;
-                    OnAddressChanged();
                     ApartmentTextBox.BackColor = Color.White;
                 }
                 catch { ApartmentTextBox.BackColor = Color.LightPink; }
