@@ -2,7 +2,7 @@
 using ObjectOrientedPractics.Service;
 using System.ComponentModel;
 
-namespace ObjectOrientedPractics.Model
+namespace ObjectOrientedPractics.Model.Orders
 {
     /// <summary>
     /// Класс заказов.

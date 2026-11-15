@@ -1,5 +1,6 @@
 ﻿using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Model.Orders;
 using System.ComponentModel;
 
 namespace ObjectOrientedPractics.View.Controls

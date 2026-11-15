@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ObjectOrientedPractics.Model
+namespace ObjectOrientedPractics.Model.Orders
 {
     /// <summary>
     /// Приоритетный заказ.

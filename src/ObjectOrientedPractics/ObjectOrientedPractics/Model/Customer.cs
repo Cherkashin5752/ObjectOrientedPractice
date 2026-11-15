@@ -1,4 +1,5 @@
-﻿using ObjectOrientedPractics.Service;
+﻿using ObjectOrientedPractics.Model.Orders;
+using ObjectOrientedPractics.Service;
 
 namespace ObjectOrientedPractics.Model
 {

@@ -1,4 +1,5 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Orders;
 using System.ComponentModel;
 
 namespace ObjectOrientedPractics.View.Panels
