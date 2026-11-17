@@ -93,6 +93,7 @@
             Controls.Add(CategoryLabel);
             Controls.Add(CategoryComboBox);
             Controls.Add(PercentDiscountLabel);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "AddPercentDiscountForm";
             Text = "AddPercentDiscountForm";
             ResumeLayout(false);

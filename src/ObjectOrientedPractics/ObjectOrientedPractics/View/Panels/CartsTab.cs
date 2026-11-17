@@ -76,6 +76,13 @@ namespace ObjectOrientedPractics.View.Panels
                 CurrentCustomer = (Customer)CustomerComboBox.SelectedItem;
                 CartContentListBox.DataSource = CurrentCustomer.Cart.Items;
                 CartContentListBox.DisplayMember = "Name";
+                DiscountsCheckedList.DataSource = CurrentCustomer.Discounts;
+                DiscountsCheckedList.DisplayMember = "Info";
+                for (int i = 0; i < CurrentCustomer.Discounts.Count; i++)
+                {
+                   DiscountsCheckedList.SetItemChecked(i, true);
+                }
+
                 RefreshCartAmount();
             }
             else

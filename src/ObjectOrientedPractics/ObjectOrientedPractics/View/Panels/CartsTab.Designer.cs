@@ -40,6 +40,12 @@
             ClearCartButton = new Button();
             RemoveItemButton = new Button();
             CreateOrderButton = new Button();
+            DiscountsCheckedList = new CheckedListBox();
+            DiscountLabel = new Label();
+            DiscountAmountLabel = new Label();
+            DisplayDiscountAmountLabel = new Label();
+            DisplayTotalLabel = new Label();
+            TotalLabel = new Label();
             SuspendLayout();
             // 
             // ItemsCartsListBox
@@ -48,7 +54,7 @@
             ItemsCartsListBox.FormattingEnabled = true;
             ItemsCartsListBox.Location = new Point(6, 22);
             ItemsCartsListBox.Name = "ItemsCartsListBox";
-            ItemsCartsListBox.Size = new Size(237, 424);
+            ItemsCartsListBox.Size = new Size(237, 544);
             ItemsCartsListBox.TabIndex = 0;
             // 
             // ItemsLabel
@@ -64,7 +70,7 @@
             // AddToCartButton
             // 
             AddToCartButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            AddToCartButton.Location = new Point(6, 452);
+            AddToCartButton.Location = new Point(6, 583);
             AddToCartButton.Name = "AddToCartButton";
             AddToCartButton.Size = new Size(83, 46);
             AddToCartButton.TabIndex = 2;
@@ -164,10 +170,84 @@
             CreateOrderButton.UseVisualStyleBackColor = true;
             CreateOrderButton.Click += CreateOrderButton_Click;
             // 
+            // DiscountsCheckedList
+            // 
+            DiscountsCheckedList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            DiscountsCheckedList.BackColor = SystemColors.Control;
+            DiscountsCheckedList.BorderStyle = BorderStyle.None;
+            DiscountsCheckedList.CheckOnClick = true;
+            DiscountsCheckedList.FormattingEnabled = true;
+            DiscountsCheckedList.ImeMode = ImeMode.NoControl;
+            DiscountsCheckedList.Location = new Point(263, 381);
+            DiscountsCheckedList.Name = "DiscountsCheckedList";
+            DiscountsCheckedList.Size = new Size(209, 252);
+            DiscountsCheckedList.TabIndex = 12;
+            // 
+            // DiscountLabel
+            // 
+            DiscountLabel.AutoSize = true;
+            DiscountLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            DiscountLabel.Location = new Point(263, 363);
+            DiscountLabel.Name = "DiscountLabel";
+            DiscountLabel.Size = new Size(64, 15);
+            DiscountLabel.TabIndex = 13;
+            DiscountLabel.Text = "Discounts:";
+            // 
+            // DiscountAmountLabel
+            // 
+            DiscountAmountLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            DiscountAmountLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            DiscountAmountLabel.Location = new Point(504, 494);
+            DiscountAmountLabel.Name = "DiscountAmountLabel";
+            DiscountAmountLabel.Size = new Size(146, 23);
+            DiscountAmountLabel.TabIndex = 14;
+            DiscountAmountLabel.Text = "Discount Amount:";
+            DiscountAmountLabel.TextAlign = ContentAlignment.TopRight;
+            // 
+            // DisplayDiscountAmountLabel
+            // 
+            DisplayDiscountAmountLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            DisplayDiscountAmountLabel.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            DisplayDiscountAmountLabel.Location = new Point(478, 517);
+            DisplayDiscountAmountLabel.Name = "DisplayDiscountAmountLabel";
+            DisplayDiscountAmountLabel.Size = new Size(172, 31);
+            DisplayDiscountAmountLabel.TabIndex = 15;
+            DisplayDiscountAmountLabel.Text = "0";
+            DisplayDiscountAmountLabel.TextAlign = ContentAlignment.TopRight;
+            // 
+            // DisplayTotalLabel
+            // 
+            DisplayTotalLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            DisplayTotalLabel.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            DisplayTotalLabel.Location = new Point(478, 602);
+            DisplayTotalLabel.Name = "DisplayTotalLabel";
+            DisplayTotalLabel.Size = new Size(172, 27);
+            DisplayTotalLabel.TabIndex = 16;
+            DisplayTotalLabel.Text = "0";
+            DisplayTotalLabel.TextAlign = ContentAlignment.TopRight;
+            // 
+            // TotalLabel
+            // 
+            TotalLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            TotalLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            TotalLabel.Location = new Point(491, 583);
+            TotalLabel.Name = "TotalLabel";
+            TotalLabel.Size = new Size(159, 23);
+            TotalLabel.TabIndex = 17;
+            TotalLabel.Text = "TOTAL:";
+            TotalLabel.TextAlign = ContentAlignment.TopRight;
+            // 
             // CartsTab
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Control;
+            Controls.Add(TotalLabel);
+            Controls.Add(DisplayTotalLabel);
+            Controls.Add(DisplayDiscountAmountLabel);
+            Controls.Add(DiscountAmountLabel);
+            Controls.Add(DiscountLabel);
+            Controls.Add(DiscountsCheckedList);
             Controls.Add(CreateOrderButton);
             Controls.Add(RemoveItemButton);
             Controls.Add(ClearCartButton);
@@ -181,7 +261,7 @@
             Controls.Add(ItemsLabel);
             Controls.Add(ItemsCartsListBox);
             Name = "CartsTab";
-            Size = new Size(666, 510);
+            Size = new Size(666, 641);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -200,5 +280,11 @@
         private Button ClearCartButton;
         private Button RemoveItemButton;
         private Button CreateOrderButton;
+        private CheckedListBox DiscountsCheckedList;
+        private Label DiscountLabel;
+        private Label DiscountAmountLabel;
+        private Label DisplayDiscountAmountLabel;
+        private Label DisplayTotalLabel;
+        private Label TotalLabel;
     }
 }
