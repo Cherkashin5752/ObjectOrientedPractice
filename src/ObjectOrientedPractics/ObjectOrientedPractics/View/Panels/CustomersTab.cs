@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Model.Discounts;
 using ObjectOrientedPractics.Service;
 
 namespace ObjectOrientedPractics.View.Panels
@@ -13,7 +14,7 @@ namespace ObjectOrientedPractics.View.Panels
         /// <summary>
         /// Список покупателей, привязанный к графическому интерфейсу.
         /// </summary>
-        private BindingList<Customer> _customerss = new();
+        private BindingList<Customer> _customers = new();
 
         /// <summary>
         /// Возвращает и задаёт список покупателей.
@@ -23,11 +24,11 @@ namespace ObjectOrientedPractics.View.Panels
         {
             get
             {
-                return _customerss;
+                return _customers;
             }
             set
             {
-                _customerss = value;
+                _customers = value;
                 RefreshCustomersListBox();
             }
         }
@@ -58,7 +59,7 @@ namespace ObjectOrientedPractics.View.Panels
         private void AddDefaultButton_Click(object sender, EventArgs e)
         {
             Customer newCustomer = new Customer();
-            _customerss.Add(newCustomer);
+            Customers.Add(newCustomer);
         }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace ObjectOrientedPractics.View.Panels
         private void AddRandomButton_Click(object sender, EventArgs e)
         {
             Customer newCustomer = CustomerFactory.GenerateCustomer();
-            _customerss.Add(newCustomer);
+            Customers.Add(newCustomer);
         }
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace ObjectOrientedPractics.View.Panels
             {
                 int selectedIndex = CustomersListBox.SelectedIndex;
 
-                _customerss.RemoveAt(selectedIndex);
+                Customers.RemoveAt(selectedIndex);
 
                 CustomersListBox.SelectedIndex = -1;
 
@@ -104,7 +105,7 @@ namespace ObjectOrientedPractics.View.Panels
             {
                 try
                 {
-                    _customerss[CustomersListBox.SelectedIndex].Fullname = FullnameTextBox.Text;
+                    Customers[CustomersListBox.SelectedIndex].Fullname = FullnameTextBox.Text;
                     FullnameTextBox.BackColor = Color.White;
                 }
                 catch { FullnameTextBox.BackColor = Color.LightPink; }
@@ -135,17 +136,20 @@ namespace ObjectOrientedPractics.View.Panels
         /// <param name="e">Аргументы события.</param>
         private void CustomersListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (CustomersListBox.SelectedIndex != -1)
-            {
-                IDTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Id.ToString();
-                FullnameTextBox.Text = ((Customer)CustomersListBox.SelectedItem).Fullname;
-                AddressControl.CurrentAddress = ((Customer)CustomersListBox.SelectedItem).Address;
-                IsPriorityCheckBox.Checked = ((Customer)CustomersListBox.SelectedItem).IsPriority;
-            }
-            else
+            Customer selectedCustomer = CustomersListBox.SelectedItem as Customer;
+
+            if (selectedCustomer == null)
             {
                 ClearCustomersInfo();
+                return;
             }
+
+            IDTextBox.Text = selectedCustomer.Id.ToString();
+            FullnameTextBox.Text = selectedCustomer.Fullname;
+            AddressControl.CurrentAddress = selectedCustomer.Address;
+            IsPriorityCheckBox.Checked = selectedCustomer.IsPriority;
+            DiscountsListBox.DataSource = selectedCustomer.Discounts;
+            DiscountsListBox.DisplayMember = "Info";
         }
 
         /// <summary>
@@ -172,7 +176,7 @@ namespace ObjectOrientedPractics.View.Panels
 
             using (AddPercentDiscountForm addPercentDiscountForm = new AddPercentDiscountForm())
             {
-                if (addPercentDiscountForm.DialogResult != DialogResult.OK)
+                if (addPercentDiscountForm.ShowDialog() != DialogResult.OK)
                 {
                     return;
                 }
@@ -185,9 +189,35 @@ namespace ObjectOrientedPractics.View.Panels
                 }
 
                 bool alreadyExist = selectedCustomer.Discounts
-                    .
+                    .OfType<PercentDiscount>()
+                    .Any(c => c.TargetCategory == selectedCategory);
 
+                if (alreadyExist)
+                {
+                    return;
+                }
+
+                selectedCustomer.Discounts.Add(new PercentDiscount(selectedCategory));
+
+                DiscountsListBox.Refresh();
             }
+        }
+
+        private void RemoveDiscountButton_Click(object sender, EventArgs e)
+        {
+            if (CustomersListBox.SelectedItem is not Customer selectedCustomer)
+            {
+                return;
+            }
+
+            if (DiscountsListBox.SelectedItem is not PercentDiscount discount)
+            {
+                return;
+            }
+
+            selectedCustomer.Discounts.Remove(discount);
+
+            DiscountsListBox.Refresh();
         }
 
         /// <summary>
@@ -199,6 +229,7 @@ namespace ObjectOrientedPractics.View.Panels
             FullnameTextBox.Text = "";
             AddressControl.CurrentAddress = null;
             IsPriorityCheckBox.Checked = false;
+            DiscountsListBox.DataSource = null;
 
             FullnameTextBox.BackColor = Color.White;
         }
@@ -208,7 +239,7 @@ namespace ObjectOrientedPractics.View.Panels
         /// </summary>
         private void RefreshCustomersListBox()
         {
-            CustomersListBox.DataSource = _customerss;
+            CustomersListBox.DataSource = Customers;
             CustomersListBox.DisplayMember = "Fullname";
         }
     }

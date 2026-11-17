@@ -16,6 +16,8 @@ namespace ObjectOrientedPractics.View.Panels
         public AddPercentDiscountForm()
         {
             InitializeComponent();
+
+            CategoryComboBox.DataSource = Enum.GetValues<ProductCategory>();
         }
 
         public void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)

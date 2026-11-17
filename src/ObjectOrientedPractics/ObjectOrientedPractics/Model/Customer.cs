@@ -1,5 +1,7 @@
-﻿using ObjectOrientedPractics.Model.Orders;
+﻿using ObjectOrientedPractics.Model.Discounts;
+using ObjectOrientedPractics.Model.Orders;
 using ObjectOrientedPractics.Service;
+using System.ComponentModel;
 
 namespace ObjectOrientedPractics.Model
 {
@@ -85,7 +87,7 @@ namespace ObjectOrientedPractics.Model
             set { _orders = value; }
         }
 
-        public List<IDiscount> Discounts { get; set; }
+        public BindingList<IDiscount> Discounts { get; set; }
 
         /// <summary>
         /// Возвращает и задаёт, приоритетный ли покупатель.
@@ -102,7 +104,8 @@ namespace ObjectOrientedPractics.Model
             Address = new Address();
             Cart = new Cart();
             Orders = new List<Order>();
-            Discounts = new List<IDiscount>();
+            Discounts = new BindingList<IDiscount>();
+            Discounts.Add(new PointsDiscount());
         }
 
         /// <summary>
@@ -117,6 +120,8 @@ namespace ObjectOrientedPractics.Model
             Address = new Address(address);
             Cart = new Cart();
             Orders = new List<Order>();
+            Discounts = new BindingList<IDiscount>();
+            Discounts.Add(new PointsDiscount());
         }
 
         /// <summary>

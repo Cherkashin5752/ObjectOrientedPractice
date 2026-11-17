@@ -180,6 +180,7 @@ namespace ObjectOrientedPractics.View.Panels
             // 
             // DiscountsListBox
             // 
+            DiscountsListBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             DiscountsListBox.FormattingEnabled = true;
             DiscountsListBox.Location = new Point(260, 282);
             DiscountsListBox.Name = "DiscountsListBox";
@@ -197,6 +198,7 @@ namespace ObjectOrientedPractics.View.Panels
             // 
             // AddDiscountButton
             // 
+            AddDiscountButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             AddDiscountButton.Location = new Point(588, 282);
             AddDiscountButton.Name = "AddDiscountButton";
             AddDiscountButton.Size = new Size(75, 46);
@@ -207,12 +209,14 @@ namespace ObjectOrientedPractics.View.Panels
             // 
             // RemoveDiscountButton
             // 
+            RemoveDiscountButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             RemoveDiscountButton.Location = new Point(588, 334);
             RemoveDiscountButton.Name = "RemoveDiscountButton";
             RemoveDiscountButton.Size = new Size(75, 46);
             RemoveDiscountButton.TabIndex = 5;
             RemoveDiscountButton.Text = "Remove";
             RemoveDiscountButton.UseVisualStyleBackColor = true;
+            RemoveDiscountButton.Click += RemoveDiscountButton_Click;
             // 
             // CustomersTab
             // 
