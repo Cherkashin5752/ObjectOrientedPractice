@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
 using ObjectOrientedPractics.Service;
 
 namespace ObjectOrientedPractics.View.Panels
@@ -159,6 +160,33 @@ namespace ObjectOrientedPractics.View.Panels
             if (selectedIndex != -1)
             {
                 Customers[selectedIndex].IsPriority = IsPriorityCheckBox.Checked;
+            }
+        }
+
+        private void AddDiscountButton_Click(object sender, EventArgs e)
+        {
+            if (CustomersListBox.SelectedItem is not Customer selectedCustomer)
+            {
+                return;
+            }
+
+            using (AddPercentDiscountForm addPercentDiscountForm = new AddPercentDiscountForm())
+            {
+                if (addPercentDiscountForm.DialogResult != DialogResult.OK)
+                {
+                    return;
+                }
+
+                ProductCategory selectedCategory = addPercentDiscountForm.SelectedCategory;
+
+                if (selectedCategory == ProductCategory.NoCategory)
+                {
+                    return;
+                }
+
+                bool alreadyExist = selectedCustomer.Discounts
+                    .
+
             }
         }
 

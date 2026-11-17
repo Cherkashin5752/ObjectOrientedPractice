@@ -12,7 +12,8 @@ namespace ObjectOrientedPractics.Service
         /// </summary>
         private static readonly JsonSerializerSettings _settings = new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All
+            TypeNameHandling = TypeNameHandling.All,
+            ObjectCreationHandling = ObjectCreationHandling.Replace,
         };
 
         /// <summary>

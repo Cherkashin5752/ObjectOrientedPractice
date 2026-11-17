@@ -16,6 +16,7 @@ namespace ObjectOrientedPractics.Model.Enums
         Book,
         Digital,
         Furniture,
-        Cosmetics
+        Cosmetics,
+        NoCategory
     }
 }

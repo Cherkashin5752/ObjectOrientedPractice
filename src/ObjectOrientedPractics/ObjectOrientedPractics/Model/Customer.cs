@@ -85,6 +85,8 @@ namespace ObjectOrientedPractics.Model
             set { _orders = value; }
         }
 
+        public List<IDiscount> Discounts { get; set; }
+
         /// <summary>
         /// Возвращает и задаёт, приоритетный ли покупатель.
         /// </summary>
@@ -100,6 +102,7 @@ namespace ObjectOrientedPractics.Model
             Address = new Address();
             Cart = new Cart();
             Orders = new List<Order>();
+            Discounts = new List<IDiscount>();
         }
 
         /// <summary>

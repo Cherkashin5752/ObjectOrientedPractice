@@ -37,11 +37,15 @@ namespace ObjectOrientedPractics.View.Panels
             CustomersListBox = new ListBox();
             SelectedCustomerGroupBox = new GroupBox();
             IsPriorityCheckBox = new CheckBox();
-            AddressControl = new ObjectOrientedPractics.View.Controls.AddressControl();
+            AddressControl = new AddressControl();
             FullNameLabel = new Label();
             IDLabel = new Label();
             FullnameTextBox = new TextBox();
             IDTextBox = new TextBox();
+            DiscountsListBox = new ListBox();
+            DiscountsLabel = new Label();
+            AddDiscountButton = new Button();
+            RemoveDiscountButton = new Button();
             CustomersGroupBox.SuspendLayout();
             SelectedCustomerGroupBox.SuspendLayout();
             SuspendLayout();
@@ -174,10 +178,50 @@ namespace ObjectOrientedPractics.View.Panels
             IDTextBox.Size = new Size(126, 23);
             IDTextBox.TabIndex = 0;
             // 
+            // DiscountsListBox
+            // 
+            DiscountsListBox.FormattingEnabled = true;
+            DiscountsListBox.Location = new Point(260, 282);
+            DiscountsListBox.Name = "DiscountsListBox";
+            DiscountsListBox.Size = new Size(322, 139);
+            DiscountsListBox.TabIndex = 2;
+            // 
+            // DiscountsLabel
+            // 
+            DiscountsLabel.AutoSize = true;
+            DiscountsLabel.Location = new Point(260, 265);
+            DiscountsLabel.Name = "DiscountsLabel";
+            DiscountsLabel.Size = new Size(62, 15);
+            DiscountsLabel.TabIndex = 3;
+            DiscountsLabel.Text = "Discounts:";
+            // 
+            // AddDiscountButton
+            // 
+            AddDiscountButton.Location = new Point(588, 282);
+            AddDiscountButton.Name = "AddDiscountButton";
+            AddDiscountButton.Size = new Size(75, 46);
+            AddDiscountButton.TabIndex = 4;
+            AddDiscountButton.Text = "Add";
+            AddDiscountButton.UseVisualStyleBackColor = true;
+            AddDiscountButton.Click += AddDiscountButton_Click;
+            // 
+            // RemoveDiscountButton
+            // 
+            RemoveDiscountButton.Location = new Point(588, 334);
+            RemoveDiscountButton.Name = "RemoveDiscountButton";
+            RemoveDiscountButton.Size = new Size(75, 46);
+            RemoveDiscountButton.TabIndex = 5;
+            RemoveDiscountButton.Text = "Remove";
+            RemoveDiscountButton.UseVisualStyleBackColor = true;
+            // 
             // CustomersTab
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(RemoveDiscountButton);
+            Controls.Add(AddDiscountButton);
+            Controls.Add(DiscountsLabel);
+            Controls.Add(DiscountsListBox);
             Controls.Add(SelectedCustomerGroupBox);
             Controls.Add(CustomersGroupBox);
             Name = "CustomersTab";
@@ -186,6 +230,7 @@ namespace ObjectOrientedPractics.View.Panels
             SelectedCustomerGroupBox.ResumeLayout(false);
             SelectedCustomerGroupBox.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -202,5 +247,9 @@ namespace ObjectOrientedPractics.View.Panels
         private TextBox FullnameTextBox;
         private AddressControl AddressControl;
         private CheckBox IsPriorityCheckBox;
+        private ListBox DiscountsListBox;
+        private Label DiscountsLabel;
+        private Button AddDiscountButton;
+        private Button RemoveDiscountButton;
     }
 }
