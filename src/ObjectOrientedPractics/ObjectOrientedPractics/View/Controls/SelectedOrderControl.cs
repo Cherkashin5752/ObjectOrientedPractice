@@ -71,7 +71,7 @@ namespace ObjectOrientedPractics.View.Controls
             AddressControl.CurrentAddress = CurrentOrder.Address;
             ItemsOrderListBox.DataSource = CurrentOrder.Items;
             ItemsOrderListBox.DisplayMember = "Name";
-            AmountOrderLabel.Text = CurrentOrder.Amount.ToString("N2");
+            AmountOrderLabel.Text = CurrentOrder.TotalAmount.ToString("N2");
         }
 
         /// <summary>

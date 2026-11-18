@@ -37,7 +37,7 @@
             IdLabel = new Label();
             CreatedLabel = new Label();
             StatusLabel = new Label();
-            AmountLabel = new Label();
+            TotalAmountLabel = new Label();
             AmountOrderLabel = new Label();
             DeliveryTimeComboBox = new ComboBox();
             DeliveryTimeLabel = new Label();
@@ -128,16 +128,16 @@
             StatusLabel.TabIndex = 9;
             StatusLabel.Text = "Status:";
             // 
-            // AmountLabel
+            // TotalAmountLabel
             // 
-            AmountLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            AmountLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            AmountLabel.Location = new Point(401, 434);
-            AmountLabel.Name = "AmountLabel";
-            AmountLabel.Size = new Size(74, 20);
-            AmountLabel.TabIndex = 10;
-            AmountLabel.Text = "Amount";
-            AmountLabel.TextAlign = ContentAlignment.TopRight;
+            TotalAmountLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            TotalAmountLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            TotalAmountLabel.Location = new Point(401, 434);
+            TotalAmountLabel.Name = "TotalAmountLabel";
+            TotalAmountLabel.Size = new Size(74, 20);
+            TotalAmountLabel.TabIndex = 10;
+            TotalAmountLabel.Text = "Total";
+            TotalAmountLabel.TextAlign = ContentAlignment.TopRight;
             // 
             // AmountOrderLabel
             // 
@@ -204,7 +204,7 @@
             Controls.Add(AddressControl);
             Controls.Add(PriorityOrderPanel);
             Controls.Add(AmountOrderLabel);
-            Controls.Add(AmountLabel);
+            Controls.Add(TotalAmountLabel);
             Controls.Add(StatusLabel);
             Controls.Add(CreatedLabel);
             Controls.Add(IdLabel);
@@ -233,7 +233,7 @@
         private Label IdLabel;
         private Label CreatedLabel;
         private Label StatusLabel;
-        private Label AmountLabel;
+        private Label TotalAmountLabel;
         private Label AmountOrderLabel;
         public ComboBox DeliveryTimeComboBox;
         private Label DeliveryTimeLabel;

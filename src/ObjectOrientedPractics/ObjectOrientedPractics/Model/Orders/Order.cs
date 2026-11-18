@@ -13,6 +13,11 @@ namespace ObjectOrientedPractics.Model.Orders
         /// Счётчик для генерации уникальных Id.
         /// </summary>
         static private int _idCounter;
+
+        /// <summary>
+        /// Скидка, примененная на заказ.
+        /// </summary>
+        private double _discountAmount;
     
         /// <summary>
         /// Возвращает Id заказа.
@@ -42,6 +47,32 @@ namespace ObjectOrientedPractics.Model.Orders
             get
             {
                 return Items.Sum(item => item.Cost);
+            }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт скидку примененную на заказ.
+        /// </summary>
+        public double DiscountAmount
+        {
+            get { return _discountAmount; }
+            set
+            {
+                if (value >= 0)
+                {
+                    _discountAmount = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Возвращает итоговую стоимость товара.
+        /// </summary>
+        public double TotalAmount
+        {
+            get
+            {
+                return Amount - DiscountAmount;
             }
         }
 

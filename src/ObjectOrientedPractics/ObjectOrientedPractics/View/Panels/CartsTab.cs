@@ -10,6 +10,11 @@ namespace ObjectOrientedPractics.View.Panels
     public partial class CartsTab : UserControl
     {
         /// <summary>
+        /// Признак того, что список скидок заполняется программно.
+        /// </summary>
+        private bool _isUpdatingDiscounts;
+
+        /// <summary>
         /// Список товаров.
         /// </summary>
         private BindingList<Item> _items = new();
@@ -60,8 +65,9 @@ namespace ObjectOrientedPractics.View.Panels
             InitializeComponent();
 
             ItemsCartsListBox.DisplayMember = "Name";
-
+            DiscountsCheckedList.DisplayMember = "Info";
             CustomerComboBox.DisplayMember = "Fullname";
+            CartContentListBox.DisplayMember = "Name";
         }
 
         /// <summary>
@@ -75,22 +81,14 @@ namespace ObjectOrientedPractics.View.Panels
             {
                 CurrentCustomer = (Customer)CustomerComboBox.SelectedItem;
                 CartContentListBox.DataSource = CurrentCustomer.Cart.Items;
-                CartContentListBox.DisplayMember = "Name";
-                DiscountsCheckedList.DataSource = CurrentCustomer.Discounts;
-                DiscountsCheckedList.DisplayMember = "Info";
-                for (int i = 0; i < CurrentCustomer.Discounts.Count; i++)
-                {
-                   DiscountsCheckedList.SetItemChecked(i, true);
-                }
-
-                RefreshCartAmount();
             }
             else
             {
                 CurrentCustomer = null;
                 CartContentListBox.DataSource = null;
-                RefreshCartAmount();
             }
+            RefreshDiscountList();
+            RefreshCartAmount();
         }
 
         /// <summary>
@@ -130,21 +128,31 @@ namespace ObjectOrientedPractics.View.Panels
         /// <param name="e">Аргументы события.</param>
         private void CreateOrderButton_Click(object sender, EventArgs e)
         {
-            if (CurrentCustomer != null && CurrentCustomer.Cart.Items.Count > 0)
+            if (CurrentCustomer == null || CurrentCustomer.Cart.Items.Count == 0)
             {
-                if (CurrentCustomer.IsPriority)
-                {
-                    Order newPriorityOrder = new PriorityOrder(CurrentCustomer, DateTime.Today.AddDays(1), DeliveryTimeRange.Values[0]);
-                    CurrentCustomer.Orders.Add(newPriorityOrder);
-                    ClearCart();
-                }
-                else
-                {
-                    Order newOrder = new Order(CurrentCustomer);
-                    CurrentCustomer.Orders.Add(newOrder);
-                    ClearCart();
-                }
+                return;
             }
+
+            var items = CurrentCustomer.Cart.Items.ToList();
+
+            double discountAmount = GetCheckedDiscounts().Sum(d => d.Apply(items));
+            
+            foreach(IDiscount discount in CurrentCustomer.Discounts)
+            {
+                discount.Update(items);
+            }
+
+            Order order = CurrentCustomer.IsPriority
+                ? new PriorityOrder(CurrentCustomer, DateTime.Today.AddDays(1), DeliveryTimeRange.Values[0])
+                : new Order(CurrentCustomer);
+
+            order.DiscountAmount = discountAmount;
+            CurrentCustomer.Orders.Add(order);
+
+            ClearCart();
+
+            RefreshDiscountList();
+            RefreshCartAmount();
         }
 
         /// <summary>
@@ -161,18 +169,55 @@ namespace ObjectOrientedPractics.View.Panels
         }
 
         /// <summary>
+        /// Оработка события смены состояния CheckedlistBox
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void DiscountsCheckedList_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (_isUpdatingDiscounts || CurrentCustomer == null)
+            {
+                return;
+            }
+
+            RefreshCartAmount(e.Index, e.NewValue);
+        }
+
+        /// <summary>
         /// Обновление отображения CartAmountLabel.
         /// </summary>
-        private void RefreshCartAmount()
+        private void RefreshCartAmount(int changedIndex = -1, CheckState newState = CheckState.Unchecked)
         {
-            if (CurrentCustomer != null)
-            {
-                CartAmountLabel.Text = (CurrentCustomer.Cart.Amount).ToString();
-            }
-            else
+            if (CurrentCustomer == null)
             {
                 CartAmountLabel.Text = "0,0";
+                DisplayDiscountAmountLabel.Text = "0,0";
+                DisplayTotalLabel.Text = "0,0";
+                return;
             }
+
+            var items = CurrentCustomer.Cart.Items.ToList();
+            double discountAmount = 0.0;
+
+            for (int i = 0; i < DiscountsCheckedList.Items.Count; i++)
+            {
+                bool isChecked = i == changedIndex
+                    ? newState == CheckState.Checked
+                    : DiscountsCheckedList.GetItemChecked(i);
+                
+                if (isChecked)
+                {
+                    var discount = (IDiscount)DiscountsCheckedList.Items[i];
+                    discountAmount += discount.Calculate(items);
+                }
+            }
+            
+            double amount = CurrentCustomer.Cart.Amount;
+
+            CartAmountLabel.Text = amount.ToString("N2");
+            DisplayDiscountAmountLabel.Text = discountAmount.ToString("N2");
+            DisplayTotalLabel.Text = (amount - discountAmount).ToString("N2");
+            
         }
 
         /// <summary>
@@ -182,6 +227,42 @@ namespace ObjectOrientedPractics.View.Panels
         {
             CurrentCustomer.Cart.Items.Clear();
             RefreshCartAmount();
+        }
+
+        /// <summary>
+        /// Обновляет список в <see cref="DiscountsCheckedList"/>.
+        /// </summary>
+        private void RefreshDiscountList()
+        {
+            _isUpdatingDiscounts = true;
+
+            try
+            {
+                DiscountsCheckedList.Items.Clear();
+
+                if (CurrentCustomer == null)
+                {
+                    return;
+                }
+
+                foreach (IDiscount discount in CurrentCustomer.Discounts)
+                {
+                    DiscountsCheckedList.Items.Add(discount, true);
+                }
+            }
+            finally
+            {
+                _isUpdatingDiscounts = false;
+            }
+        }
+
+        /// <summary>
+        /// Возвращает список скидок, который сейчас в <see cref="DiscountsCheckedList"/>.
+        /// </summary>
+        /// <returns></returns>
+        private List<IDiscount> GetCheckedDiscounts()
+        {
+            return DiscountsCheckedList.CheckedItems.Cast<IDiscount>().ToList();
         }
     }
 }

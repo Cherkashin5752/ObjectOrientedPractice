@@ -182,6 +182,7 @@
             DiscountsCheckedList.Name = "DiscountsCheckedList";
             DiscountsCheckedList.Size = new Size(209, 252);
             DiscountsCheckedList.TabIndex = 12;
+            DiscountsCheckedList.ItemCheck += DiscountsCheckedList_ItemCheck;
             // 
             // DiscountLabel
             // 
