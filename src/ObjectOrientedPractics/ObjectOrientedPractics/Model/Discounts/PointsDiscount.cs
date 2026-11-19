@@ -2,7 +2,7 @@
 
 namespace ObjectOrientedPractics.Model.Discounts
 {
-    public class PointsDiscount : IDiscount
+    public class PointsDiscount : IDiscount, IComparable<PointsDiscount>
     {
         /// <summary>
         /// Количество баллов.
@@ -95,6 +95,19 @@ namespace ObjectOrientedPractics.Model.Discounts
         public void Update(List<Item> items)
         {
             Points += (int)Math.Ceiling(items.Sum(i => i.Cost) * 0.1);
+        }
+
+        public int CompareTo(PointsDiscount pointsDiscount)
+        {
+            if (pointsDiscount == null) return 1;
+
+            if (Item.ReferenceEquals(this, pointsDiscount)) return 0;
+
+            if (this.Points > pointsDiscount.Points) return 1;
+
+            if (this.Points == pointsDiscount.Points) return 0;
+
+            return -1;
         }
     }
 }

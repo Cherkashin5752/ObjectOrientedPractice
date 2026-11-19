@@ -1,11 +1,12 @@
 ﻿using ObjectOrientedPractics.Service;
+using System.Security.Policy;
 
 namespace ObjectOrientedPractics.Model
 {
     /// <summary>
     /// Хранит адрес покупателя.
     /// </summary>
-    public class Address
+    public class Address : ICloneable, IEquatable<Address>
     {
         /// <summary>
         /// Индекс покупателя.
@@ -160,6 +161,27 @@ namespace ObjectOrientedPractics.Model
         public override string ToString()
         {
             return $"{Index}, {Country}, {City}, {Street}, {Building}, {Apartment}";
+        }
+
+        public object Clone()
+        {
+            return new Address(this);
+        }
+
+        public bool Equals(Address address)
+        {
+            if (address == null) return false;
+
+            if (Address.ReferenceEquals(this, address)) return true;
+
+            if (this.Index == address.Index && this.Country == address.Country &&
+                this.City == address.City && this.Street == address.Street &&
+                this.Building == address.Building && this.Apartment == address.Apartment)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

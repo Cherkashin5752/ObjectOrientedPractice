@@ -7,7 +7,7 @@ namespace ObjectOrientedPractics.Model.Orders
     /// <summary>
     /// Класс заказов.
     /// </summary>
-    public class Order
+    public class Order : IEquatable<Order>
     {
         /// <summary>
         /// Счётчик для генерации уникальных Id.
@@ -136,6 +136,25 @@ namespace ObjectOrientedPractics.Model.Orders
         static public void SetIdCounter(int maxId)
         {
             _idCounter = ++maxId;
+        }
+
+        public bool Equals(Order order)
+        {
+            if (order == null) return false;
+
+            if (Order.ReferenceEquals(this, order)) return true;
+
+            if (this.Id == order.Id &&
+                this.CreateTime == order.CreateTime &&
+                this.Address.Equals(order.Address) &&
+                this.Items.SequenceEqual(order.Items) &&
+                this.CustomerFullname == order.CustomerFullname &&
+                this.Status == order.Status)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

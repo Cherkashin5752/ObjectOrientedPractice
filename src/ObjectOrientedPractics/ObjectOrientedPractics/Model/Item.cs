@@ -6,7 +6,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Хранит Id, именование, информацию и стоимость товара.
     /// </summary>
-    public class Item
+    public class Item : ICloneable, IEquatable<Item>, IComparable<Item>
     {
         /// <summary>
         /// Счётчик для генерации уникальных Id.
@@ -118,6 +118,39 @@ namespace ObjectOrientedPractics.Model
         static public void SetIdCounter(int maxId)
         {
             _idCounter = ++maxId;
+        }
+    
+        public object Clone()
+        {
+            return new Item(this.Name, this.Info, this.Cost, this.Category);
+        }
+
+        public bool Equals(Item item)
+        {
+            if (item == null) return false;
+
+            if (Address.ReferenceEquals(this, item)) return true;
+
+            if (this.Name == item.Name && this.Cost == item.Cost &&
+                this.Info == item.Info && this.Category == item.Category)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public int CompareTo(Item item)
+        {
+            if (item == null) return 1;
+
+            if (Item.ReferenceEquals(this, item)) return 0;
+
+            if (this.Cost > item.Cost) return 1;
+
+            if (this.Cost == item.Cost) return 0;
+
+            return -1;
         }
     }
 }

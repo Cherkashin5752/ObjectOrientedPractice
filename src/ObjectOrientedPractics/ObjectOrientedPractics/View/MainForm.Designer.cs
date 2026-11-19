@@ -37,11 +37,14 @@
             cartsTab1 = new ObjectOrientedPractics.View.Panels.CartsTab();
             OrdersTab = new TabPage();
             ordersTab1 = new ObjectOrientedPractics.View.Panels.OrdersTab();
+            StandartInterfaceTab = new TabPage();
+            standartInterfaceTest1 = new ObjectOrientedPractics.View.Panels.StandartInterfaceTest();
             tabControl1.SuspendLayout();
             ItemsTab.SuspendLayout();
             CustomersTab.SuspendLayout();
             CartsTab.SuspendLayout();
             OrdersTab.SuspendLayout();
+            StandartInterfaceTab.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -50,6 +53,7 @@
             tabControl1.Controls.Add(CustomersTab);
             tabControl1.Controls.Add(CartsTab);
             tabControl1.Controls.Add(OrdersTab);
+            tabControl1.Controls.Add(StandartInterfaceTab);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
@@ -133,6 +137,23 @@
             ordersTab1.Size = new Size(931, 529);
             ordersTab1.TabIndex = 0;
             // 
+            // StandartInterfaceTab
+            // 
+            StandartInterfaceTab.Controls.Add(standartInterfaceTest1);
+            StandartInterfaceTab.Location = new Point(4, 24);
+            StandartInterfaceTab.Name = "StandartInterfaceTab";
+            StandartInterfaceTab.Size = new Size(937, 535);
+            StandartInterfaceTab.TabIndex = 4;
+            StandartInterfaceTab.Text = "Standart Interface";
+            StandartInterfaceTab.UseVisualStyleBackColor = true;
+            // 
+            // standartInterfaceTest1
+            // 
+            standartInterfaceTest1.Location = new Point(8, 3);
+            standartInterfaceTest1.Name = "standartInterfaceTest1";
+            standartInterfaceTest1.Size = new Size(782, 314);
+            standartInterfaceTest1.TabIndex = 0;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -148,6 +169,7 @@
             CustomersTab.ResumeLayout(false);
             CartsTab.ResumeLayout(false);
             OrdersTab.ResumeLayout(false);
+            StandartInterfaceTab.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -162,5 +184,7 @@
         private View.Panels.CartsTab cartsTab1;
         private TabPage OrdersTab;
         private View.Panels.OrdersTab ordersTab1;
+        private TabPage StandartInterfaceTab;
+        private View.Panels.StandartInterfaceTest standartInterfaceTest1;
     }
 }

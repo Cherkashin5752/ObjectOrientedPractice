@@ -6,12 +6,12 @@ using System.Text;
 
 namespace ObjectOrientedPractics.Model.Discounts
 {
-    public class PercentDiscount : IDiscount
+    public class PercentDiscount : IDiscount, IComparable<PercentDiscount>
     {
         /// <summary>
         /// Процент скидки.
         /// </summary>
-        private double _percentDiscount;
+        private double _percent;
 
         /// <summary>
         /// Сумма, на которуб всего было куплено товаров категории <see cref="TargetCategory"/>.
@@ -23,6 +23,20 @@ namespace ObjectOrientedPractics.Model.Discounts
         /// </summary>
         public ProductCategory TargetCategory { get; init; }
 
+        public double Percent
+        {
+            get { return _percent; }
+            set
+            {
+                if (value < 0.0 || value > 0.1)
+                {
+                    return;
+                }
+
+                _percent = value;
+            }
+        }
+
         /// <summary>
         /// Возвращает информацию о скидке.
         /// </summary>
@@ -30,7 +44,7 @@ namespace ObjectOrientedPractics.Model.Discounts
         {
             get
             {
-                return $"Процентная \"{TargetCategory}\" - {_percentDiscount * 100}%";
+                return $"Процентная \"{TargetCategory}\" - {Percent * 100}%";
             }
         }
 
@@ -40,7 +54,7 @@ namespace ObjectOrientedPractics.Model.Discounts
         /// <param name="category">Категория, на которуб будет работать скидка.</param>
         public PercentDiscount(ProductCategory category)
         {
-            _percentDiscount = 0.01;
+            Percent = 0.01;
             _targetCategoryCostSum = 0.0;
             TargetCategory = category;
         }
@@ -52,7 +66,7 @@ namespace ObjectOrientedPractics.Model.Discounts
         /// <returns>Итоговую скидку.</returns>
         public double Calculate(List<Item> items)
         {
-            return items.Where(i => i.Category == TargetCategory).Sum(i => i.Cost * _percentDiscount);
+            return items.Where(i => i.Category == TargetCategory).Sum(i => i.Cost * Percent);
         }
 
         /// <summary>
@@ -74,7 +88,20 @@ namespace ObjectOrientedPractics.Model.Discounts
             _targetCategoryCostSum += items
                 .Where(i => i.Category == TargetCategory)
                 .Sum(i => i.Cost);
-            _percentDiscount = Math.Min(10, 1 + (int)(_targetCategoryCostSum / 1000)) / 100.0;
+            Percent = Math.Min(10, 1 + (int)(_targetCategoryCostSum / 1000)) / 100.0;
+        }
+
+        public int CompareTo(PercentDiscount precentDiscount)
+        {
+            if (precentDiscount == null) return 1;
+
+            if (Item.ReferenceEquals(this, precentDiscount)) return 0;
+
+            if (this.Percent > precentDiscount.Percent) return 1;
+
+            if (this.Percent == precentDiscount.Percent) return 0;
+
+            return -1;
         }
     }
 }

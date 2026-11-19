@@ -5,7 +5,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Класс корщины.
     /// </summary>
-    public class Cart
+    public class Cart : ICloneable
     {
         /// <summary>
         /// Список товаров в корзине.
@@ -44,6 +44,16 @@ namespace ObjectOrientedPractics.Model
         public Cart()
         {
             Items = new BindingList<Item>();
+        }
+
+        public Cart(List<Item> items)
+        {
+            Items = new BindingList<Item>(items.ToList());
+        }
+
+        public object Clone()
+        {
+            return new Cart(this.Items.ToList());
         }
     }
 }

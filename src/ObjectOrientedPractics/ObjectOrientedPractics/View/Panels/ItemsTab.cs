@@ -43,7 +43,10 @@ namespace ObjectOrientedPractics.View.Panels
             ItemsListBox.DataSource = Items;
             ItemsListBox.DisplayMember = "Name";
 
-            CategoryComboBox.DataSource = Enum.GetValues<ProductCategory>();
+            CategoryComboBox.DataSource = Enum.GetValues<ProductCategory>()
+                .Cast<ProductCategory>()
+                .Where(c => c != ProductCategory.NoCategory)
+                .ToList();
 
             try
             {
