@@ -4,9 +4,7 @@ namespace ObjectOrientedPractics.Service
 {
     public static class DataTools
     {
-        public delegate bool ItemFilterFunc(Item item);
-
-        public static List<Item> ItemsFilter(List<Item> items, ItemFilterFunc filterType)
+        public static List<Item> ItemsFilter(List<Item> items, Func<Item, bool> filterType)
         {
             List<Item> filteredList = new List<Item>();
 
